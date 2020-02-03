@@ -1,3 +1,28 @@
+/*for the pdf converter*/
+
+@CHARSET "UTF-8";
+.page-break {
+    page-break-after: always;
+    page-break-inside: avoid;
+    clear:both;
+}
+.page-break-before {
+    page-break-before: always;
+    page-break-inside: avoid;
+    clear:both;
+}
+#html-2-pdfwrapper {
+    position: absolute;
+    left: 20px;
+    top: 50px;
+    bottom: 0;
+    overflow: auto;
+}
+#open_pdf, #close_pdf {
+    margin-left: 200px;
+}
+/*----------------------*/
+
 table{
     border-collapse: collapse;
     border: 1px solid black;
