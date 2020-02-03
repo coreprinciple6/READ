@@ -133,6 +133,7 @@
                         <p>The purpose of this document is to present a detailed description of READ. It will explain the goals of the project, the features implemented, the navigation of the user interface and finally the limitations and future-proofing aspects of this project.</p>
                     <h2 id="one.two">1.2 Product Scope</h2>
                         <p>The objective of the project is to create a web application to manage course materials for a class, track user’s face when reading study materials and provide important statistics based on it. There will be students’ and teachers’ portals, where the students can enroll in many courses and track their assignments and schedules all in one place. The teachers can share study materials and keep record of who actually read through everything using facial recognition and eye tracking and generate statistics for every individual class.</p>
+                        <p>The main benefit associated with using this product is the unique feature which allows teachers to get back statistics on their students. Being able to evaluate the effectiveness of particular documents and understanding which type of study materials make students intrigued about a topic are among the myriad gaols of this product.</p>
                     <h2 id="one.three">1.3 Intended Audience and Document Overview</h2>
                         <p>This document is intended for the professor, project managers and developers who will find the list of functions and requirements needed for developing this application.
                             This document does not illustrate any specific points of failure and uses some technical terms, so it may be less useful to testers and business managers. Section 3.2 of this document contains detailed description of the functionalities mentioned in section 2.2. Use case model is illustrated in section 3.3. The reader can jump to the relevant parts of the document as necessary.
@@ -148,9 +149,10 @@
             <div>
                 <h1 id="two">2. Overall Description</h1>
                     <h2 id="two.one">2.1 Product Overview</h2>
-                        <p>READ is designed to be a web application for teachers and students. It acts as a powerful tool for teachers to maintain different classes of pupils and the course materials shared. READ allows teachers to check and verify (using facial recognition and eye tracking) who has read and completed their assigned tasks and aggregate statistics of class performance based on the records.
+                        <p>The development of this product is primarily to be able to create a useful service for students and teachers, but also due to the necessity of a project for our course. This project does not follow on from any existing product, but is being built from scratch as a first iteration of a new product.</p>
+                        <p>READ is designed to be an application for teachers and students, which is to be deployed as a website and as an android application. It acts as a powerful tool for teachers to maintain different classes of pupils and the course materials shared. READ allows teachers to check and verify (using facial recognition and eye tracking) who has read and completed their assigned tasks and aggregate statistics of class performance based on the records.
                         </p>
-                        <p> The front end will be a series of web pages and the back end will consist of a database system and a web server to run the program. Webcam will be accessed to track the users’ face.
+                        <p> The front end will be a series of web pages and the back end will consist of a database system and a web server to run the program. Webcam will be accessed to track the users’ face and eyes.
                         </p>
                     <h2 id="two.two">2.2 Product Functionality</h2>
                       <ol>
@@ -161,12 +163,25 @@
                         <li> Generate weekly reports of students’ activity/progress for teachers</li>
                        </ol>
                     <h2 id="two.three">2.3 Design and Implementation Constraints</h2>
-                        <p>As this product is being implemented as a web app, there will be little design or implementation constraints in terms of the webpages. Major implementation constraints may include lack of time to deliver set goals and successfully implementing facial recognition and eye tracking technology.</p>
+
+        <ol>
+            <li>Manpower: limited to a group of four students</li>
+            <li>Time: developers of this project have numerous other time consuming obligations/responsibilties</li>
+            <li>Technical knowledge: our expertise is limited particularly with regard to the facial recognition / eye-tracking technology</li>
+            <li>Availability of free APIs for facial recognition / eye-tracking</li>
+        </ol>
+
                     <h2 id="two.four">2.4 Assumptions and Dependencies</h2>
-                        <p>This product relies on any API used for the facial recognition and eye tracking technology that might affect its functionality.
-                        </p>
-                        <p> Additionally, the website is being hosted on a local machine and may be shifted to a third-party web provider. If this is done so, the uptime of the website (the time during which it is accessible) may depend on the third-party.
-                            </p>
+                        <ol>
+                            <li>Backend framework - Django</li>
+                            <li>Facial recognition API</li>
+                            <li>Eye tracking API</li>
+                            <li>Frontend libraries/frameworks for UI: (React, bootstrap)</li>
+                            <li>Android SDKs</li>
+                            <li>Federated ID provider: Google Sign-in</li>
+                            <li>Backend as a service: Firebase</li>
+                            <li>Server for deployment</li>
+                        </ol>
                 <hr>
             </div>
 
