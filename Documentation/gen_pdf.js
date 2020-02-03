@@ -64,7 +64,7 @@ function header(doc)
        doc.addImage(base64Img, 'JPEG', margins.left, 10, 40,40);
     }
 
-    doc.text("Report Header Template", margins.left + 50, 40 );
+    doc.text("Software Requirements Specification", margins.left + 50, 40 );
 	doc.setLineCap(2);
 	doc.line(3, 70, margins.width + 43,70); // horizontal line
 };
