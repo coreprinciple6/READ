@@ -1,3 +1,4 @@
+
 function changeWidth(id){
     if(id == "close_pdf"){
         var iframes = document.querySelectorAll('iframe');
@@ -13,6 +14,9 @@ function changeWidth(id){
 }
 var base64Img = null;
 
+imgToBase64('overview.jpg', function(base64) {
+    base64Img = base64;
+});
 margins = {
   top: 70,
   bottom: 40,
@@ -76,6 +80,7 @@ function imgToBase64(url, callback, imgVariable) {
         return;
     }
     var xhr = new XMLHttpRequest();
+    //xhr.open('GET', url);
     xhr.responseType = 'blob';
     xhr.onload = function() {
         var reader = new FileReader();
@@ -86,6 +91,7 @@ function imgToBase64(url, callback, imgVariable) {
         reader.readAsDataURL(xhr.response);
     };
     xhr.open('GET', url);
+    xhr.setRequestHeader("Access-Control-Allow-Origin", "*")
     xhr.send();
 };
 
