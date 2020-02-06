@@ -1,0 +1,10 @@
+document.getElementById("overview_img").src=overview_uri;
+document.getElementById("use_case_diagram").src=use_case_uri;
+document.getElementById("homepage").src=homepage_uri;
+document.getElementById("login").src=login_uri;
+document.getElementById("teachers_landing").src=teachers_landing_uri;
+document.getElementById("teachers_upload").src=teachers_load_files_uri;
+document.getElementById("teachers_view_stats").src=teachers_view_stats_uri;
+document.getElementById("student_landing").src=student_landing_uri;
+document.getElementById("student_view_doc").src=student_view_class_doc_uri;
+document.getElementById("student_opened_doc").src=student_opened_doc_uri;
