@@ -18,18 +18,17 @@
     bottom: 0;
     overflow: auto;
 }
-#open_pdf, #close_pdf {
+/*----------------------*/
+#pdf_button {
+    top: 5px;
+    position: fixed;
     margin-left: 200px;
 }
-/*----------------------*/
-#overview_img{
+#overview_img, #use_case_diagram{
     border: 1px solid black;
     width: 700px;
 }
-#use_case_diagram{
-    border: 1px solid black;
-    width: 700px;
-}
+
 .ui_image{
     border: 1px solid black;
     padding: 0px 0px 0px 0px;
@@ -46,16 +45,16 @@ td, th{
 h1, h4{
     display: inline;
 }
-ol {
-    counter-reset: item
-}
+/*ol {*/
+    /*counter-reset: item*/
+/*}*/
 li {
     display: block
 }
-li:before {
-    content: counters(item, ".")" ";
-    counter-increment: item
-}
+/*li:before {*/
+    /*content: counters(item, ".")" ";*/
+    /*counter-increment: item*/
+/*}*/
 
 .sidenav {
   height: 100%;

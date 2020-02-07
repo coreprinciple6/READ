@@ -10,7 +10,7 @@
     </head>
     <body>
         <div id="html-2-pdfwrapper">
-
+            <button id="pdf_button" onclick="generate();">Generate PDF (may take upto 30 seconds)</button>
             <div class="sidenav">
                 <a href="#front_page">Front Page</a>
                 <a href="#table_of_contents">Table of Contents</a>
@@ -39,15 +39,15 @@
 
             <div class="main">
                 <div id="front_page">
-                    <h1>Software Requirements Specification</h1>
-                    <h2>for</h2>
-                    <h1>READ</h1>
-                    <h2>Version 1.0</h2>
+                    <h1 id="p1">Software Requirements Specification</h1>
+                    <h2 id="p2">for</h2>
+                    <h1 id="p3">READ</h1>
+                    <h2 id="p4">Version 1.0</h2>
                     <br><br><br><br>
-                    <h2>Prepared by:</h2>
+                    <h2 id="p5">Prepared by:</h2>
 
-                    <h2>Group No: 6</h2>
-                    <table>
+                    <h2 id="p6">Group No: 6</h2>
+                    <table id="p7">
                         <tr>
                             <th>Name</th>
                             <th>Id</th>
@@ -75,48 +75,48 @@
                         </tr>
                     </table>
                     <br><br>
-                    <h4>Instructor:</h4> Dr. Nabeel Mohammed (NbM)<br>
-                    <h4>Course:</h4> CSE327<br>
-                    <h4>Section:</h4> 1<br>
-                    <h4>Date: </h4> 04/02/2020<br>
+                    <h4 id="p8">Instructor:</h4> Dr. Nabeel Mohammed (NbM)<br>
+                    <h4 id="p9">Course:</h4> CSE327<br>
+                    <h4 id="p10">Section:</h4> 1<br>
+                    <h4 id="p11">Date: </h4> 04/02/2020<br>
                     <hr>
                 </div>
-                <div>
+                <div id="div_toc">
                     <h1 id="table_of_contents">Table of contents</h1>
                     <ol>
-                        <li><a href="#one">Introduction</a>
+                        <li><a href="#one">1 Introduction</a>
                             <ol>
-                                <li><a href="#one.one">Document Purpose</a></li>
-                                <li><a href="#one.two">Product Scope</a></li>
-                                <li><a href="#one.three">Intended Audience and Document Overview</a></li>
-                                <li><a href="#one.four">Document Conventions</a></li>
-                                <li><a href="#one.five">References and Acknowledgements</a></li>
+                                <li><a href="#one.one">1.1 Document Purpose</a></li>
+                                <li><a href="#one.two">1.2 Product Scope</a></li>
+                                <li><a href="#one.three">1.3 Intended Audience and Document Overview</a></li>
+                                <li><a href="#one.four">1.4 Document Conventions</a></li>
+                                <li><a href="#one.five">1.5 References and Acknowledgements</a></li>
                             </ol>
                         </li>
-                        <li><a href="#two">Overall Description</a>
+                        <li><a href="#two">2 Overall Description</a>
                             <ol>
-                                <li><a href="#two.one">Product Overview</a></li>
-                                <li><a href="#two.two">Product Functionality</a></li>
-                                <li><a href="#two.three">Design and Implementation Constraints</a></li>
-                                <li><a href="#two.four">Assumptions and Dependencies</a></li>
+                                <li><a href="#two.one">2.1 Product Overview</a></li>
+                                <li><a href="#two.two">2.2 Product Functionality</a></li>
+                                <li><a href="#two.three">2.3 Design and Implementation Constraints</a></li>
+                                <li><a href="#two.four">2.4 Assumptions and Dependencies</a></li>
                             </ol>
                         </li>
-                        <li><a href="#three">Specific Requirements</a>
+                        <li><a href="#three">3 Specific Requirements</a>
                             <ol>
-                                <li><a href="#three.one">External Interface Requirements</a></li>
-                                <li><a href="#three.two">Functional Requirements</a></li>
-                                <li><a href="#three.three">Use Case Model</a></li>
+                                <li><a href="#three.one">3.1 External Interface Requirements</a></li>
+                                <li><a href="#three.two">3.2 Functional Requirements</a></li>
+                                <li><a href="#three.three">3.3 Use Case Model</a></li>
                             </ol>
                         </li>
-                        <li><a href="#four">Other Non-Functional Requirements</a>
+                        <li><a href="#four">4 Other Non-Functional Requirements</a>
                             <ol>
-                                <li><a href="#four.one">Performance Requirements</a></li>
-                                <li><a href="#four.two">Safety and Security Requirements</a></li>
-                                <li><a href="#four.three">Software Quality Attributes</a></li>
+                                <li><a href="#four.one">4.1 Performance Requirements</a></li>
+                                <li><a href="#four.two">4.2 Safety and Security Requirements</a></li>
+                                <li><a href="#four.three">4.3 Software Quality Attributes</a></li>
                             </ol>
                         </li>
 
-                        <li><a href="#five"> Other Non-Functional Requirements</a>
+                        <li><a href="#five">5 Other Non-Functional Requirements</a>
                         </li>
 
                         <li><a href="#appendix_a">Appendix A - Group Log</a>
@@ -125,7 +125,7 @@
                     <hr>
                 </div>
 
-                <div>
+                <div id="intro_page">
                     <h1 id="one">1. Introduction</h1>
                     <h2 id="one.one">1.1 Document Purpose</h2>
                     <p>The purpose of this document is to present a detailed description of READ. It will explain the goals of the project, the features implemented, the navigation of the user interface and finally the limitations and future-proofing aspects of this project.</p>
@@ -133,8 +133,7 @@
                     <p>The objective of the project is to create a web application to manage course materials for a class, track user’s face when reading study materials and provide important statistics based on it. There will be students’ and teachers’ portals, where the students can enroll in many courses and track their assignments and schedules all in one place. The teachers can share study materials and keep record of who actually read through everything using facial recognition and eye tracking and generate statistics for every individual class.</p>
                     <p>The main benefit associated with using this product is the unique feature which allows teachers to get back statistics on their students. Being able to evaluate the effectiveness of particular documents and understanding which type of study materials make students intrigued about a topic are among the myriad gaols of this product.</p>
                     <h2 id="one.three">1.3 Intended Audience and Document Overview</h2>
-                    <p>This document is intended for the professor, project managers and developers who will find the list of functions and requirements needed for developing this application.
-                    This document does not illustrate any specific points of failure and uses some technical terms, so it may be less useful to testers and business managers. Section 3.2 of this document contains detailed description of the functionalities mentioned in section 2.2. Use case model is illustrated in section 3.3. The reader can jump to the relevant parts of the document as necessary.
+                    <p>This document is intended for the professor, project managers and developers who will find the list of functions and requirements needed for developing this application.<br>This document does not illustrate any specific points of failure and uses some technical terms, so it may be less useful to testers and business managers. Section 3.2 of this document contains detailed description of the functionalities mentioned in section 2.2. Use case model is illustrated in section 3.3. The reader can jump to the relevant parts of the document as necessary.
                     </p>
                     <h2 id="one.four">1.4 Document Conventions</h2>
                     <p>This document follows the IEEE formatting requirements. Each section and subsection have been divided and numbered to distinguish them. Special terms and comments are in italics.</p>
@@ -144,7 +143,7 @@
                     <hr>
                 </div>
 
-                <div>
+                <div id="overall_desc">
                     <h1 id="two">2. Overall Description</h1>
                     <h2 id="two.one">2.1 Product Overview</h2>
                     <p>The development of this product is primarily to be able to create a useful service for students and teachers, but also due to the necessity of a project for our course. This project does not follow on from any existing product, but is being built from scratch as a first iteration of a new product.</p>
@@ -187,69 +186,69 @@
                     <hr>
                 </div>
 
-                <div>
+                <div id="spec_reqs">
                     <h1 id="three">3. Specific Requirements</h1>
                     <h2 id="three.one">3.1 External Interface Requirements</h2>
                     <h3>3.1.1	User Interfaces</h3>
                     <p>The user interface will be several webpages each for a different task. The layout will be created using the help of any existing template. </p>
 
-                    <ol>  <li> Registration and Login page - allows the user to register and create an account in the web application. If account already exists, the user will log in to their respective accounts.
+                    <ol><li>Registration and Login page - allows the user to register and create an account in the web application. If account already exists, the user will log in to their respective accounts.
                         </li>
-                        <li> Dashboard page - the main page that will hold each user’s personal information and record of number of classes enrolled in. This includes a side menu bar that links to other pages.
+                        <li>Dashboard page - the main page that will hold each user’s personal information and record of number of classes enrolled in. This includes a side menu bar that links to other pages.
                         </li>
-                        <li>  Classroom page - this page holds all the course materials or assignments of a specific class posted by a teacher and can be viewed by both students and teachers.
+                        <li>Classroom page - this page holds all the course materials or assignments of a specific class posted by a teacher and can be viewed by both students and teachers.
                         </li>
-                        <li> Statistics page - this page can only be accessed by the teacher to see detailed information of class performance.
+                        <li>Statistics page - this page can only be accessed by the teacher to see detailed information of class performance.
                         </li>
                     </ol>
-                    <h3> 3.1.2	Hardware Interfaces </h3>
-                    This product does not require any hardware interface because it is entirely enclosed within the bounds of a web application.
-                    <h3>   3.1.3	Software Interfaces</h3>
-                    The majority of the web interface will be written in Html, Css and JavaScript, and so will not require any specialized software to run other than an up-to-date web browser. Django will be used as the framework to handle the backend which includes the database system and run the program.
-                    Additionally, a facial recognition API shall be used to meet the basic functionality of the product.
+                    <h3>3.1.2	Hardware Interfaces </h3>
+                    <p>This product does not require any hardware interface because it is entirely enclosed within the bounds of a web application.
+                    </p>
+                    <h3>3.1.3	Software Interfaces</h3>
+                    <p>The majority of the web interface will be written in Html, Css and JavaScript, and so will not require any specialized software to run other than an up-to-date web browser. Django will be used as the framework to handle the backend which includes the database system and run the program. <br> Additionally, a facial recognition API shall be used to meet the basic functionality of the product.
+                    </p>
 
                     <h2 id="three.two">3.2 Functional Requirements</h2>
-                    <p> Functional requirements discussed in section 2.2 are elaborated below enlisting detailed requirements for every function. </p>
+                    <p>Functional requirements discussed in section 2.2 are elaborated below enlisting detailed requirements for every function. </p>
 
-                    <h3>  3.2.1	Student and Teachers portals  </h3>
-                    <p>  There are two different options for user accounts - student’s account or teacher’s account. Each have different features available to them based on the type of account it is. </p>
-                    <h5>  Requirements: </h5>
-                    <ol> Registration panel with two different options (student or teacher) requiring a username and a password.
+                    <h3>3.2.1 Student and Teachers portals  </h3>
+                    <p>There are two different options for user accounts - student’s account or teacher’s account. Each have different features available to them based on the type of account it is. </p>
+                    <h5>Requirements: </h5>
+                    <ol><li>->Registration panel with two different options (student or teacher) requiring a username and a password.</li>
                     </ol>
-                    <ol> 	Login panel for users to login given they already have an account.
+                    <ol><li>->Login panel for users to login given they already have an account.</li>
                     </ol>
 
-                    <h3> 3.2.2	Facial Recognition and eye tracking</h3>
+                    <h3>3.2.2 Facial Recognition and eye tracking</h3>
 
                     <p> User will be prompted to allow webcam access so that their faces can be identified when reading a course material. Further more the users eye movements will be tracked to identify if they were actively reading or not. The time to read a document will also be recorded in the back end. </p>
-                    <h5> Requirements:</h5>
-                    <ul>	every time a document is opened, activate webcam to detect face and eye movements and verify if the document has been read.
+                    <h5>Requirements:</h5>
+                    <ul><li>-> Every time a document is opened, activate webcam to detect face and eye movements and verify if the document has been read.</li></ul>
+                    <ul> <li>-> Record the result in a table</li>
                     </ul>
-                    <ul> record the result in a table
-                    </ul>
-                    <h3> 3.2.3	Generating useful statistics </h3>
+                    <h3>3.2.3	Generating useful statistics </h3>
                     <p>   For the teachers account, the teachers have the option to view statistics in the form of charts or graphs of students’ performance of each class. This includes average time to spent on reading course materials, record of which student viewed or didn’t view the assigned material, comparisons of different sections of the same class.</p>
-                    <h5> Requirements:</h5>
-                    <ul>	button in teachers’ dashboard to statistics page
+                    <h5>Requirements:</h5>
+                    <ul><li>->Button in teachers’ dashboard to statistics page</li>
                     </ul>
-                    <ul>	show class performance for each course in a tabular form.
+                    <ul><li>->Show class performance for each course in a tabular form.</li>
                     </ul>
                     <h2 id="three.three">3.3 Use Case Model</h2>
-                    <h3>3.3.1Use case diagram</h3>
+                    <h3>3.3.1 Use case diagram</h3>
                     <figure>
                         <img id="use_case_diagram"  alt="use_case_diagram">
                         <figcaption>Figure 2.1: Use case diagram</figcaption>
                     </figure>
-                    <h3>3.3.2 Use cases</h3>
+                    <h3 id="three.three.two">3.3.2 Use cases</h3>
                     <h4> 3.3.3	U1 – Create classroom</h4>
                     <p>Actor - Teacher   </p>
                     <p>Purpose – To create a classroom where students will be added and files can be uploaded</p>
                     <p>Priority - High</p>
                     <p>Preconditions – User must have an account</p>
-                    <p>Post conditions – user will have a classroom created and a link to that page  </p>
-                    <p>Flow of Events</p>
-                    <ol> 1.	User requests to create a new class </ol>
-                    <ol>2. User fills in information and creates a new class to add students in.
+                    <p>Post conditions – user will have a classroom created and a link to that page</p>
+                    <p id="flow_of_events">Flow of Events</p>
+                    <ol><li>1. User requests to create a new class </li></ol>
+                    <ol><li>2. User fills in information and creates a new class to add students in.</li>
                     </ol>
                     <h4>3.3.4	U2 – Upload files </h4>
                     <p>Actor - Teacher</p>
@@ -258,33 +257,33 @@
                     <p>Preconditions – User must have an account and a class created </p>
                     <p>Post conditions – user will upload any document in the classroom page </p>
                     <p>Flow of Events</p>
-                    <ol>1.	User requests to upload a file </ol>
-                    <ol>2.	User selects the document from the options and clicks enter</ol>
-                    <ol>3.	The new document is displayed in the classroom page
+                    <ol><li>1.	User requests to upload a file </li></ol>
+                    <ol><li>2.	User selects the document from the options and clicks enter</li></ol>
+                    <ol><li>3.	The new document is displayed in the classroom page
 
-                    </ol>
+                        </li></ol>
 
 
-                    <h4> 3.3.5	U3 – View statistics</h4>
+                    <h4>3.3.5	U3 – View statistics</h4>
                     <p>Actor - Teacher </p>
                     <p>Purpose – teacher will be able to view statistics based on students’ performance </p>
                     <p>Priority - medium  </p>
                     <p>Preconditions – User must have an account and a class created. User must have uploaded files </p>
                     <p>Post conditions – statistics page will show graphs and charts generated from students’ performance </p>
                     <p>Flow of Events  </p>
-                    <ol>1.	User requests to view statistics page </ol>
-                    <ol>2.	User selects different charts/graphs to view in details </ol>
+                    <ol><li>1.	User requests to view statistics page </li></ol>
+                    <ol><li>2.	User selects different charts/graphs to view in details </li></ol>
 
-                    <h4>3.3.6	U4 -  enroll in class </h4>
+                    <h4 id="add_new_page">3.3.6	U4 -  enroll in class </h4>
                     <p>Actor - Student </p>
                     <p>Purpose – student will join any class created by a teacher </p>
                     <p>Priority - high </p>
                     <p>Preconditions – User must have an account  </p>
                     <p>Post conditions – User will be added to a classroom </p>
                     <p> Flow of Events </p>
-                    <ol>1.	User requests to join a class </ol>
-                    <ol>2.	User is asked for a unique code  </ol>
-                    <ol>3.	Upon entering user can see all files uploaded by the teacher </ol>
+                    <ol><li>1.	User requests to join a class </li></ol>
+                    <ol><li>2.	User is asked for a unique code  </li></ol>
+                    <ol><li>3.	Upon entering user can see all files uploaded by the teacher </li></ol>
 
                     <h4>3.3.7	U5 – View Documents  </h4>
                     <p>Actor – Student, Teacher </p>
@@ -293,10 +292,10 @@
                     <p>Preconditions – User must be enrolled in a classroom, there must be files uploaded </p>
                     <p>Post conditions – students’ face will be tracked and recorded </p>
                     <p>Flow of Events  </p>
-                    <ol>1.	Students view a document  </ol>
-                    <ol>2.	Students face is tracked using facial recognition to check if they are reading   </ol>
-                    <ol>3.	The time to finish reading is recorded   </ol>
-                    <ol>4.	Teacher is notified about who has read through the given course material   </ol>
+                    <ol><li>1.	Students view a document  </li></ol>
+                    <ol><li>2.	Students face is tracked using facial recognition to check if they are reading   </li></ol>
+                    <ol><li>3.	The time to finish reading is recorded   </li></ol>
+                    <ol><li>4.	Teacher is notified about who has read through the given course material   </li></ol>
 
                     <h3> 3.3.8 Mock UI</h3>
                     <figure>
@@ -334,7 +333,7 @@
                     <hr>
                 </div>
 
-                <div>
+                <div id="other_non_func">
                     <h1 id="four">4. Other Non-Functional Requirements</h1>
                     <h2 id="four.one">4.1 Performance Requirements</h2>
                     <p>The website should be efficient on memory and loading times. Every page must load within a second.</p>
@@ -352,17 +351,17 @@
                     <hr>
                 </div>
 
-                <div>
+                <div id="other_reqs">
                     <h1 id="five">5. Other Requirements</h1>
                     <h3>1.Federated User Credentials </h3>
 
-                    <p> In addition to making their own accounts whose credentials are stored in the project’s database, users will have the option of using their Google accounts to log in. As Google is one of the largest and widely used platforms on the internet. This would reduce the hassle for a new user of the website and improve ease of access.
-                    Again, security must be maintained on both the developers’ and users’ side, in order to ensure the users do not suffer any security breaches regarding their Google account.
+                    <p> In addition to making their own accounts whose credentials are stored in the project’s database, users will have the option of using their Google accounts to log in. As Google is one of the largest and widely used platforms on the internet. This would reduce the hassle for a new user of the website and improve ease of access.</p>
+                    <p>Again, security must be maintained on both the developers’ and users’ side, in order to ensure the users do not suffer any security breaches regarding their Google account.
                     </p>
                     <hr>
                 </div>
 
-                <div>
+                <div id="appendix">
                     <h1 id="appendix_a">Appendix A - Group Log</h1>
                     <p>Two short group meetings were conducted to discuss the requirements of the project, share related information gathered to complete the task and set an achievable goal.</p>
                     <hr>
@@ -371,6 +370,7 @@
         </div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+        <script src="https://unpkg.com/jspdf-autotable@3.2.11/dist/jspdf.plugin.autotable.js"></script>
 
         <script src="image-uri.js"></script>
         <script src="pdf_handling.js"></script>
