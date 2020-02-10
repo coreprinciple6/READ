@@ -12,6 +12,10 @@ h1, h4{
 li {
     display: block
 }
+img{
+    margin: 10px 5px 10px 5px;
+    border: 1px solid black;
+}
 .sidenav {
   height: 100%;
   width: 160px;
