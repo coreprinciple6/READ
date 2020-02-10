@@ -194,6 +194,196 @@
                     <img src="tables.jpg" alt="tables">
                     <figcaption>Fig 3.2: Tables mapped from ER diagram</figcaption>
                 </figure>
+                <h4>Table descriptions</h4>
+                <ol>
+                    <li>Table: STUDENT</li>
+                    <ul>
+                        <li>Purpose: Stores student information</li>
+                        <li>Attributes</li>
+                        <ol>
+                            <li>s_id</li>
+                            <ol>
+                                <li>purpose: primary key of the table used to uniquely identify each student</li>
+                                <li>type: string of variable length</li>
+                            </ol>
+                            <li>name</li>
+                            <ol>
+                                <li>purpose: student's full name</li>
+                                <li>type: string of variable length</li>
+                            </ol>
+                            <li>email</li>
+                            <ol>
+                                <li>purpose: student's email address</li>
+                                <li>type: string of variable length</li>
+                            </ol>
+                            <li>password</li>
+                            <ol>
+                                <li>purpose: hashed password for this student's account</li>
+                                <li>type: string of length 128</li>
+                            </ol>
+                            <li>picture</li>
+                            <ol>
+                                <li>purpose: a photo of the student which will be used for facial recognition</li>
+                                <li>type: LONGBLOB</li>
+                            </ol>
+                        </ol>
+                        <li>Foreign keys</li>
+                        <ol>
+                            <li>None</li>
+                        </ol>
+                    </ul>
+
+                    <li>Table: HAS_ACCESS_TO</li>
+                    <ul>
+                        <li>Purpose: stores (student, document) pairs which will be used to generate statistics on how much of a document a student has read</li>
+                        <li>Attributes</li>
+                        <ol>
+                            <li>s_id</li>
+                            <ol>
+                                <li>purpose: (student id) part of primary key of the table used to uniquely identify each (student, document) pair</li>
+                                <li>type: string of variable length</li>
+                            </ol>
+                            <li>d_id</li>
+                            <ol>
+                                <li>purpose: (document id) part of primary key of the table used to uniquely identify each (student, document) pair</li>
+                                <li>type: string of variable length</li>
+                            </ol>
+                            <li>time_spent</li>
+                            <ol>
+                                <li>purpose: total time a student has spend reading a document</li>
+                                <li>type: time</li>
+                            </ol>
+                            <li>pages_read</li>
+                            <ol>
+                                <li>purpose: number of pages of a document read by the student</li>
+                                <li>type: integer</li>
+                            </ol>
+                        </ol>
+                        <li>Foreign keys</li>
+                        <ol>
+                            <li>s_id references STUDENT.s_id</li>
+                            <li>d_id references DOCUMENT.d_id</li>
+                        </ol>
+                    </ul>
+
+                    <li>Table: ENROLLED_IN</li>
+                    <ul>
+                        <li>Purpose: stores (student_id, class_id) pairs to determine which students are enrolled into which classes</li>
+                        <li>Attributes</li>
+                        <ol>
+                            <li>s_id</li>
+                            <ol>
+                                <li>purpose: (student id) part of primary key of the table used to uniquely identify each (student, class) pair</li>
+                                <li>type: string of variable length</li>
+                            </ol>
+                            <li>c_id</li>
+                            <ol>
+                                <li>purpose: (class id) part of primary key of the table used to uniquely identify each (student, class) pair</li>
+                                <li>type: string of variable length</li>
+                            </ol>
+                        </ol>
+                        <li>Foreign keys</li>
+                        <ol>
+                            <li>s_id references STUDENT.s_id</li>
+                            <li>c_id references CLASS.c_id</li>
+                        </ol>
+                    </ul>
+
+                    <li>Table: CLASS</li>
+                    <ul>
+                        <li>Purpose: stores information about each class</li>
+                        <li>Attributes</li>
+                        <ol>
+                            <li>end_date</li>
+                            <ol>
+                                <li>purpose: stores the date when the class ends</li>
+                                <li>type: date</li>
+                            </ol>
+                            <li>start_date</li>
+                            <ol>
+                                <li>purpose: stores the date when the class starts</li>
+                                <li>type: date</li>
+                            </ol>
+                            <li>c_id</li>
+                            <ol>
+                                <li>purpose: stores the class_id which is the primary of this key</li>
+                                <li>type: string of variable length</li>
+                            </ol>
+                            <li>t_id</li>
+                            <ol>
+                                <li>purpose: stores the id of the teacher who teaches this class</li>
+                                <li>type: string of variable length</li>
+                            </ol>
+
+                        </ol>
+                        <li>Foreign keys</li>
+                        <ol>
+                            <li>t_id references TEACHER.t_id</li>
+                        </ol>
+                    </ul>
+
+
+                    <li>Table: DOCUMENT</li>
+                    <ul>
+                        <li>Purpose: stores information about a particular document</li>
+                        <li>Attributes</li>
+                        <ol>
+                            <li>upload_date</li>
+                            <ol>
+                                <li>purpose: date on which the document was uploaded by the teacher</li>
+                                <li>type: date</li>
+                            </ol>
+                            <li>d_id</li>
+                            <ol>
+                                <li>purpose: (document_id) a unique identifier for each document used as the primary key</li>
+                                <li>type: string of variable length</li>
+                            </ol>
+                            <li>c_id</li>
+                            <ol>
+                                <li>purpose: the class_id for which this document is used</li>
+                                <li>type: string of variable length</li>
+                            </ol>
+                        </ol>
+                        <li>Foreign keys</li>
+                        <ol>
+                            <li>c_id references CLASS.c_id</li>
+                        </ol>
+                    </ul>
+
+                    <li>Table: TEACHER</li>
+                    <ul>
+                        <li>Purpose: stores information about each teacher</li>
+                        <li>Attributes</li>
+                        <ol>
+                            <li>name</li>
+                            <ol>
+                                <li>purpose: stores teacher's full name</li>
+                                <li>type: string of variable length</li>
+                            </ol>
+                            <li>t_id</li>
+                            <ol>
+                                <li>purpose: (teacher_id) unique identifier for teacher, which will be used as the primary key</li>
+                                <li>type: string of variable length</li>
+                            </ol>
+                            <li>email</li>
+                            <ol>
+                                <li>purpose: stores teacher's email address</li>
+                                <li>type: string of variable length</li>
+                            </ol>
+                            <li>password</li>
+                            <ol>
+                                <li>purpose: stores password hash for a teacher account</li>
+                                <li>type: string of length 128</li>
+                            </ol>
+
+                        </ol>
+                        <li>Foreign keys</li>
+                        <ol>
+                            <li>None</li>
+                        </ol>
+                    </ul>
+
+                </ol>
                 <hr>
             </div>
             <div id="implementation_plan">
