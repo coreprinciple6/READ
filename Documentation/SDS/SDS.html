@@ -175,9 +175,214 @@
                 <hr>
             </div>
             <div id="class_diagrams">
-                <h1 id="five">5 Class Diagrams</h1>
-                <h2 id="five.one">5.1 Diagrams</h2>
+                <h1 id="five">5 Class Diagram</h1>
+                <h2 id="five.one">5.1 Diagram</h2>
+
+                <figure>
+                    <img src="ClassDiagram.jpg" alt="ClassDiagram">
+                    <figcaption>Fig 2: Class Diagram</figcaption>
+                </figure>
+
                 <h2 id="five.two">5.2 Descriptions</h2>
+                <ol>
+                    <li>Class: User</li>
+                    <ul>
+                        <li>Purpose: To give a parent class for all the different types of users</li>
+                        <li>Attributes</li>
+                        <ol>
+                            <li>name</li>
+                            <ol>
+                                <li>Purpose: To porvide user with their own name for convenience</li>
+                                <li>Type: String of variable length</li>
+                            </ol>
+                            <li>id</li>
+                            <ol>
+                                <li>Purspose: To Identify a specific user without conflict</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>email</li>
+                            <ol>
+                                <li>Purpose: To provide each user with an email adress for to their account</li>
+                                <li>Type: String of variable length</li>
+                            </ol>
+                            <li>password</li>
+                            <ol>
+                                <li>Purpose: To provide security during login</li>
+                                <li>Type: String of variable length</li>
+                            </ol>
+                        </ol>
+                    </ul>
+                    <li>Class: Teacher</li>
+                    <ol>
+                        <li>Purpose: One of the children classes of the User class, used to provide necessary varibles and methods for the teacher</li>
+                        <li>Attributes</li>
+                        <ol>
+                            <li>tID</li>
+                            <ol>
+                                <li>Purpose: To give a user ID to the teacher</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>tName</li>
+                            <ol>
+                                <li>Purpose: To show the teacher's name</li>
+                                <li>Type: String of variable length</li>
+                            </ol>
+                            <li>password</li>
+                            <ol>
+                                <li>Purpose: To provide security during login</li>
+                                <li>Type: String of variable length</li>
+                            </ol>
+                            <li>classId</li>
+                            <ol>
+                                <li>Purpose: To give an ID to the class the teacher is teaching in</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>docId</li>
+                            <ol>
+                                <li>Purpose: To give an ID to the document the teacher has uploaded</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                        </ol>
+                    </ol>
+                    <li>Class: Student</li>
+                    <ol>
+                        <li>Purpose: One of the children classes of the User class, used to provide necessary varibles and methods for the student</li>
+                        <li>Attributes</li>
+                        <ol>
+                            <li>sID</li>
+                            <ol>
+                                <li>Purpose: To give a user ID to the student</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>tName</li>
+                            <ol>
+                                <li>Purpose: To show the student's name</li>
+                                <li>Type: String of variable length</li>
+                            </ol>
+                            <li>password</li>
+                            <ol>
+                                <li>Purpose: To provide security during login</li>
+                                <li>Type: String of variable length</li>
+                            </ol>
+                            <li>classId</li>
+                            <ol>
+                                <li>Purpose: To give an ID to the class the student is studying in</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>docId</li>
+                            <ol>
+                                <li>Purpose: To give an ID to the document the dtudent has opened and read</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>faceId</li>
+                            <ol>
+                                <li>Purpose: The id for individual students generated using the Face Recognition API</li>
+                                <li>Type: Type: String of variable length</li>
+                            </ol>
+                        </ol>
+                    </ol>
+                    <li>Class: Class</li>
+                    <ol>
+                        <li>Purpose: A class that is not a child class of User but is dependent on different types of User</li>
+                        <li>Attributes</li>
+                        <ol>
+                            <li>classID</li>
+                            <ol>
+                                <li>Purpose: To give a class ID, generated when the teacher opens a class</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>className</li>
+                            <ol>
+                                <li>Purpose: To give the class a name, set by the teacher when they open the class</li>
+                                <li>Type: String of variable length</li>
+                            </ol>
+                            <li>tID</li>
+                            <ol>
+                                <li>Purpose: To show the ID of the teacher who opened the class</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>sID</li>
+                            <ol>
+                                <li>Purpose: To show the ID of the students who joined the class</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>sName</li>
+                            <ol>
+                                <li>Purpose: To show the name of the students who joined the class</li>
+                                <li>Type: String of variable length</li>
+                            </ol>
+                        </ol>
+                    </ol>
+                    <li>Class: Document</li>
+                    <ol>
+                        <li>Purpose: A child of the Class class that shows the document information and some of the statistics about the students</li>
+                        <li>Attributes</li>
+                        <ol>
+                            <li>classID</li>
+                            <ol>
+                                <li>Purpose: To show which class the document is uploaded in</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>docID</li>
+                            <ol>
+                                <li>Purpose: To provide the documents in class with varying IDs</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>docName</li>
+                            <ol>
+                                <li>Purpose: To give the document a name, set by the teacher when uploading it</li>
+                                <li>Type: String of variable length</li>
+                            </ol>
+                            <li>tID</li>
+                            <ol>
+                                <li>Purpose: To show the ID of the teacher who uploaded the document</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>sID</li>
+                            <ol>
+                                <li>Purpose: To show the ID of the students who read the document</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>sName</li>
+                            <ol>
+                                <li>Purpose: To show the name of the students who read the document</li>
+                                <li>Type: String of variable length</li>
+                            </ol>
+                            <li>sFaceID</li>
+                            <ol>
+                                <li>Purpose: To check for the students who opened and read the document using the face recognition API</li>
+                                <li>Type: String of variable length</li>
+                            </ol>
+                        </ol>
+                    </ol>
+                    <li>Class: Stats</li>
+                    <ol>
+                        <li>Purpose: A child of the Class class that shows some of the statistics about the students, as in, how long a student read a particular document using the eye tracking API</li>
+                        <li>Attributes</li>
+                        <ol>
+                            <li>docID</li>
+                            <ol>
+                                <li>Purpose: To show the document the student has opened</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>isOpen</li>
+                            <ol>
+                                <li>Purpose: To check if the document is actually opened</li>
+                                <li>Type: Boolean</li>
+                            </ol>
+                            <li>timeTookToRead</li>
+                            <ol>
+                                <li>Purpose: To show the time took for a single student to read a particualr document</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>avgTime</li>
+                            <ol>
+                                <li>Purpose: To show the average time it took to read the document, for all the students who read the document</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                        </ol>
+                    </ol>
+                </ol>
                 <hr>
             </div>
             <div id="db_design">
