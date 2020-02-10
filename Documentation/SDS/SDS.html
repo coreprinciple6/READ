@@ -69,7 +69,7 @@
             </div>
             <div id="table_of_contents">
                 <h1>Table of Contents</h1>
-                <ol>
+                <ol class="unnumbered">
 
                     <li><a href="#one">1 Introduction</a>
                     </li>
@@ -84,14 +84,14 @@
                     </li>
 
                     <li><a href="#five">5 Other Non-Functional Requirements</a>
-                        <ol>
+                        <ol class="unnumbered">
                             <li><a href="#five.one">5.1 Diagrams</a></li>
                             <li><a href="#five.two">5.2 Descriptions</a></li>
                         </ol>
                     </li>
 
                     <li><a href="#six">6 Database Design</a>
-                        <ol>
+                        <ol class="unnumbered">
                             <li><a href="#six.one">6.1 Entity Relationship (ER) Diagram</a></li>
                             <li><a href="#six.two">6.2 Tables</a></li>
                         </ol>
@@ -110,7 +110,7 @@
                 <p>All the components that will be used in building the product have been outlined in section 3. This includes the various technologies, programming languages, and tools used in the server side and the client side, as well as frameworks, libraries and APIs.</p>
                 <p>Section 4 contains a high level diagram of each of the main components which taken together will form the complete system. It shows the interactions between the different frameworks and subsystems, providing an overview of the main processes.</p>
                 <p>Class diagrams along with descriptions are given in section 5. These provide an overview of the different classes / entities of our system. This includes the attributes of each class and their corresponding methods. Inherited subclasses and specialisations are also shown.</p>
-                <p>Section 6 contains an ER diagram for the data model along with corresponding tables. This is consistent with the class diagrams, and shows the attributes of the different entities along with the relationships among them.</p>
+                <p>Section 6 contains an ER diagram for the data model along with corresponding tables. This is consistent with the class diagrams, and shows the attributes of the different entities along with the relationship among them.</p>
                 <p>Section 7 contains a tentative implementation plan covering the order in which each feature is going to be built.</p>
 
                 <hr>
@@ -127,7 +127,7 @@
             </div>
             <div id="desc_design">
                 <h1 id="three">3 Description of Design Components</h1>
-                <ol>
+                <ul>
                     <li>Server side</li>
                         <ol>
                             <li>Django framework: the python web framework that will be used to handle all the backend functionality. This framework handles a lot of the functionality that we would otherwise have to implement from scratch. This includes user authentication, content administration, security, commonly used templates, as well as a built in Object Relational Mapper (ORM).</li>
@@ -162,7 +162,7 @@
                             <li>Webgazer (Eye tracking API): this is an open source eye tracking API with a small footprint. Consequently, this can be directly embedded within the front-end functionality of our website using javascript.</li>
 
                         </ol>
-                </ol>
+                </ul>
                 <hr>
             </div>
             <div id="high_level_design">
