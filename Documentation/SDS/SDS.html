@@ -7,6 +7,7 @@
         <title>Software Design Specification</title>
     </head>
     <body>
+        <div id="html-2-pdfwrapper">
         <button id="pdf_button" onclick="generate();">Generate PDF (may take upto 30 seconds)</button>
         <div class="sidenav">
             <a href="#front_page">Front Page</a>
@@ -620,5 +621,11 @@
                 <hr>
             </div>
         </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+        <script src="https://unpkg.com/jspdf-autotable@3.2.11/dist/jspdf.plugin.autotable.js"></script>
+
+        <script src="image-uri.js"></script>
+        <script src="pdf_handling.js"></script>
     </body>
 </html>
