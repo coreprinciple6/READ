@@ -2,22 +2,7 @@
 html {
   overflow-x: hidden; }
 
-.btn {
-  border-radius: 30px;
-  padding: 10px 20px;
-  text-decoration: none; }
-  .btn:active, .btn:focus {
-    outline: none;
-    -webkit-box-shadow: none;
-    box-shadow: none; }
-  .btn.btn-outline-white {
-    border-color: #fff;
-    background: transparent;
-    color: #fff; }
-    .btn.btn-outline-white:hover {
-      background: #fff;
-      border-color: #fff;
-      color: #000; }
+
 
 .site-footer {
   padding: 4em 0;
