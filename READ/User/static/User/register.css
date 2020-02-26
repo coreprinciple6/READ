@@ -1,0 +1,20 @@
+.mid {
+margin-top : 150px;
+border : solid 1px;
+background-color: white;
+padding: 20px;
+}
+
+.btn-style {
+  color: #fff;
+    /*background-color: #91afb6; */
+    background-color: blue;
+    border : solid 1px;
+}
+
+.btn-style:hover,
+.btn-style:active {
+  color: #fff;
+  background-color: #608993;
+  border-color: #608993;
+}
