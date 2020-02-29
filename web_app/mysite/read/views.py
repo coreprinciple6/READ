@@ -24,14 +24,16 @@ def index(request):
 
 @login_required
 def logged_in_view(request):
-    if(request.method == 'POST'):
-        logout(request)
-        return HttpResponseRedirect(reverse('login_view'))
+    if(request.user.is_teacher):
+        return HttpResponseRedirect(reverse('teacher_classes_view'))
     else:
-        if(request.user.is_teacher):
-            return HttpResponseRedirect(reverse('teacher_classes_view'))
-        return render(request, 'read/logged_in.html', {'is_student' : request.user.is_student})
+        assert request.user.is_student
+        return HttpResponseRedirect(reverse('student_classes_view'))
 
+@login_required
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('login_view'))
 
 def login_view(request):
     if(request.user.is_authenticated):
@@ -96,8 +98,25 @@ def teacher_classes_view(request):
     except(Classroom.DoesNotExist):
         classes = None
 
-    return render(request, 'read/teacher_classes.html', {'classes' : classes})
+    return render(request, 'read/teacher/teacher_classes.html', {'classes' : classes})
+
+
+@login_required
+@user_passes_test(teacher_check)
+def teacher_profile_view(request):
+    return render(request, 'read/teacher/teacher_profile.html')
+
 
 # ===============================================
 # Student views
 # ===============================================
+@login_required
+@user_passes_test(student_check)
+def student_classes_view(request):
+    return render(request, 'read/student/student_classes.html')
+
+
+@login_required
+@user_passes_test(student_check)
+def student_profile_view(request):
+    return render(request, 'read/student/student_profile.html')
