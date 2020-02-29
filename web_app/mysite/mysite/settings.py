@@ -30,7 +30,7 @@ ALLOWED_HOSTS = []
 # custom settings begin
 AUTH_USER_MODEL = 'read.User'
 LOGIN_URL = '/read/login/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/read/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
 # custom settings end
 
