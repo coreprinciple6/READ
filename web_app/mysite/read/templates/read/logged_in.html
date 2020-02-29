@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    {% if is_student == True %}
+    <h1>You are logged in as a student</h1>
+    {% else %}
+    <h1>You are logged in as a teacher</h1>
+    {% endif %}
+    <form action="{% url 'logged_in_view' %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="logout">
+    </form>
+</body>
+</html>
