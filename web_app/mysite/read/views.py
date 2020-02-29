@@ -10,12 +10,17 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 # ===============================================
 # Miscellaneous functions
 # ===============================================
-def student_check(user):
+def user_is_student(user):
     return user.is_student
 
-def teacher_check(user):
+def user_is_teacher(user):
     return user.is_teacher
 
+def user_not_admin(user):
+    return not user.is_superuser
+
+def user_is_admin(user):
+    return user.is_superuser
 # ===============================================
 # Common views
 # ===============================================
@@ -23,18 +28,28 @@ def index(request):
     return HttpResponseRedirect(reverse('login_view'))
 
 @login_required
+@user_passes_test(user_is_admin)
+def admin_redirected_view(request):
+    return HttpResponse('<h1>You are logged in as admin.<br>Logout as admin to log in as a regular user.</h1>')
+
+@login_required
+@user_passes_test(user_not_admin, login_url='/read/admin_redirected')
 def logged_in_view(request):
+    if(request.user.is_superuser):
+        return HttpResponseRedirect(reverse('admin_redirected_view'))
     if(request.user.is_teacher):
         return HttpResponseRedirect(reverse('teacher_classes_view'))
     else:
-        assert request.user.is_student
+        assert request.user.is_student == True
         return HttpResponseRedirect(reverse('student_classes_view'))
 
 @login_required
+@user_passes_test(user_not_admin, login_url='/read/admin_redirected')
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse('login_view'))
 
+@user_passes_test(user_not_admin, login_url='/read/admin_redirected')
 def login_view(request):
     if(request.user.is_authenticated):
         return HttpResponseRedirect(reverse('logged_in_view'))
@@ -55,6 +70,7 @@ def login_view(request):
         form = LoginForm()
     return render(request, 'read/login.html', {'form': form, 'error_message': error_message})
 
+@user_passes_test(user_not_admin, login_url='/read/admin_redirected')
 def register_view(request):
     if(request.user.is_authenticated):
         return HttpResponseRedirect(reverse('logged_in_view'))
@@ -90,7 +106,8 @@ def register_view(request):
 # Teacher views
 # ===============================================
 @login_required
-@user_passes_test(teacher_check)
+@user_passes_test(user_is_teacher)
+@user_passes_test(user_not_admin, login_url='/read/admin_redirected')
 def teacher_classes_view(request):
     cur_teacher = Teacher.objects.get(user_id=request.user.id)
     try:
@@ -102,7 +119,8 @@ def teacher_classes_view(request):
 
 
 @login_required
-@user_passes_test(teacher_check)
+@user_passes_test(user_is_teacher)
+@user_passes_test(user_not_admin, login_url='/read/admin_redirected')
 def teacher_profile_view(request):
     return render(request, 'read/teacher/teacher_profile.html')
 
@@ -111,12 +129,14 @@ def teacher_profile_view(request):
 # Student views
 # ===============================================
 @login_required
-@user_passes_test(student_check)
+@user_passes_test(user_is_student)
+@user_passes_test(user_not_admin, login_url='/read/admin_redirected')
 def student_classes_view(request):
     return render(request, 'read/student/student_classes.html')
 
 
 @login_required
-@user_passes_test(student_check)
+@user_passes_test(user_is_student)
+@user_passes_test(user_not_admin, login_url='/read/admin_redirected')
 def student_profile_view(request):
     return render(request, 'read/student/student_profile.html')
