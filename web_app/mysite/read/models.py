@@ -15,10 +15,11 @@ class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, blank=False)
 
 class Classroom(models.Model):
-    name = models.CharField(max_length = 100, default="", blank=False)
+    name = models.SlugField(max_length = 100, blank=False)
     start_date = models.DateField(blank=False)
     end_date = models.DateField(blank=False)
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, blank=False)
+    pending_requests = models.IntegerField(default=0, blank=False)
 
 class Document(models.Model):
     upload_date = models.DateField(blank=False)

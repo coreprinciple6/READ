@@ -67,10 +67,12 @@ class AddClassroomForm(forms.ModelForm):
                 empty_label=("Choose Year", "Choose Month", "Choose Day"),
             ),
         }
+
     def clean(self):
         cleaned_data = super().clean()
-        name = cleaned_data['name']
+        name = cleaned_data.get('name')
         if(Classroom.objects.filter(name=name).exists()):
             self.add_error('name', 'Classroom with name already exists.')
+
         return cleaned_data
 

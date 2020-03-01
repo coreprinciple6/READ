@@ -7,9 +7,10 @@
             <th>Name</th>
             <th>Start Date</th>
             <th>End Date</th>
+            <th>Pending Requests</th>
             {% for class in classes %}
                 <tr>
-                    <td>{{ class.name }}</td> <td>{{ class.start_date }}</td><td>{{ class.end_date }}</td>
+                    <td><a href="{% url 'teacher_specific_class_view' class.name %}">{{ class.name }}</a></td> <td>{{ class.start_date }}</td><td>{{ class.end_date }}</td> <td>{{ class.pending_requests }}</td>
                 </tr>
             {% endfor %}
         </table>
