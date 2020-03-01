@@ -106,6 +106,10 @@ def register_view(request):
 @user_passes_test(user_is_teacher)
 @user_passes_test(user_not_admin, login_url='/read/admin_redirected')
 def teacher_classes_view(request):
+    go_to_add_class = request.POST.get('add_class', '0')
+    if(go_to_add_class == '1'):
+        return HttpResponseRedirect(reverse('teacher_adds_classroom_view'))
+
     cur_teacher = Teacher.objects.get(user_id=request.user.id)
     try:
         classes = Classroom.objects.filter(teacher_id=cur_teacher.user_id)
@@ -129,9 +133,13 @@ def teacher_adds_classroom_view(request):
     if(request.method == 'POST'):
         form = AddClassroomForm(request.POST)
         if(form.is_valid()):
-            return HttpResponse('form added')
-
-    form = AddClassroomForm()
+            classroom = form.save(commit=False)
+            classroom.teacher = Teacher(user=request.user)
+            print(classroom)
+            classroom.save()
+            return HttpResponseRedirect(reverse('teacher_classes_view'))
+    else:
+        form = AddClassroomForm()
     return render(request, 'read/teacher/teacher_adds_classroom.html', {'form' : form})
 # ===============================================
 # Student views

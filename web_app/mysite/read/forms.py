@@ -58,5 +58,19 @@ class RegistrationForm(forms.ModelForm):
 class AddClassroomForm(forms.ModelForm):
     class Meta:
         model = Classroom
-        fields = ['start_date', 'end_date', 'teacher']
+        fields = ['name', 'start_date', 'end_date']
+        widgets = {
+            'start_date' : forms.SelectDateWidget(
+                empty_label=("Choose Year", "Choose Month", "Choose Day"),
+            ),
+            'end_date' : forms.SelectDateWidget(
+                empty_label=("Choose Year", "Choose Month", "Choose Day"),
+            ),
+        }
+    def clean(self):
+        cleaned_data = super().clean()
+        name = cleaned_data['name']
+        if(Classroom.objects.filter(name=name).exists()):
+            self.add_error('name', 'Classroom with name already exists.')
+        return cleaned_data
 
