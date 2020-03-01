@@ -86,7 +86,7 @@ def register_view(request):
                 user.save()
                 student.save()
             else:
-                assert user.is_teacher
+                assert type_of_user == 'teacher'
                 user.is_teacher = True
                 user.set_password(user.password)
                 teacher = Teacher(user=user)

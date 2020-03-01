@@ -1,6 +1,7 @@
 from django import forms
 from .models import User, Student, Teacher, Classroom
 from django.utils.translation import gettext_lazy
+from django.contrib.auth import authenticate
 
 
 class LoginForm(forms.Form):
@@ -8,8 +9,9 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput())
 
 
-class LogoutForm(forms.Form):
-    username = forms.CharField(widget=forms.HiddenInput())
+
+# class LogoutForm(forms.Form):
+    # username = forms.CharField(widget=forms.HiddenInput())
 
 
 

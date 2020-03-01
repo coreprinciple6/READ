@@ -5,7 +5,7 @@
     <title></title>
 </head>
 <body>
-
+    <h1>Register</h1>
     <form action="{% url 'register_view' %}" method="post">
         {% csrf_token %}
         {% for field in form.visible_fields %}
