@@ -36,17 +36,24 @@ class RegistrationForm(forms.ModelForm):
             'password' : forms.PasswordInput()
         }
 
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if(User.objects.filter(email=email).exists()):
+            raise forms.ValidationError('Email already exists')
+        return email
+
+
+    # called after specific field cleaning
     def clean(self):
-        cleaned_data = super(RegistrationForm, self).clean()
+        cleaned_data = super().clean()
         password = cleaned_data.get('password')
         repeated_password = cleaned_data.get('repeat_password')
-
 
         if(password != repeated_password):
             raise forms.ValidationError('Passwords do not match')
 
 
-class ClassRoomForm(forms.ModelForm):
+class AddClassroomForm(forms.ModelForm):
     class Meta:
         model = Classroom
         fields = ['start_date', 'end_date', 'teacher']

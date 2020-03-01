@@ -79,17 +79,14 @@ def register_view(request):
         if(form.is_valid()):
             type_of_user = form.cleaned_data['type_of_user']
             user = form.save(commit=False)
-            email = form.cleaned_data['email']
-            if(User.objects.filter(email=email).exists()):
-                error_message = 'Email already exists.'
-                return render(request, 'read/register.html', {'form': form, 'error_message' : error_message})
-            elif(type_of_user == 'student'):
+            if(type_of_user == 'student'):
                 user.is_student = True
                 user.set_password(user.password)
                 student = Student(user=user)
                 user.save()
                 student.save()
             else:
+                assert user.is_teacher
                 user.is_teacher = True
                 user.set_password(user.password)
                 teacher = Teacher(user=user)
