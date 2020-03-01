@@ -1,0 +1,25 @@
+{% extends "./teacher_base.html" %}
+{% block content %}
+    <h1>Your Classes</h1>
+    {% if classes %}
+    <ul>
+        <table>
+            <th>Name</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            {% for class in classes %}
+                <tr>
+                    <td>{{ class.name }}</td> <td>{{ class.start_date }}</td><td>{{ class.end_date }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </ul>
+    {% else %}
+        <p>You have no classes</p>
+    {% endif %}
+    <form action="{% url 'teacher_classes_view' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="add_class" value='1'>
+        <input type="submit" value="Add class">
+    </form>
+{% endblock %}
