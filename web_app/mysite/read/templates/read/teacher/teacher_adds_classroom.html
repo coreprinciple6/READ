@@ -1,0 +1,10 @@
+{% extends "./teacher_base.html" %}
+{% block content %}
+
+    <form action="{% url 'teacher_adds_classroom_view' %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}
+

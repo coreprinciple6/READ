@@ -12,6 +12,7 @@ urlpatterns = [
 
     path('teacher/classes/', views.teacher_classes_view, name='teacher_classes_view'),
     path('teacher/profile/', views.teacher_profile_view, name='teacher_profile_view'),
+    path('teacher/classes/add/', views.teacher_adds_classroom_view, name='teacher_adds_classroom_view'),
 
     path('student/classes/', views.student_classes_view, name='student_classes_view'),
     path('student/profile/', views.student_profile_view, name='student_profile_view'),

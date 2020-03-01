@@ -39,7 +39,7 @@ class RegistrationForm(forms.ModelForm):
     def clean_email(self):
         email = self.cleaned_data['email']
         if(User.objects.filter(email=email).exists()):
-            raise forms.ValidationError('Email already exists')
+            self.add_error('email', 'Email already exists.')
         return email
 
 
@@ -50,7 +50,7 @@ class RegistrationForm(forms.ModelForm):
         repeated_password = cleaned_data.get('repeat_password')
 
         if(password != repeated_password):
-            raise forms.ValidationError('Passwords do not match')
+            self.add_error('password', 'Passwords do not match.')
 
 
 class AddClassroomForm(forms.ModelForm):

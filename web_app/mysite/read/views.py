@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.urls import reverse
-from .forms import LoginForm, RegistrationForm
+from .forms import LoginForm, RegistrationForm, AddClassroomForm
 from .models import User, Student, Teacher, Classroom, Document, Student_Document, Enrolled_in
 from django.contrib.auth import authenticate, login, logout
 from django import forms
@@ -122,6 +122,17 @@ def teacher_profile_view(request):
     return render(request, 'read/teacher/teacher_profile.html')
 
 
+@login_required
+@user_passes_test(user_is_teacher)
+@user_passes_test(user_not_admin, login_url='/read/admin_redirected')
+def teacher_adds_classroom_view(request):
+    if(request.method == 'POST'):
+        form = AddClassroomForm(request.POST)
+        if(form.is_valid()):
+            return HttpResponse('form added')
+
+    form = AddClassroomForm()
+    return render(request, 'read/teacher/teacher_adds_classroom.html', {'form' : form})
 # ===============================================
 # Student views
 # ===============================================

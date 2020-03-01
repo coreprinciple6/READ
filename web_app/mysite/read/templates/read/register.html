@@ -5,16 +5,14 @@
     <title></title>
 </head>
 <body>
-    {% load bootstrap4 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript jquery='full' %}
 
-    {% if error_message %}
-        <span style="color:red">{{ error_message }}</span>
-    {% endif %}
     <form action="{% url 'register_view' %}" method="post">
         {% csrf_token %}
-        {% bootstrap_form form %}
+        {% for field in form.visible_fields %}
+        <span style="color:red">{{ field.errors }}</span>
+            {{ field.label_tag }} {{ field }}
+            <br><br>
+        {% endfor %}
         <input type="submit" value="Submit">
     </form>
 </body>
