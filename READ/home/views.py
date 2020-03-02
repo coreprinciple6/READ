@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.urls import reverse
-from .forms import LoginForm, RegistrationForm, AddClassroomForm,JoinClassroomForm
+from .forms import LoginForm, RegistrationForm, AddClassroomForm
 from .models import User, Student, Teacher, Classroom, Document, Student_Document, Enrolled_in
 from django.contrib.auth import authenticate, login, logout
 from django import forms
@@ -174,16 +174,12 @@ def student_profile_view(request):
 @user_passes_test(user_not_admin, login_url='/home/admin_redirected')
 def student_joins_classroom_view(request):
     if(request.method == 'POST'):
-        form = JoinClassroomForm(request.POST)
-        if(form.is_valid()):
-            c = form.save(commit=False)
-            temp =  Classroom.objects.filter(code=c)
-            stud = request.user
-            Enrolled_in.objects.create(student=stud, classroom=temp.id, enrolled_status=True)
+        c = request.POST
+        temp =  Classroom.objects.filter(code=c).values('id')
+        curr_class = temp['id']
+        stud = request.user
+        Enrolled_in.objects.create(student=stud, classroom=curr_class, enrolled_status=True)
 
-            print(Enrolled_in)
-            Enrolled_in.save()
-            return HttpResponseRedirect(reverse('student_classes_view'))
-    else:
-        form = JoinClassroomForm()
-    return render(request, 'home/student/student_joins_classroom.html', {'form' : form})
+        return HttpResponseRedirect(reverse('student_classes_view'))
+
+    return render(request, 'home/student/student_joins_classroom.html')

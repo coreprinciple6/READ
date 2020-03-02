@@ -13,8 +13,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/READ/home/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="544">
-              <caret line="38" column="19" selection-start-line="38" selection-start-column="3" selection-end-line="38" selection-end-column="19" />
+            <state relative-caret-position="240">
+              <caret line="38" column="4" lean-forward="true" selection-start-line="38" selection-start-column="4" selection-end-line="38" selection-end-column="19" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -25,8 +25,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/READ/home/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="101">
-              <caret line="178" column="39" lean-forward="true" selection-start-line="178" selection-start-column="16" selection-end-line="178" selection-end-column="39" />
+            <state relative-caret-position="45">
+              <caret line="175" column="33" selection-start-line="175" selection-start-column="33" selection-end-line="175" selection-end-column="33" />
               <folding>
                 <element signature="e#0#71#0" expanded="true" />
               </folding>
@@ -37,8 +37,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/READ/home/forms.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="118">
-              <caret line="81" column="32" lean-forward="true" selection-start-line="81" selection-start-column="32" selection-end-line="81" selection-end-column="32" />
+            <state relative-caret-position="138">
+              <caret line="80" column="28" lean-forward="true" selection-start-line="80" selection-start-column="28" selection-end-line="80" selection-end-column="28" />
               <folding>
                 <element signature="e#0#24#0" expanded="true" />
               </folding>
@@ -49,11 +49,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/READ/home/templates/home/student/student_joins_classroom.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="14" lean-forward="true" selection-start-line="12" selection-start-column="14" selection-end-line="12" selection-end-column="14" />
-              <folding>
-                <element signature="n#style#0;n#span#0;n#form#0;n#!!top" expanded="true" />
-              </folding>
+            <state relative-caret-position="255">
+              <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
             </state>
           </provider>
         </entry>
@@ -107,14 +104,14 @@
         <option value="$PROJECT_DIR$/READ/home/templates/home/student/student_base.html" />
         <option value="$PROJECT_DIR$/READ/home/templates/home/student/student_classes.html" />
         <option value="$PROJECT_DIR$/READ/home/models.py" />
-        <option value="$PROJECT_DIR$/READ/home/views.py" />
-        <option value="$PROJECT_DIR$/READ/home/templates/home/student/student_joins_classroom.html" />
         <option value="$PROJECT_DIR$/READ/home/urls.py" />
         <option value="$PROJECT_DIR$/READ/home/forms.py" />
+        <option value="$PROJECT_DIR$/READ/home/templates/home/student/student_joins_classroom.html" />
+        <option value="$PROJECT_DIR$/READ/home/views.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-69" />
     <option name="y" value="51" />
     <option name="width" value="1752" />
@@ -229,7 +226,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1295" height="695" extended-state="7" />
+    <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.30836654" />
@@ -243,7 +240,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32844037" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.14678898" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.24954128" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.32844037" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -375,23 +372,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/READ/home/templates/home/student/student_classes.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="9" lean-forward="true" selection-start-line="16" selection-start-column="9" selection-end-line="16" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/READ/home/templates/home/student/student_joins_classroom.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="14" lean-forward="true" selection-start-line="12" selection-start-column="14" selection-end-line="12" selection-end-column="14" />
-          <folding>
-            <element signature="n#style#0;n#span#0;n#form#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/READ/home/templates/home/teacher/teacher_adds_classroom.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
@@ -409,30 +389,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/READ/home/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="38" column="19" selection-start-line="38" selection-start-column="3" selection-end-line="38" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/READ/home/forms.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="118">
-          <caret line="81" column="32" lean-forward="true" selection-start-line="81" selection-start-column="32" selection-end-line="81" selection-end-column="32" />
+        <state relative-caret-position="138">
+          <caret line="80" column="28" lean-forward="true" selection-start-line="80" selection-start-column="28" selection-end-line="80" selection-end-column="28" />
           <folding>
             <element signature="e#0#24#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/READ/home/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="38" column="4" lean-forward="true" selection-start-line="38" selection-start-column="4" selection-end-line="38" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/READ/home/templates/home/student/student_joins_classroom.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/READ/home/templates/home/student/student_classes.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="9" lean-forward="true" selection-start-line="16" selection-start-column="9" selection-end-line="16" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/READ/home/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="101">
-          <caret line="178" column="39" lean-forward="true" selection-start-line="178" selection-start-column="16" selection-end-line="178" selection-end-column="39" />
+        <state relative-caret-position="45">
+          <caret line="175" column="33" selection-start-line="175" selection-start-column="33" selection-end-line="175" selection-end-column="33" />
           <folding>
             <element signature="e#0#71#0" expanded="true" />
           </folding>
