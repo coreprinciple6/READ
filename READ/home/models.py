@@ -19,6 +19,7 @@ class Classroom(models.Model):
     start_date = models.DateField(blank=False)
     end_date = models.DateField(blank=False)
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, blank=False)
+    code = models.CharField(max_length = 100, default="", blank=False)
 
 class Document(models.Model):
     upload_date = models.DateField(blank=False)

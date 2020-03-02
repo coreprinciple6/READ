@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.urls import reverse
-from .forms import LoginForm, RegistrationForm, AddClassroomForm
+from .forms import LoginForm, RegistrationForm, AddClassroomForm,JoinClassroomForm
 from .models import User, Student, Teacher, Classroom, Document, Student_Document, Enrolled_in
 from django.contrib.auth import authenticate, login, logout
 from django import forms
@@ -148,7 +148,18 @@ def teacher_adds_classroom_view(request):
 @user_passes_test(user_is_student)
 @user_passes_test(user_not_admin, login_url='/home/admin_redirected')
 def student_classes_view(request):
-    return render(request, 'home/student/student_classes.html')
+    go_to_join_class = request.POST.get('join_class', '0')
+    if (go_to_join_class == '1'):
+        return HttpResponseRedirect(reverse('student_joins_classroom_view'))
+
+    cur_student = Student.objects.get(user_id=request.user.id)
+    try:
+        classes = Classroom.objects.filter(teacher_id=cur_student.user_id)
+    except(Classroom.DoesNotExist):
+        classes = None
+
+    return render(request, 'home/student/student_classes.html', {'classes': classes})
+    #return render(request, 'home/student/student_classes.html')
 
 
 @login_required
@@ -156,3 +167,23 @@ def student_classes_view(request):
 @user_passes_test(user_not_admin, login_url='/home/admin_redirected')
 def student_profile_view(request):
     return render(request, 'home/student/student_profile.html')
+
+
+@login_required
+@user_passes_test(user_is_student)
+@user_passes_test(user_not_admin, login_url='/home/admin_redirected')
+def student_joins_classroom_view(request):
+    if(request.method == 'POST'):
+        form = JoinClassroomForm(request.POST)
+        if(form.is_valid()):
+            c = form.save(commit=False)
+            temp =  Classroom.objects.filter(code=c)
+            stud = request.user
+            Enrolled_in.objects.create(student=stud, classroom=temp.id, enrolled_status=True)
+
+            print(Enrolled_in)
+            Enrolled_in.save()
+            return HttpResponseRedirect(reverse('student_classes_view'))
+    else:
+        form = JoinClassroomForm()
+    return render(request, 'home/student/student_joins_classroom.html', {'form' : form})
