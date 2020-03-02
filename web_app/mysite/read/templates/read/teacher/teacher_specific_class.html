@@ -1,6 +1,21 @@
 {% extends "./teacher_base.html" %}
 {% block content %}
     <h1>Class: {{ class.name }}</h1>
+    {% comment %}<form action="{% url 'teacher_specific_class_view' %}">{% endcomment %}
+    <table>
+        <th>Enrolled Students</th>
+        {% for student in enrolled_students %}
+        <tr>
+            <td>{{ student }}</td>
+            <td>{{ student }}</td>
+        </tr>
+        {% empty %}
+            <tr>
+                <td>No enrolled students</td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% comment %}</form>{% endcomment %}
 
 {% endblock %}
 

@@ -113,10 +113,14 @@ def teacher_classes_view(request):
     cur_teacher = Teacher.objects.get(user_id=request.user.id)
     try:
         classes = Classroom.objects.filter(teacher_id=cur_teacher.user_id)
+        pending_requests = [0 for x in range(classes.count())]
+        for idx, _class in enumerate(classes):
+            pending_requests[idx] = Enrolled_in.objects.filter(classroom=_class, enrolled_status = False).count()
     except(Classroom.DoesNotExist):
         classes = None
+        pending_requests = None
 
-    return render(request, 'read/teacher/teacher_classes.html', {'classes' : classes})
+    return render(request, 'read/teacher/teacher_classes.html', {'classes' : classes, 'pending_requests' : pending_requests})
 
 
 @login_required
@@ -135,7 +139,6 @@ def teacher_adds_classroom_view(request):
         if(form.is_valid()):
             classroom = form.save(commit=False)
             classroom.teacher = Teacher(user=request.user)
-            print(classroom)
             classroom.save()
             return HttpResponseRedirect(reverse('teacher_classes_view'))
     else:
@@ -149,7 +152,13 @@ def teacher_adds_classroom_view(request):
 @user_passes_test(user_not_admin, login_url='/read/admin_redirected')
 def teacher_specific_class_view(request, class_name):
     cur_class = get_object_or_404(Classroom, name=class_name)
-    return render(request, 'read/teacher/teacher_specific_class.html', {'class' : cur_class})
+    pending_requests = Enrolled_in.objects.filter(classroom=cur_class, enrolled_status=False).count()
+    try:
+        enrolled_students = Enrolled_in.objects.filter(classroom=cur_class, enrolled_status=True).value_list('student')
+    except:
+        enrolled_students = None
+    print(enrolled_students)
+    return render(request, 'read/teacher/teacher_specific_class.html', {'class' : cur_class, 'enrolled_students' : enrolled_students})
 # ===============================================
 # Student views
 # ===============================================
