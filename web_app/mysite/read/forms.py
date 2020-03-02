@@ -1,5 +1,5 @@
 from django import forms
-from .models import User, Student, Teacher, Classroom
+from .models import User, Student, Teacher, Classroom, Document
 from django.utils.translation import gettext_lazy
 from django.contrib.auth import authenticate
 
@@ -7,12 +7,6 @@ from django.contrib.auth import authenticate
 class LoginForm(forms.Form):
     username = forms.CharField(label='Username', max_length=150)
     password = forms.CharField(widget=forms.PasswordInput())
-
-
-
-# class LogoutForm(forms.Form):
-    # username = forms.CharField(widget=forms.HiddenInput())
-
 
 
 class RegistrationForm(forms.ModelForm):
@@ -75,4 +69,9 @@ class AddClassroomForm(forms.ModelForm):
             self.add_error('name', 'Classroom with name already exists.')
 
         return cleaned_data
+
+class AddDocumentForm(forms.ModelForm):
+    class Meta:
+        model = Document
+        fields = ['name', 'document_file']
 

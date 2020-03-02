@@ -1,11 +1,12 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.urls import reverse
-from .forms import LoginForm, RegistrationForm, AddClassroomForm
+from .forms import LoginForm, RegistrationForm, AddClassroomForm, AddDocumentForm
 from .models import User, Student, Teacher, Classroom, Document, Student_Document, Enrolled_in
 from django.contrib.auth import authenticate, login, logout
 from django import forms
 from django.contrib.auth.decorators import login_required, user_passes_test
+from datetime import datetime
 
 # ===============================================
 # Miscellaneous functions
@@ -152,13 +153,55 @@ def teacher_adds_classroom_view(request):
 @user_passes_test(user_not_admin, login_url='/read/admin_redirected')
 def teacher_specific_class_view(request, class_name):
     cur_class = get_object_or_404(Classroom, name=class_name)
+    if(request.method == 'POST'):
+        action = request.POST.get('action')
+        print(action)
+        if(action == "Add document"):
+            return  HttpResponseRedirect(reverse('teacher_adds_document_view', kwargs={'class_name': class_name}))
+        elif(action == "Delete"):
+            doc_to_delete = request.POST.get('name')
+            assert doc_to_delete is not None
+            print('DOCUTOAJF:LKAJSD:LASDJKASLJ:AS')
+            ret = Document.objects.get(classroom=cur_class, name=doc_to_delete).delete()
+            assert ret[1]['read.Document'] == 1
+
     pending_requests = Enrolled_in.objects.filter(classroom=cur_class, enrolled_status=False).count()
     try:
         enrolled_students = Enrolled_in.objects.filter(classroom=cur_class, enrolled_status=True).value_list('student')
     except:
         enrolled_students = None
-    print(enrolled_students)
-    return render(request, 'read/teacher/teacher_specific_class.html', {'class' : cur_class, 'enrolled_students' : enrolled_students})
+
+    try:
+        uploaded_documents = Document.objects.filter(classroom=cur_class)
+    except(Document.DoesNotExist):
+        uploaded_documents = None
+    print(f'enrolled students: {enrolled_students}')
+    print(f'uploaded documents: {uploaded_documents}')
+
+
+    return render(request, 'read/teacher/teacher_specific_class.html', {'class' : cur_class, 'enrolled_students' : enrolled_students, 'uploaded_documents' : uploaded_documents})
+
+
+@login_required
+@user_passes_test(user_is_teacher)
+@user_passes_test(user_not_admin, login_url='/read/admin_redirected')
+def teacher_adds_document_view(request, class_name):
+    cur_class = Classroom.objects.get(name=class_name)
+    if(request.method == 'POST'):
+        form = AddDocumentForm(request.POST, request.FILES)
+        if(form.is_valid()):
+            document = form.save(commit=False)
+            if(Document.objects.filter(name=document.name, classroom=cur_class).exists() == False):
+                document.upload_date = datetime.today()
+                document.classroom = cur_class
+                document.save()
+                return HttpResponseRedirect(reverse('teacher_specific_class_view', args=[class_name]))
+            else:
+                form.add_error('name', 'Document with name already exists within this class')
+    else:
+        form = AddDocumentForm()
+    return render(request, 'read/teacher/teacher_adds_document.html', {'form' : form, 'class_name' : class_name})
+
 # ===============================================
 # Student views
 # ===============================================
@@ -166,6 +209,7 @@ def teacher_specific_class_view(request, class_name):
 @user_passes_test(user_is_student)
 @user_passes_test(user_not_admin, login_url='/read/admin_redirected')
 def student_classes_view(request):
+
     return render(request, 'read/student/student_classes.html')
 
 

@@ -21,7 +21,8 @@ class Classroom(models.Model):
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, blank=False)
 
 class Document(models.Model):
-    upload_date = models.DateField(blank=False)
+    name = models.SlugField(max_length = 100, default="", blank=False)
+    upload_date = models.DateField(blank=True)
     classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, blank=False)
     document_file = models.FileField(upload_to='read/documents/', null=True, blank=False)
 

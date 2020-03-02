@@ -6,3 +6,4 @@
 * Run `pip install -r requirements.txt`
 * Switch to `spring2020.cse327.1.6/web_app/mysite/`
 * Run `python manage.py runserver`
+* Go to `http://127.0.0.1:8000/read/`
