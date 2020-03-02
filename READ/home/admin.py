@@ -1,6 +1,5 @@
 from django.contrib import admin
 
-
 from .models import User, Student, Teacher, Classroom, Document, Student_Document, Enrolled_in
 # Register your models here.
 

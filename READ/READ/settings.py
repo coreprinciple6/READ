@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 # custom settings begin
-AUTH_USER_MODEL = 'read.User'
+AUTH_USER_MODEL = 'home.User'
 LOGIN_URL = '/read/login/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'index.apps.IndexConfig',
-    'User.apps.UserConfig',
+    'home.apps.HomeConfig',
 ]
 
 MIDDLEWARE = [

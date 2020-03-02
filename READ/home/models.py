@@ -9,7 +9,7 @@ class User(AbstractUser):
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, blank=False)
-    photo = models.ImageField(upload_to='read/students/', blank=True)
+    photo = models.ImageField(upload_to='home/students/', blank=True)
 
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, blank=False)
@@ -23,7 +23,7 @@ class Classroom(models.Model):
 class Document(models.Model):
     upload_date = models.DateField(blank=False)
     classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, blank=False)
-    document_file = models.FileField(upload_to='read/documents/', null=True, blank=False)
+    document_file = models.FileField(upload_to='home/documents/', null=True, blank=False)
 
 class Student_Document(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, blank=False)
