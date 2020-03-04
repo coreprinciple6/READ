@@ -68,6 +68,11 @@ class AddClassroomForm(forms.ModelForm):
         if(Classroom.objects.filter(name=name).exists()):
             self.add_error('name', 'Classroom with name already exists.')
 
+        start_date = cleaned_data.get('start_date')
+        end_date = cleaned_data.get('end_date')
+        if(start_date >= end_date):
+            self.add_error('end_date', 'End date must be greater than start date')
+
         return cleaned_data
 
 class AddDocumentForm(forms.ModelForm):

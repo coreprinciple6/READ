@@ -107,9 +107,16 @@ def register_view(request):
 @user_passes_test(user_is_teacher)
 @user_passes_test(user_not_admin, login_url='/read/admin_redirected')
 def teacher_classes_view(request):
-    go_to_add_class = request.POST.get('add_class', '0')
-    if(go_to_add_class == '1'):
+    action = request.POST.get('action')
+    if(action == 'add_class'):
         return HttpResponseRedirect(reverse('teacher_adds_classroom_view'))
+    elif(action == 'delete'):
+        class_name = request.POST.get('class_name')
+        assert class_name is not None
+        _class = Classroom.objects.get(name=class_name)
+        _class.delete()
+    else:
+        assert action is None
 
     cur_teacher = Teacher.objects.get(user_id=request.user.id)
     try:
