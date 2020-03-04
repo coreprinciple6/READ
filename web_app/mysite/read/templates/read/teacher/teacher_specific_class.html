@@ -1,6 +1,8 @@
 {% extends "./teacher_base.html" %}
 {% block content %}
     <h1>Class: {{ class.name }}</h1>
+
+
     <table>
         <th>Enrolled Students</th>
         {% for student in enrolled_students %}
@@ -15,34 +17,53 @@
         {% endfor %}
     </table>
     <br><br>
-    <form action="{% url 'teacher_specific_class_view' class.name %}" method="post">
-        {% csrf_token %}
-        <table>
-            <th>Document Name</th>
-            {% if uploaded_documents %}
-                <th>Upload Date</th>
-            {% endif %}
-            {% for document in uploaded_documents %}
+
+
+    <table>
+        <th>Pending Requests</th>
+        {% for request in pending_requests %}
+        <tr>
+            <td>{{ request.name }}</td>
+        </tr>
+        {% empty %}
             <tr>
-                <td>{{ document.name }}</td>
-                <td>{{ document.upload_date }}</td>
-                <td>
+                <td>No pending requests to join this class</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <br><br>
+
+    <table>
+        <th>Document Name</th>
+        {% if uploaded_documents %}
+            <th>Upload Date</th>
+        {% endif %}
+        {% for document in uploaded_documents %}
+        <tr>
+            <td>{{ document.name }}</td>
+            <td>{{ document.upload_date }}</td>
+            <td>
+                <form action="{% url 'teacher_specific_class_view' class.name %}" method="post">
+                    {% csrf_token %}
                     <input type="hidden" name="name" value="{{ document.name }}">
                     <input type="submit" name="action" value="Delete">
-                </td>
-            </tr>
-            {% empty %}
-                <tr>
-                    <td>No documents uploaded to this class</td>
-                </tr>
-            {% endfor %}
+                </form>
+            </td>
+        </tr>
+        {% empty %}
             <tr>
-                <td>
-                    <input type="submit" name="action" value="Add document">
-                </td>
+                <td>No documents uploaded to this class</td>
             </tr>
-        </table>
-    </form>
+        {% endfor %}
+        <tr>
+            <td colspan="2">
+                <form action="{% url 'teacher_specific_class_view' class.name %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" name="action" value="Add document">
+                </form>
+            </td>
+        </tr>
+    </table>
 
 {% endblock %}
 

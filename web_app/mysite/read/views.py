@@ -161,32 +161,36 @@ def teacher_adds_classroom_view(request):
 def teacher_specific_class_view(request, class_name):
     cur_class = get_object_or_404(Classroom, name=class_name)
     if(request.method == 'POST'):
+        print(request.POST)
         action = request.POST.get('action')
-        print(action)
         if(action == "Add document"):
             return  HttpResponseRedirect(reverse('teacher_adds_document_view', kwargs={'class_name': class_name}))
         elif(action == "Delete"):
             doc_to_delete = request.POST.get('name')
             assert doc_to_delete is not None
-            print('DOCUTOAJF:LKAJSD:LASDJKASLJ:AS')
             ret = Document.objects.get(classroom=cur_class, name=doc_to_delete).delete()
+            # an object of type 'read.Document' is deleted
             assert ret[1]['read.Document'] == 1
+        else:
+            assert action is None
 
-    pending_requests = Enrolled_in.objects.filter(classroom=cur_class, enrolled_status=False).count()
     try:
         enrolled_students = Enrolled_in.objects.filter(classroom=cur_class, enrolled_status=True).value_list('student')
     except:
         enrolled_students = None
 
     try:
+        pending_requests = Enrolled_in.objects.filter(classroom=cur_class, enrolled_status=False)
+    except:
+        pending_requests = None
+
+    try:
         uploaded_documents = Document.objects.filter(classroom=cur_class)
     except(Document.DoesNotExist):
         uploaded_documents = None
-    print(f'enrolled students: {enrolled_students}')
-    print(f'uploaded documents: {uploaded_documents}')
 
 
-    return render(request, 'read/teacher/teacher_specific_class.html', {'class' : cur_class, 'enrolled_students' : enrolled_students, 'uploaded_documents' : uploaded_documents})
+    return render(request, 'read/teacher/teacher_specific_class.html', {'class' : cur_class, 'enrolled_students' : enrolled_students, 'uploaded_documents' : uploaded_documents, 'pending_requests' : pending_requests})
 
 
 @login_required
