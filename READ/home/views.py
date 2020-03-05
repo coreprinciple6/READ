@@ -7,6 +7,8 @@ from django.contrib.auth import authenticate, login, logout
 from django import forms
 from django.contrib.auth.decorators import login_required, user_passes_test
 from datetime import datetime
+import random
+import string
 
 # ===============================================
 # Miscellaneous functions
@@ -141,8 +143,12 @@ def teacher_adds_classroom_view(request):
         if(form.is_valid()):
             classroom = form.save(commit=False)
             classroom.teacher = Teacher(user=request.user)
+            letters = string.ascii_letters
+            test = ''.join(random.sample(letters, 8))
+            classroom.code = test
             print(classroom)
             classroom.save()
+
             return HttpResponseRedirect(reverse('teacher_classes_view'))
     else:
         form = AddClassroomForm()

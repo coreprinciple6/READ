@@ -58,7 +58,7 @@ class RegistrationForm(forms.ModelForm):
 class AddClassroomForm(forms.ModelForm):
     class Meta:
         model = Classroom
-        fields = ['name', 'start_date', 'end_date', 'code']
+        fields = ['name', 'start_date', 'end_date']
         widgets = {
             'start_date' : forms.SelectDateWidget(
                 empty_label=("Choose Year", "Choose Month", "Choose Day"),
