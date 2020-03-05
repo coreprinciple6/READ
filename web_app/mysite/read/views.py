@@ -165,7 +165,7 @@ def teacher_specific_class_view(request, class_name):
         action = request.POST.get('action')
         if(action == "Add document"):
             return  HttpResponseRedirect(reverse('teacher_adds_document_view', kwargs={'class_name': class_name}))
-        elif(action == "Delete"):
+        elif(action == "Delete Document"):
             doc_to_delete = request.POST.get('name')
             assert doc_to_delete is not None
             ret = Document.objects.get(classroom=cur_class, name=doc_to_delete).delete()
@@ -192,7 +192,14 @@ def teacher_specific_class_view(request, class_name):
             enrolled_in_instance.delete()
             notice = Student_Notice(student=student, notice=f"Request to join {cur_class.name} has been denied")
             notice.save()
-
+        elif(action == 'Remove Student'):
+            student_name = request.POST.get('student_name')
+            student = Student.objects.get(user__username=student_name)
+            Enrolled_in.objects.get(classroom = cur_class, student=student).delete()
+            notice = Student_Notice(student=student, notice=f"You have been removed from {cur_class.name}")
+            notice.save()
+        else:
+            assert 1 == 0
 
     try:
         enrolled_students_pks = Enrolled_in.objects.filter(classroom=cur_class, status=True).values_list('student', flat=True)

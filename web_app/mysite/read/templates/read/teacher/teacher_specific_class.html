@@ -8,6 +8,13 @@
         {% for student in enrolled_students %}
         <tr>
             <td>{{ student.user.username }}</td>
+            <td>
+                <form action="{% url 'teacher_specific_class_view' class.name %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="student_name" value="{{ student.user.username }}">
+                    <input type="submit" name="action" value="Remove Student">
+                </form>
+            </td>
         </tr>
         {% empty %}
             <tr>
@@ -53,7 +60,7 @@
                 <form action="{% url 'teacher_specific_class_view' class.name %}" method="post">
                     {% csrf_token %}
                     <input type="hidden" name="name" value="{{ document.name }}">
-                    <input type="submit" name="action" value="Delete">
+                    <input type="submit" name="action" value="Delete Document">
                 </form>
             </td>
         </tr>
