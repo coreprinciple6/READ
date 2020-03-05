@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import FileExtensionValidator
 
 # Create your models here.
 
@@ -20,7 +21,7 @@ class User(AbstractUser):
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, blank=False)
-    photo = models.ImageField(upload_to='read/students/', blank=True)
+    photo = models.ImageField(upload_to='read/students/', blank=True, validators=[FileExtensionValidator(allowed_extensions=['png', 'jpeg'])])
 
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, blank=False)
@@ -40,7 +41,10 @@ class Document(models.Model):
     name = models.SlugField(max_length = 100, default="", blank=False)
     upload_date = models.DateField(blank=True)
     classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, blank=False)
-    document_file = models.FileField(upload_to='read/documents/', null=True, blank=False)
+    document_file = models.FileField(upload_to='read/documents/', null=True, blank=False, validators=[FileExtensionValidator(allowed_extensions=['pdf'])])
+
+    def __str__(self):
+        return f'doc name : {self.name}\ndoc_file: {self.document_file}'
 
     class Meta:
         unique_together = (('name', 'classroom'))

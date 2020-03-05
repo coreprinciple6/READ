@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
-from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.http import HttpResponse, Http404, HttpResponseRedirect, FileResponse
 from django.urls import reverse
 from .forms import LoginForm, RegistrationForm, AddClassroomForm, AddDocumentForm
 from .models import User, Student, Teacher, Classroom, Document, Student_Document, Enrolled_in, Student_Notice
@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django import forms
 from django.contrib.auth.decorators import login_required, user_passes_test
 from datetime import datetime
+from django.conf import settings
 
 # ===============================================
 # Miscellaneous functions
@@ -22,6 +23,21 @@ def user_not_admin(user):
 
 def user_is_admin(user):
     return user.is_superuser
+
+def student_enrolled_in_class(user, class_name):
+    try:
+        student = Student.objects.get(user=user)
+    except:
+        raise Exception('student not found')
+    try:
+        classroom = Classroom.objects.get(name=class_name)
+    except:
+        raise Exception('classroom not found')
+    try:
+        enrolled_in_class = Enrolled_in.objects.get(student=student, classroom=classroom)
+        return enrolled_in_class.status
+    except:
+        return False
 # ===============================================
 # Common views
 # ===============================================
@@ -347,6 +363,45 @@ def student_notices_view(request):
 
 
 
+@login_required
+@user_passes_test(user_is_student)
+@user_passes_test(user_not_admin, login_url='/read/admin_redirected')
+def student_specific_class_view(request, class_name):
+    if(student_enrolled_in_class(request.user, class_name) == False):
+        return HttpResponseRedirect(reverse('student_classes_view'))
+    classroom = Classroom.objects.get(name=class_name)
+    try:
+        docs = Document.objects.filter(classroom=classroom)
+    except:
+        docs = None
+
+    return render(request, 'read/student/student_specific_class.html', {'class' : classroom, 'docs' : docs})
+
+
+@login_required
+@user_passes_test(user_is_student)
+@user_passes_test(user_not_admin, login_url='/read/admin_redirected')
+def student_authenticate_view(request, class_name, file_name):
+    if(student_enrolled_in_class(request.user, class_name) == False):
+        return HttpResponseRedirect(reverse('student_classes_view'))
+    return HttpResponseRedirect(reverse('student_file_view', args=[class_name, file_name]))
+
+
+@login_required
+@user_passes_test(user_is_student)
+@user_passes_test(user_not_admin, login_url='/read/admin_redirected')
+def student_file_view(request, class_name, file_name):
+    if(student_enrolled_in_class(request.user, class_name) == False):
+        return HttpResponseRedirect(reverse('student_classes_view'))
+    try:
+        try:
+            doc = Document.objects.get(name=file_name)
+        except:
+            raise('file with file name not found')
+        path = settings.MEDIA_ROOT + str(doc.document_file)
+        return FileResponse(open(path, 'rb'), content_type='application/pdf')
+    except FileNotFoundError:
+        raise Http404('File does not exist')
 
 
 @login_required

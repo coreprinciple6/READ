@@ -3,9 +3,15 @@
     <h1>Your classes</h1>
     <table>
         <th>Class name</th>
+        {% if enrolled_classes %}
+        <th>Start Date</th>
+        <th>End Date</th>
+        {% endif %}
         {% for class in enrolled_classes %}
         <tr>
-            <td>{{ class.name }}</td>
+            <td><a href="{% url 'student_specific_class_view' class.name %}">{{ class.name }}</a></td>
+            <td>{{ class.start_date }}</td>
+            <td>{{ class.end_date }}</td>
             <td>
                 <form action="{% url 'student_classes_view' %}" method="post">
                     {% csrf_token %}
