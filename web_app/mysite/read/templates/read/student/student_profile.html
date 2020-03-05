@@ -1,4 +1,25 @@
 {% extends "./student_base.html" %}
 {% block content %}
-    <h1>Student profile</h1>
+    {% if error_message %}
+    <span style="color:red"><p>{{ error_message }}</p></span>
+    {% endif %}
+
+    <form enctype="multipart/form-data" action="{% url 'student_profile_view' %}" method="post">
+        {% csrf_token %}
+        {% for field in form.visible_fields %}
+            <span style="color:red">{{ field.errors }}</span>
+            {{ field.label_tag }} <br>{{ field }}
+        {% endfor %}
+        <br>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+    <br>
+
+
+    {% if photo_path %}
+        <img src="{{ photo_path }}" alt="Your Photo" height="420" width="420">
+    {% else %}
+        <p>You have not uploaded a photo</p>
+    {% endif %}
 {% endblock %}

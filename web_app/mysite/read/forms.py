@@ -80,3 +80,10 @@ class AddDocumentForm(forms.ModelForm):
         model = Document
         fields = ['name', 'document_file']
 
+class StudentUploadPhotoForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = ['photo']
+        labels = {
+            'photo' : gettext_lazy('Upload new photo (make sure your face is visible)'),
+        }

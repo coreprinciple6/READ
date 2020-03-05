@@ -1,13 +1,15 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect, FileResponse
 from django.urls import reverse
-from .forms import LoginForm, RegistrationForm, AddClassroomForm, AddDocumentForm
+from .forms import LoginForm, RegistrationForm, AddClassroomForm, AddDocumentForm, StudentUploadPhotoForm
 from .models import User, Student, Teacher, Classroom, Document, Student_Document, Enrolled_in, Student_Notice
 from django.contrib.auth import authenticate, login, logout
 from django import forms
 from django.contrib.auth.decorators import login_required, user_passes_test
 from datetime import datetime
 from django.conf import settings
+import os.path
+from os import path
 
 # ===============================================
 # Miscellaneous functions
@@ -408,6 +410,27 @@ def student_file_view(request, class_name, file_name):
 @user_passes_test(user_is_student)
 @user_passes_test(user_not_admin, login_url='/read/admin_redirected')
 def student_profile_view(request):
-    return render(request, 'read/student/student_profile.html')
+    student = Student.objects.get(user=request.user)
+    if(request.method == 'POST'):
+        form = StudentUploadPhotoForm(request.POST, request.FILES)
+        if(form.is_valid()):
+            cur_student = form.save(commit=False)
+            student.photo = cur_student.photo
+            student.save()
+        else:
+            form.add_err('Error occurred')
+    else:
+        form = StudentUploadPhotoForm()
+
+
+    try:
+        photo_path = settings.MEDIA_URL + str(student.photo)
+        if(path.exists(photo_path) == False):
+            photo_path = None
+    except:
+        photo_path = None
+
+    print(photo_path)
+    return render(request, 'read/student/student_profile.html', {'form' : form, 'photo_path' : photo_path})
 
 
