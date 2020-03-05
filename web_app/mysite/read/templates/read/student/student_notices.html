@@ -1,0 +1,24 @@
+{% extends "./student_base.html" %}
+{% block content %}
+    <h1>Your notices</h1>
+    <table>
+        <th>Notice</th>
+        {% for notice in notices %}
+        <tr>
+            <td>{{ notice.notice }}</td>
+            <td>
+                <form action="{% url 'student_notices_view' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="notice_pk" value="{{ notice.pk }}">
+                <input type="submit" value="Remove">
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td>You do not have any notices.</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+

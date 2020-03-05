@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.urls import reverse
 from .forms import LoginForm, RegistrationForm, AddClassroomForm, AddDocumentForm
-from .models import User, Student, Teacher, Classroom, Document, Student_Document, Enrolled_in
+from .models import User, Student, Teacher, Classroom, Document, Student_Document, Enrolled_in, Student_Notice
 from django.contrib.auth import authenticate, login, logout
 from django import forms
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -123,7 +123,7 @@ def teacher_classes_view(request):
         classes = Classroom.objects.filter(teacher_id=cur_teacher.user_id)
         pending_requests = [0 for x in range(classes.count())]
         for idx, _class in enumerate(classes):
-            pending_requests[idx] = Enrolled_in.objects.filter(classroom=_class, enrolled_status = False).count()
+            pending_requests[idx] = Enrolled_in.objects.filter(classroom=_class, status = False).count()
     except(Classroom.DoesNotExist):
         classes = None
         pending_requests = None
@@ -171,16 +171,37 @@ def teacher_specific_class_view(request, class_name):
             ret = Document.objects.get(classroom=cur_class, name=doc_to_delete).delete()
             # an object of type 'read.Document' is deleted
             assert ret[1]['read.Document'] == 1
-        else:
-            assert action is None
+        elif(action == 'Approve'):
+            student_to_enroll = request.POST.get('student_name')
+            assert student_to_enroll is not None
+            print(f'SSTDNET TO ENROLL {student_to_enroll}')
+            student = Student.objects.get(user__username=student_to_enroll)
+            enrolled_in_instance = Enrolled_in.objects.get(student=student, classroom=cur_class)
+            assert enrolled_in_instance.status == False
+            assert enrolled_in_instance is not None
+            enrolled_in_instance.status = True
+            enrolled_in_instance.save()
+            notice = Student_Notice(student=student, notice=f"Request to join {cur_class.name} has been approved")
+            notice.save()
+        elif(action == 'Decline'):
+            student_to_decline = request.POST.get('student_name')
+            student = Student.objects.get(user__username=student_to_decline)
+            enrolled_in_instance = Enrolled_in.objects.get(student=student, classroom=cur_class)
+            assert enrolled_in_instance is not None
+            assert enrolled_in_instance.status == False
+            enrolled_in_instance.delete()
+            notice = Student_Notice(student=student, notice=f"Request to join {cur_class.name} has been denied")
+            notice.save()
+
 
     try:
-        enrolled_students = Enrolled_in.objects.filter(classroom=cur_class, enrolled_status=True).value_list('student')
+        enrolled_students_pks = Enrolled_in.objects.filter(classroom=cur_class, status=True).values_list('student', flat=True)
+        enrolled_students = Student.objects.filter(pk__in=enrolled_students_pks)
     except:
         enrolled_students = None
 
     try:
-        pending_requests = Enrolled_in.objects.filter(classroom=cur_class, enrolled_status=False)
+        pending_requests = Enrolled_in.objects.filter(classroom=cur_class, status=False)
     except:
         pending_requests = None
 
@@ -188,6 +209,9 @@ def teacher_specific_class_view(request, class_name):
         uploaded_documents = Document.objects.filter(classroom=cur_class)
     except(Document.DoesNotExist):
         uploaded_documents = None
+
+    print(f'enrolled_students: {enrolled_students}')
+    print(f'pending_requests: {pending_requests}')
 
 
     return render(request, 'read/teacher/teacher_specific_class.html', {'class' : cur_class, 'enrolled_students' : enrolled_students, 'uploaded_documents' : uploaded_documents, 'pending_requests' : pending_requests})
@@ -220,8 +244,102 @@ def teacher_adds_document_view(request, class_name):
 @user_passes_test(user_is_student)
 @user_passes_test(user_not_admin, login_url='/read/admin_redirected')
 def student_classes_view(request):
+    student = Student(user=request.user)
+    if(request.method == 'POST'):
+        action = request.POST.get('action')
+        if(action == 'Leave Class'):
+            class_name = request.POST.get('class_name')
+            _class = Classroom.objects.get(name=class_name)
+            assert _class is not None
+            enrolled_in_instance = Enrolled_in.objects.get(student=student, classroom=_class)
+            enrolled_in_instance.delete()
 
-    return render(request, 'read/student/student_classes.html')
+    try:
+        enrolled_classes_pks = Enrolled_in.objects.filter(student=student, status=True).values_list('classroom', flat=True)
+        enrolled_classes = Classroom.objects.filter(pk__in=enrolled_classes_pks)
+    except:
+        enrolled_classes = None
+
+    return render(request, 'read/student/student_classes.html', {'enrolled_classes' : enrolled_classes})
+
+@login_required
+@user_passes_test(user_is_student)
+@user_passes_test(user_not_admin, login_url='/read/admin_redirected')
+def student_join_class_view(request):
+    student = Student(user = request.user)
+    if(request.method == 'POST'):
+        action = request.POST.get('action')
+        class_name = request.POST.get('class_name')
+        classroom = Classroom.objects.get(name=class_name)
+        assert class_name is not None
+        assert action is not None
+        if(action == 'Join Class'):
+            enrolled_in_instance = Enrolled_in(student=student, classroom=classroom, status=False)
+            enrolled_in_instance.save()
+        else:
+            raise Exception('action error in student_join_class_view')
+
+
+
+    try:
+        joined_classes_pks = Enrolled_in.objects.filter(student=student, status=True).values_list('classroom', flat=True)
+        joined_classes = Classroom.objects.filter(pk__in=joined_classes_pks)
+    except:
+        joined_classes = None
+
+    try:
+        if(joined_classes is None):
+            not_joined_classes = Classroom.objects.all()
+        else:
+            not_joined_classes = Classroom.objects.exclude(pk__in=joined_classes)
+
+
+        class_join_status = [0 for x in range(len(not_joined_classes))]
+        for idx, _class in enumerate(not_joined_classes):
+            try:
+                status = Enrolled_in.objects.get(student=student, classroom=_class).status
+                try:
+                    assert status is False
+                except:
+                    raise Exception('Status should be false')
+                status = 'Pending Approval'
+            except:
+                status = None
+                status = 'Not joined'
+            class_join_status[idx] = status
+
+
+
+    except:
+        not_joined_classes = None
+        class_join_status = None
+
+    return render(request, 'read/student/student_join_class.html', {'not_joined_classes' : not_joined_classes, 'class_join_status' : class_join_status})
+
+
+
+
+@login_required
+@user_passes_test(user_is_student)
+@user_passes_test(user_not_admin, login_url='/read/admin_redirected')
+def student_notices_view(request):
+    student = Student.objects.get(user=request.user)
+    if(request.method == 'POST'):
+        notice_pk = int(request.POST.get('notice_pk'))
+        assert notice_pk is not None
+        notice = Student_Notice.objects.get(pk=notice_pk)
+        notice.delete()
+
+
+    try:
+        notices = Student_Notice.objects.filter(student=student)
+    except Exception as e:
+        notices = None
+    return render(request, 'read/student/student_notices.html', {'notices' : notices})
+
+
+
+
 
 
 @login_required
@@ -229,3 +347,5 @@ def student_classes_view(request):
 @user_passes_test(user_not_admin, login_url='/read/admin_redirected')
 def student_profile_view(request):
     return render(request, 'read/student/student_profile.html')
+
+

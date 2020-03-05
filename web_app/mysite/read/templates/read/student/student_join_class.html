@@ -1,0 +1,32 @@
+{% extends "./student_base.html" %}
+{% block content %}
+{% load my_index_filter %}
+    <h1>Available Classes</h1>
+    <table>
+        <th>Class</th>
+        {% for class in not_joined_classes %}
+        <tr>
+            <td>{{ class.name }}</td>
+            {% if class_join_status|index:forloop.counter0 == 'Pending Approval' %}
+            <td>
+                Pending Approval
+            </td>
+            {% else %}
+            <td>
+                <form action="{% url 'student_join_class_view' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="class_name" value="{{ class.name }}">
+                    <input type="submit" name="action" value="Join Class">
+
+                </form>
+            </td>
+            {% endif %}
+        </tr>
+        {% empty %}
+        <tr>
+            <td>No available classes</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+

@@ -7,8 +7,7 @@
         <th>Enrolled Students</th>
         {% for student in enrolled_students %}
         <tr>
-            <td>{{ student }}</td>
-            <td>{{ student }}</td>
+            <td>{{ student.user.username }}</td>
         </tr>
         {% empty %}
             <tr>
@@ -23,7 +22,15 @@
         <th>Pending Requests</th>
         {% for request in pending_requests %}
         <tr>
-            <td>{{ request.name }}</td>
+            <td>{{ request.student.user.username }}</td>
+            <td>
+                <form action="{% url 'teacher_specific_class_view' class.name %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="student_name" value="{{ request.student.user.username }}">
+                    <input type="submit" name="action" value="Approve">
+                    <input type="submit" name="action" value="Decline">
+                </form>
+            </td>
         </tr>
         {% empty %}
             <tr>

@@ -1,4 +1,24 @@
 {% extends "./student_base.html" %}
 {% block content %}
-    <h1>Student classes</h1>
+    <h1>Your classes</h1>
+    <table>
+        <th>Class name</th>
+        {% for class in enrolled_classes %}
+        <tr>
+            <td>{{ class.name }}</td>
+            <td>
+                <form action="{% url 'student_classes_view' %}" method="post">
+                    {% csrf_token %}
+
+                    <input type="hidden" name="class_name" value="{{ class.name }}">
+                    <input type="submit" name="action" value="Leave Class">
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td>You are not enrolled in any class</td>
+        </tr>
+        {% endfor %}
+    </table>
 {% endblock %}
