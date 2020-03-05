@@ -217,11 +217,13 @@ def student_classes_view(request):
 
     cur_student = Student.objects.get(user_id=request.user.id)
     try:
-        classes = Classroom.objects.filter(teacher_id=cur_student.user_id)
+        #enrolled_class = Enrolled_in.objects.filter(student_id=cur_student.user_id).values('classroom')
+        enrolled_class = Enrolled_in.objects.filter(student_id=cur_student.user_id).only('classroom').all()
+        temp = Classroom.objects.filter(id__in=enrolled_class)
     except(Classroom.DoesNotExist):
-        classes = None
-
-    return render(request, 'home/student/student_classes.html', {'classes': classes})
+        temp = None
+    print(temp)
+    return render(request, 'home/student/student_classes.html', {'temp': temp})
     #return render(request, 'home/student/student_classes.html')
 
 
@@ -237,12 +239,11 @@ def student_profile_view(request):
 @user_passes_test(user_not_admin, login_url='/home/admin_redirected')
 def student_joins_classroom_view(request):
     if(request.method == 'POST'):
-        c = request.POST
-        temp =  Classroom.objects.filter(code=c).values('id')
-        curr_class = temp['id']
-        stud = request.user
-        Enrolled_in.objects.create(student=stud, classroom=curr_class, enrolled_status=True)
+        c = request.POST.get('code', '0')
+        temp = Classroom.objects.filter(code=c).values('id')
+        curr_class = temp[0]['id']
+        stud = request.user.id
+        Enrolled_in.objects.create(student_id=stud, classroom_id=curr_class, enrolled_status=True)
 
         return HttpResponseRedirect(reverse('student_classes_view'))
-
     return render(request, 'home/student/student_joins_classroom.html')

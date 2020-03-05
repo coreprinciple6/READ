@@ -75,20 +75,6 @@ class AddClassroomForm(forms.ModelForm):
         return cleaned_data
 
 
-
-#class JoinClassroomForm(forms.Form):
-    #class Meta:
-       # model = Enrolled_in
-        #fields = ['enrolled_status']
-   # Unique_Code = forms.CharField(max_length= None)
-
-    #def clean(self):
-      #  cleaned_data = super().clean()
-        #name = cleaned_data['Unique Code']
-       # if(Enrolled_in.objects.filter(classroom=name).exists()):
-            #self.add_error('name', 'Classroom with name already exists.')
-       # return cleaned_data
-
 class AddDocumentForm(forms.ModelForm):
     class Meta:
         model = Document
