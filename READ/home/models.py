@@ -22,6 +22,7 @@ class Classroom(models.Model):
     code = models.CharField(max_length = 100, default="", blank=False)
 
 class Document(models.Model):
+    name = models.SlugField(max_length=100, default="", blank=False)
     upload_date = models.DateField(blank=False)
     classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, blank=False)
     document_file = models.FileField(upload_to='home/documents/', null=True, blank=False)

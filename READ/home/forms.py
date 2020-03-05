@@ -1,5 +1,5 @@
 from django import forms
-from .models import User, Student, Teacher, Classroom, Enrolled_in
+from .models import User, Student, Teacher, Classroom, Enrolled_in,Document
 from django.utils.translation import gettext_lazy
 from django.contrib.auth import authenticate
 
@@ -88,3 +88,9 @@ class AddClassroomForm(forms.ModelForm):
        # if(Enrolled_in.objects.filter(classroom=name).exists()):
             #self.add_error('name', 'Classroom with name already exists.')
        # return cleaned_data
+
+class AddDocumentForm(forms.ModelForm):
+    class Meta:
+        model = Document
+        fields = ['name', 'document_file']
+
