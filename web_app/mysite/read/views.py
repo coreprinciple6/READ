@@ -10,6 +10,7 @@ from datetime import datetime
 from django.conf import settings
 import os.path
 from os import path
+from . import face_authenticate
 
 # ===============================================
 # Miscellaneous functions
@@ -386,7 +387,30 @@ def student_specific_class_view(request, class_name):
 def student_authenticate_view(request, class_name, file_name):
     if(student_enrolled_in_class(request.user, class_name) == False):
         return HttpResponseRedirect(reverse('student_classes_view'))
-    return HttpResponseRedirect(reverse('student_file_view', args=[class_name, file_name]))
+
+
+    student = Student.objects.get(user=request.user)
+    photo_not_uploaded = True
+    try:
+        photo_path = student.photo.path
+        if(path.exists(photo_path) == False):
+            photo_path = None
+        else:
+            photo_not_uploaded = False
+    except:
+        photo_path = None
+
+    authenticated = False
+    if(photo_not_uploaded == False):
+        name = student.user.first_name + ' ' + student.user.last_name
+        if(face_authenticate.facial_recognition(name, photo_path)):
+            authenticated = True
+            return HttpResponseRedirect(reverse('student_file_view', args=[class_name, file_name]))
+        else:
+            authenticated = False
+
+    return render(request, 'read/student/student_authentication.html', {'photo_not_uploaded' : photo_not_uploaded, 'authenticated' : authenticated})
+
 
 
 @login_required
@@ -417,16 +441,22 @@ def student_profile_view(request):
             cur_student = form.save(commit=False)
             student.photo = cur_student.photo
             student.save()
-        else:
-            form.add_err('Error occurred')
+            print('here')
     else:
         form = StudentUploadPhotoForm()
 
-
     try:
-        photo_path = settings.MEDIA_URL + str(student.photo)
-        if(path.exists(photo_path) == False):
-            photo_path = None
+        # print(student.photo.url)
+        # print(student.photo.path)
+        # print(student.photo.name)
+        # print(student.photo)
+        # print(settings.MEDIA_URL)
+        # print(settings.MEDIA_ROOT)
+        # photo_path = settings.MEDIA_URL + str(student.photo.url)
+        photo_path = student.photo.url
+        # if(path.exists(photo_path) == False):
+            # photo_path = None
+            # print("PATH DOESNT EXIST")
     except:
         photo_path = None
 

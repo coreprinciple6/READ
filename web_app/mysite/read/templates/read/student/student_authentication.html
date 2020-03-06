@@ -1,0 +1,9 @@
+{% extends "./student_base.html" %}
+{% block content %}
+ {% if photo_not_uploaded %}
+    <p>You have not uploaded a photo.</p>
+    <p>Please update your photo by going to your <a href="{% url 'student_profile_view' %}">profile.</a></p>
+{% elif authenticated == False %}
+    <p>Does not match profile photo</p>
+ {% endif %}
+{% endblock %}
