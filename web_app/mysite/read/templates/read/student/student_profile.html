@@ -1,0 +1,29 @@
+{% extends "./student_base.html" %}
+{% block content %}
+    {% if error_message %}
+    <span style="color:red"><p>{{ error_message }}</p></span>
+    {% endif %}
+
+    <form enctype="multipart/form-data" action="{% url 'student_profile_view' %}" method="post">
+        {% csrf_token %}
+        {% for field in form.visible_fields %}
+            <span style="color:red">{{ field.errors }}</span>
+            {{ field.label_tag }} <br>{{ field }}
+        {% endfor %}
+        <br>
+        <br>
+        <input type="submit" name="action" value="Submit">
+    </form>
+    <br>
+
+
+    {% if photo_url %}
+        <img src="{{ photo_url }}" alt="Your Photo" height="420" width="420">
+        <form action="{% url 'student_profile_view' %}" method="post">
+            {% csrf_token %}
+            <input type="submit" name="action" value="Remove Photo">
+        </form>
+    {% else %}
+        <p>You have not uploaded a photo</p>
+    {% endif %}
+{% endblock %}

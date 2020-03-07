@@ -1,0 +1,27 @@
+{% extends "./student_base.html" %}
+{% block content %}
+<h1>Class:{{ class.name }}</h1>
+
+<table>
+    <th>
+        File name
+    </th>
+    {% if docs %}
+    <th>Upload Date</th>
+    <th>File Link</th>
+    {% endif %}
+    {% for doc in docs %}
+    <tr>
+        <td>{{ doc.name }}</td>
+        <td>{{ doc.upload_date }}</td>
+        <td><a href="{% url 'student_authenticate_view' class.name doc.name %}">View File</a></td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td>No documents uploaded</td>
+    </tr>
+    {% endfor %}
+</table>
+    <p style="font-size:18px;">Note: Facial recognition for viewing files may take upto ten seconds.</p>
+{% endblock %}
+

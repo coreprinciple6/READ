@@ -1,0 +1,24 @@
+<!DOCTYPE <html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'read/student_base.css' %}">
+
+</head>
+<body>
+    <div class="sidenav">
+        <a href="{% url 'student_classes_view' %}">Classes</a>
+        <a href="{% url 'student_join_class_view' %}">Join Class</a>
+        <a href="{% url 'student_notices_view' %}">Notices</a>
+        <a href="{% url 'student_profile_view' %}">Profile</a>
+        <a href="{% url 'logout_view' %}">Logout</a>
+    </div>
+    <div class="main">
+    {% block content %}
+    {% endblock %}
+    </div>
+</body>
+</html>

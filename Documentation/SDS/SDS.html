@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="css_file.css" rel="stylesheet" type="text/css">
+
+        <title>Software Design Specification</title>
+    </head>
+    <body>
+        <div id="html-2-pdfwrapper">
+        <button id="pdf_button" onclick="generate();">Generate PDF (may take upto 30 seconds)</button>
+        <div class="sidenav">
+            <a href="#front_page">Front Page</a>
+            <a href="#table_of_contents">Table of Contents</a>
+            <a href="#one">1 Introduction</a>
+            <a href="#two">2 Document Conventions</a>
+            <a href="#three">3 Desciption of Design Components</a>
+            <a href="#four">4 High level Component Design</a>
+            <a href="#five">5 Other Non-Functional Requirements</a>
+            <a href="#five.one">5.1 Diagrams</a>
+            <a href="#five.two">5.2 Descriptions</a>
+            <a href="#six">6 Database Design</a>
+            <a href="#six.one">6.1 Entity Relationship (ER) Diagram</a>
+            <a href="#six.two">6.2 Tables</a>
+            <a href="#seven">7 Implementation Plan</a>
+        </div>
+
+        <div class="main">
+            <div id="front_page">
+                <h1>Software Design Specification</h1>
+                <h2>for</h2>
+                <h1>READ</h1>
+                <h2>Version 1.0</h2>
+                <br><br><br><br>
+                <h2>Prepared by:</h2>
+
+                <h2>Group No: 6</h2>
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Id</th>
+                        <th>Email</th>
+                    </tr>
+                    <tr>
+                        <td>Ishrat Jahan Ananya</td>
+                        <td>1631636042</td>
+                        <td>ishrat.jahan16@northsouth.edu</td>
+                    </tr>
+                    <tr>
+                        <td>Humayan Kabir </td>
+                        <td>1511089042</td>
+                        <td>humayan.kabir@northsouth.edu</td>
+                    </tr>
+                    <tr>
+                        <td>Mehran Siddiqui</td>
+                        <td>1822107642</td>
+                        <td>mehranalvin@gmail.com</td>
+                    </tr>
+                    <tr>
+                        <td>Aiaj Uddin Bhuiyan</td>
+                        <td>1621696042</td>
+                        <td>aiaj.bhuiyan@northsouth.edu</td>
+                    </tr>
+                </table>
+                <br><br>
+                <h4>Instructor:</h4> Dr. Nabeel Mohammed (NbM)<br>
+                <h4>Course:</h4> CSE327<br>
+                <h4>Section:</h4> 1<br>
+                <h4>Date: </h4> 11/02/2020<br>
+                <hr>
+            </div>
+            <div id="table_of_contents">
+                <h1>Table of Contents</h1>
+                <ol class="unnumbered">
+
+                    <li><a href="#one">1 Introduction</a>
+                    </li>
+
+                    <li><a href="#two">2 Document Conventions</a>
+                    </li>
+
+                    <li><a href="#three">3 Desciption of Design Components</a>
+                    </li>
+
+                    <li><a href="#four">4 High level Component Design</a>
+                    </li>
+
+                    <li><a href="#five">5 Other Non-Functional Requirements</a>
+                        <ol class="unnumbered">
+                            <li><a href="#five.one">5.1 Diagrams</a></li>
+                            <li><a href="#five.two">5.2 Descriptions</a></li>
+                        </ol>
+                    </li>
+
+                    <li><a href="#six">6 Database Design</a>
+                        <ol class="unnumbered">
+                            <li><a href="#six.one">6.1 Entity Relationship (ER) Diagram</a></li>
+                            <li><a href="#six.two">6.2 Tables</a></li>
+                        </ol>
+                    </li>
+
+                    <li><a href="#seven">7 Implementation Plan</a>
+                    </li>
+                </ol>
+
+                <hr>
+            </div>
+            <div id="introduction">
+                <h1 id="one">1 Introduction</h1>
+                <p>This document provides a detailed description of the architecture of our product which is an online learning portal for teachers and students.</p>
+                <p>Section 2 lists the abbreviations used within the document.</p>
+                <p>All the components that will be used in building the product have been outlined in section 3. This includes the various technologies, programming languages, and tools used in the server side and the client side, as well as frameworks, libraries and APIs.</p>
+                <p>Section 4 contains a high level diagram of each of the main components which taken together will form the complete system. It shows the interactions between the different frameworks and subsystems, providing an overview of the main processes.</p>
+                <p>Class diagrams along with descriptions are given in section 5. These provide an overview of the different classes / entities of our system. This includes the attributes of each class and their corresponding methods. Inherited subclasses and specialisations are also shown.</p>
+                <p>Section 6 contains an ER diagram for the data model along with corresponding tables. This is consistent with the class diagrams, and shows the attributes of the different entities along with the relationship among them.</p>
+                <p>Section 7 contains a tentative implementation plan covering the order in which each feature is going to be built.</p>
+
+                <hr>
+            </div>
+            <div id="doc_conventions">
+                <h1 id="two">2 Document Conventions</h1>
+                <ol>
+                    <li>UI - user interface</li>
+                    <li>DB - database</li>
+                    <li>API - application programming interface</li>
+                    <li>ER - entity relationship</li>
+                </ol>
+                <hr>
+            </div>
+            <div id="desc_design">
+                <h1 id="three">3 Description of Design Components</h1>
+                <ul>
+                    <li>Server side</li>
+                        <ol>
+                            <li>Django framework: the python web framework that will be used to handle all the backend functionality. This framework handles a lot of the functionality that we would otherwise have to implement from scratch. This includes user authentication, content administration, security, commonly used templates, as well as a built in Object Relational Mapper (ORM).</li>
+                            <br>
+
+                            <li>MySQL database: a popular SQL relational database that our team is familiar with. Rather than writing raw queries, which are error prone, we will use Django's ORM for all data interaction processes with a MySQL database.</li>
+                            <br>
+
+                            <li>OpenCV (Facial recognition API): OpenCV is a real-time computer vision library providing a multitude of different features. It contains a facial recognition API with bindings through python, the programming language of choice for our backend functionality.</li>
+                            <br>
+
+                            <li>Firebase: for some of the backend functionality within the android app of our product, we may require the use of services such as Firebase (e.g. some APIs are only available through Firebase).</li>
+                            <br>
+                        </ol>
+                    <li>Client Side</li>
+                        <ol>
+                            <li>HTML: the markup language for implementing the components viewable by the users of our product.</li>
+                            <br>
+
+                            <li>CSS: will be used to style the components on the website, making it more appealing to the end user.</li>
+                            <br>
+
+                            <li>Javascript: for manipulating the components of webpages, handling events, creating animations etc.</li>
+                            <br>
+
+                            <li>jQuery (javascript library): allows HTML traversal, manipulation, event handling and other tasks to be done in a simpler fashion.</li>
+                            <br>
+
+                            <li>Front end framework: we expect to be able to design a sufficiently captivating user-interface by using CSS and javascript. However, if the need arises, we may use a front-end framework such as React.</li>
+                            <br>
+
+                            <li>Webgazer (Eye tracking API): this is an open source eye tracking API with a small footprint. Consequently, this can be directly embedded within the front-end functionality of our website using javascript.</li>
+
+                        </ol>
+                </ul>
+                <hr>
+            </div>
+            <div id="high_level_design">
+                <h1 id="four">4 High Level Component Design</h1>
+                <br>
+                <figure>
+                    <img src="component-design.jpg" alt="component-design">
+                    <figcaption>Fig 1: High level component diagram</figcaption>
+                </figure>
+                <hr>
+            </div>
+            <div id="class_diagrams">
+                <h1 id="five">5 Class Diagram</h1>
+                <h2 id="five.one">5.1 Diagram</h2>
+
+                <figure>
+                    <img src="ClassDiagram.jpg" alt="ClassDiagram">
+                    <figcaption>Fig 2: Class Diagram</figcaption>
+                </figure>
+
+                <h2 id="five.two">5.2 Descriptions</h2>
+                <ol>
+                    <li>Class: User</li>
+                    <ul>
+                        <li>Purpose: To give a parent class for all the different types of users</li>
+                        <li>Attributes</li>
+                        <ol>
+                            <li>name</li>
+                            <ol>
+                                <li>Purpose: To porvide user with their own name for convenience</li>
+                                <li>Type: String of variable length</li>
+                            </ol>
+                            <li>id</li>
+                            <ol>
+                                <li>Purspose: To Identify a specific user without conflict</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>email</li>
+                            <ol>
+                                <li>Purpose: To provide each user with an email adress for to their account</li>
+                                <li>Type: String of variable length</li>
+                            </ol>
+                            <li>password</li>
+                            <ol>
+                                <li>Purpose: To provide security during login</li>
+                                <li>Type: String of variable length</li>
+                            </ol>
+                        </ol>
+                    </ul>
+                    <li>Class: Teacher</li>
+                    <ol>
+                        <li>Purpose: One of the children classes of the User class, used to provide necessary varibles and methods for the teacher</li>
+                        <li>Attributes</li>
+                        <ol>
+                            <li>tID</li>
+                            <ol>
+                                <li>Purpose: To give a user ID to the teacher</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>tName</li>
+                            <ol>
+                                <li>Purpose: To show the teacher's name</li>
+                                <li>Type: String of variable length</li>
+                            </ol>
+                            <li>password</li>
+                            <ol>
+                                <li>Purpose: To provide security during login</li>
+                                <li>Type: String of variable length</li>
+                            </ol>
+                            <li>classId</li>
+                            <ol>
+                                <li>Purpose: To give an ID to the class the teacher is teaching in</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>docId</li>
+                            <ol>
+                                <li>Purpose: To give an ID to the document the teacher has uploaded</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                        </ol>
+                    </ol>
+                    <li>Class: Student</li>
+                    <ol>
+                        <li>Purpose: One of the children classes of the User class, used to provide necessary varibles and methods for the student</li>
+                        <li>Attributes</li>
+                        <ol>
+                            <li>sID</li>
+                            <ol>
+                                <li>Purpose: To give a user ID to the student</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>tName</li>
+                            <ol>
+                                <li>Purpose: To show the student's name</li>
+                                <li>Type: String of variable length</li>
+                            </ol>
+                            <li>password</li>
+                            <ol>
+                                <li>Purpose: To provide security during login</li>
+                                <li>Type: String of variable length</li>
+                            </ol>
+                            <li>classId</li>
+                            <ol>
+                                <li>Purpose: To give an ID to the class the student is studying in</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>docId</li>
+                            <ol>
+                                <li>Purpose: To give an ID to the document the dtudent has opened and read</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>faceId</li>
+                            <ol>
+                                <li>Purpose: The id for individual students generated using the Face Recognition API</li>
+                                <li>Type: Type: String of variable length</li>
+                            </ol>
+                        </ol>
+                    </ol>
+                    <li>Class: Class</li>
+                    <ol>
+                        <li>Purpose: A class that is not a child class of User but is dependent on different types of User</li>
+                        <li>Attributes</li>
+                        <ol>
+                            <li>classID</li>
+                            <ol>
+                                <li>Purpose: To give a class ID, generated when the teacher opens a class</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>className</li>
+                            <ol>
+                                <li>Purpose: To give the class a name, set by the teacher when they open the class</li>
+                                <li>Type: String of variable length</li>
+                            </ol>
+                            <li>tID</li>
+                            <ol>
+                                <li>Purpose: To show the ID of the teacher who opened the class</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>sID</li>
+                            <ol>
+                                <li>Purpose: To show the ID of the students who joined the class</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>sName</li>
+                            <ol>
+                                <li>Purpose: To show the name of the students who joined the class</li>
+                                <li>Type: String of variable length</li>
+                            </ol>
+                        </ol>
+                    </ol>
+                    <li>Class: Document</li>
+                    <ol>
+                        <li>Purpose: A child of the Class class that shows the document information and some of the statistics about the students</li>
+                        <li>Attributes</li>
+                        <ol>
+                            <li>classID</li>
+                            <ol>
+                                <li>Purpose: To show which class the document is uploaded in</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>docID</li>
+                            <ol>
+                                <li>Purpose: To provide the documents in class with varying IDs</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>docName</li>
+                            <ol>
+                                <li>Purpose: To give the document a name, set by the teacher when uploading it</li>
+                                <li>Type: String of variable length</li>
+                            </ol>
+                            <li>tID</li>
+                            <ol>
+                                <li>Purpose: To show the ID of the teacher who uploaded the document</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>sID</li>
+                            <ol>
+                                <li>Purpose: To show the ID of the students who read the document</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>sName</li>
+                            <ol>
+                                <li>Purpose: To show the name of the students who read the document</li>
+                                <li>Type: String of variable length</li>
+                            </ol>
+                            <li>sFaceID</li>
+                            <ol>
+                                <li>Purpose: To check for the students who opened and read the document using the face recognition API</li>
+                                <li>Type: String of variable length</li>
+                            </ol>
+                        </ol>
+                    </ol>
+                    <li>Class: Stats</li>
+                    <ol>
+                        <li>Purpose: A child of the Class class that shows some of the statistics about the students, as in, how long a student read a particular document using the eye tracking API</li>
+                        <li>Attributes</li>
+                        <ol>
+                            <li>docID</li>
+                            <ol>
+                                <li>Purpose: To show the document the student has opened</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>isOpen</li>
+                            <ol>
+                                <li>Purpose: To check if the document is actually opened</li>
+                                <li>Type: Boolean</li>
+                            </ol>
+                            <li>timeTookToRead</li>
+                            <ol>
+                                <li>Purpose: To show the time took for a single student to read a particualr document</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                            <li>avgTime</li>
+                            <ol>
+                                <li>Purpose: To show the average time it took to read the document, for all the students who read the document</li>
+                                <li>Type: Integer</li>
+                            </ol>
+                        </ol>
+                    </ol>
+                </ol>
+                <hr>
+            </div>
+            <div id="db_design">
+                <h1 id="six">6 Database Design</h1>
+                <h2 id="six.one">6.1 Entity Relationship (ER) Diagram</h2>
+
+                <figure>
+                    <img src="ER.jpg" alt="ER_diagram">
+                    <figcaption>Fig 3.1: ER diagram</figcaption>
+                </figure>
+
+                <h2 id="six.two">6.2 Tables</h2>
+                <figure>
+                    <img src="tables.jpg" alt="tables">
+                    <figcaption>Fig 3.2: Tables mapped from ER diagram</figcaption>
+                </figure>
+                <h4>Table descriptions</h4>
+                <ol>
+                    <li>Table: STUDENT</li>
+                    <ul>
+                        <li>Purpose: Stores student information</li>
+                        <li>Attributes</li>
+                        <ol>
+                            <li>s_id</li>
+                            <ol>
+                                <li>purpose: primary key of the table used to uniquely identify each student</li>
+                                <li>type: string of variable length</li>
+                            </ol>
+                            <li>name</li>
+                            <ol>
+                                <li>purpose: student's full name</li>
+                                <li>type: string of variable length</li>
+                            </ol>
+                            <li>email</li>
+                            <ol>
+                                <li>purpose: student's email address</li>
+                                <li>type: string of variable length</li>
+                            </ol>
+                            <li>password</li>
+                            <ol>
+                                <li>purpose: hashed password for this student's account</li>
+                                <li>type: string of length 128</li>
+                            </ol>
+                            <li>picture</li>
+                            <ol>
+                                <li>purpose: a photo of the student which will be used for facial recognition</li>
+                                <li>type: LONGBLOB</li>
+                            </ol>
+                        </ol>
+                        <li>Foreign keys</li>
+                        <ol>
+                            <li>None</li>
+                        </ol>
+                    </ul>
+
+                    <li>Table: HAS_ACCESS_TO</li>
+                    <ul>
+                        <li>Purpose: stores (student, document) pairs which will be used to generate statistics on how much of a document a student has read</li>
+                        <li>Attributes</li>
+                        <ol>
+                            <li>s_id</li>
+                            <ol>
+                                <li>purpose: (student id) part of primary key of the table used to uniquely identify each (student, document) pair</li>
+                                <li>type: string of variable length</li>
+                            </ol>
+                            <li>d_id</li>
+                            <ol>
+                                <li>purpose: (document id) part of primary key of the table used to uniquely identify each (student, document) pair</li>
+                                <li>type: string of variable length</li>
+                            </ol>
+                            <li>time_spent</li>
+                            <ol>
+                                <li>purpose: total time a student has spend reading a document</li>
+                                <li>type: time</li>
+                            </ol>
+                            <li>pages_read</li>
+                            <ol>
+                                <li>purpose: number of pages of a document read by the student</li>
+                                <li>type: integer</li>
+                            </ol>
+                        </ol>
+                        <li>Foreign keys</li>
+                        <ol>
+                            <li>s_id references STUDENT.s_id</li>
+                            <li>d_id references DOCUMENT.d_id</li>
+                        </ol>
+                    </ul>
+
+                    <li>Table: ENROLLED_IN</li>
+                    <ul>
+                        <li>Purpose: stores (student_id, class_id) pairs to determine which students are enrolled into which classes</li>
+                        <li>Attributes</li>
+                        <ol>
+                            <li>s_id</li>
+                            <ol>
+                                <li>purpose: (student id) part of primary key of the table used to uniquely identify each (student, class) pair</li>
+                                <li>type: string of variable length</li>
+                            </ol>
+                            <li>c_id</li>
+                            <ol>
+                                <li>purpose: (class id) part of primary key of the table used to uniquely identify each (student, class) pair</li>
+                                <li>type: string of variable length</li>
+                            </ol>
+                        </ol>
+                        <li>Foreign keys</li>
+                        <ol>
+                            <li>s_id references STUDENT.s_id</li>
+                            <li>c_id references CLASS.c_id</li>
+                        </ol>
+                    </ul>
+
+                    <li>Table: CLASS</li>
+                    <ul>
+                        <li>Purpose: stores information about each class</li>
+                        <li>Attributes</li>
+                        <ol>
+                            <li>end_date</li>
+                            <ol>
+                                <li>purpose: stores the date when the class ends</li>
+                                <li>type: date</li>
+                            </ol>
+                            <li>start_date</li>
+                            <ol>
+                                <li>purpose: stores the date when the class starts</li>
+                                <li>type: date</li>
+                            </ol>
+                            <li>c_id</li>
+                            <ol>
+                                <li>purpose: stores the class_id which is the primary of this key</li>
+                                <li>type: string of variable length</li>
+                            </ol>
+                            <li>t_id</li>
+                            <ol>
+                                <li>purpose: stores the id of the teacher who teaches this class</li>
+                                <li>type: string of variable length</li>
+                            </ol>
+
+                        </ol>
+                        <li>Foreign keys</li>
+                        <ol>
+                            <li>t_id references TEACHER.t_id</li>
+                        </ol>
+                    </ul>
+
+
+                    <li>Table: DOCUMENT</li>
+                    <ul>
+                        <li>Purpose: stores information about a particular document</li>
+                        <li>Attributes</li>
+                        <ol>
+                            <li>upload_date</li>
+                            <ol>
+                                <li>purpose: date on which the document was uploaded by the teacher</li>
+                                <li>type: date</li>
+                            </ol>
+                            <li>d_id</li>
+                            <ol>
+                                <li>purpose: (document_id) a unique identifier for each document used as the primary key</li>
+                                <li>type: string of variable length</li>
+                            </ol>
+                            <li>c_id</li>
+                            <ol>
+                                <li>purpose: the class_id for which this document is used</li>
+                                <li>type: string of variable length</li>
+                            </ol>
+                        </ol>
+                        <li>Foreign keys</li>
+                        <ol>
+                            <li>c_id references CLASS.c_id</li>
+                        </ol>
+                    </ul>
+
+                    <li>Table: TEACHER</li>
+                    <ul>
+                        <li>Purpose: stores information about each teacher</li>
+                        <li>Attributes</li>
+                        <ol>
+                            <li>name</li>
+                            <ol>
+                                <li>purpose: stores teacher's full name</li>
+                                <li>type: string of variable length</li>
+                            </ol>
+                            <li>t_id</li>
+                            <ol>
+                                <li>purpose: (teacher_id) unique identifier for teacher, which will be used as the primary key</li>
+                                <li>type: string of variable length</li>
+                            </ol>
+                            <li>email</li>
+                            <ol>
+                                <li>purpose: stores teacher's email address</li>
+                                <li>type: string of variable length</li>
+                            </ol>
+                            <li>password</li>
+                            <ol>
+                                <li>purpose: stores password hash for a teacher account</li>
+                                <li>type: string of length 128</li>
+                            </ol>
+
+                        </ol>
+                        <li>Foreign keys</li>
+                        <ol>
+                            <li>None</li>
+                        </ol>
+                    </ul>
+
+                </ol>
+                <hr>
+            </div>
+            <div id="implementation_plan">
+                <h1 id="seven">7 Implementation plan</h1>
+                <ul>
+                    <li>Implementation of the website version</li>
+                        <ol>
+                            <li>Implement a minimial version of the UI.</li>
+                            <li>Implement the core backend functionality for the following features:</li>
+                               <ul>
+                                    <li>Teacher's login</li>
+                                    <li>Student's login</li>
+                                    <li>Classrooms</li>
+                                    <li>Teachers being able to send documents to students</li>
+                                    <li>Authenticating student users through facial recognition</li>
+                                    <li>Storing data on students' viewing of documents (including eye tracking data)</li>
+                                    <li>Generating statistics on each student based on stored data</li>
+                                </ul>
+                            <li>Extensively test the core functionality.</li>
+                            <li>Finish the UI design</li>
+                            <li>Implement any remaining backend functionality.</li>
+                        </ol>
+                    <li>Implementation of the android app version</li>
+                        <ol>
+                            <li>Will be done similarly to the website version.</li>
+                        </ol>
+                </ul>
+                <hr>
+            </div>
+        </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+        <script src="https://unpkg.com/jspdf-autotable@3.2.11/dist/jspdf.plugin.autotable.js"></script>
+
+        <script src="image-uri.js"></script>
+        <script src="pdf_handling.js"></script>
+    </body>
+</html>

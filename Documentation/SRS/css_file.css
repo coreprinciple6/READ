@@ -1,0 +1,83 @@
+/*for the pdf converter*/
+
+@CHARSET "UTF-8";
+.page-break {
+    page-break-after: always;
+    page-break-inside: avoid;
+    clear:both;
+}
+.page-break-before {
+    page-break-before: always;
+    page-break-inside: avoid;
+    clear:both;
+}
+#html-2-pdfwrapper {
+    position: absolute;
+    left: 20px;
+    top: 50px;
+    bottom: 0;
+    overflow: auto;
+}
+/*----------------------*/
+#pdf_button {
+    top: 5px;
+    position: fixed;
+    margin-left: 200px;
+}
+#overview_img, #use_case_diagram{
+    border: 1px solid black;
+    width: 700px;
+}
+
+.ui_image{
+    border: 1px solid black;
+    padding: 0px 0px 0px 0px;
+    width: 400px;
+}
+table{
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+td, th{
+    border: 1px solid black;
+    padding: 10px 20px;
+}
+h1, h4{
+    display: inline;
+}
+/*ol {*/
+    /*counter-reset: item*/
+/*}*/
+li {
+    display: block
+}
+/*li:before {*/
+    /*content: counters(item, ".")" ";*/
+    /*counter-increment: item*/
+/*}*/
+
+.sidenav {
+  height: 100%;
+  width: 160px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 20px;
+  padding-bottom: 50px;
+}
+.sidenav a {
+  padding: 6px 8px 20px 16px;
+  text-decoration: none;
+  font-size: 14px;
+  color: #FFFFFF;
+  display: block;
+}
+
+.main {
+  margin-left: 160px;
+  font-size: 16px;
+  padding: 0px 10px;
+}

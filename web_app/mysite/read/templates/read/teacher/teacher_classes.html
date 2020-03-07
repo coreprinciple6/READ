@@ -1,0 +1,38 @@
+{% extends "./teacher_base.html" %}
+{% block content %}
+{% load my_index_filter %}
+    <h1>Your Classes</h1>
+    <table>
+        <th>Class Name</th>
+        {% if classes %}
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Pending Requests</th>
+        {% endif %}
+        {% for class in classes %}
+            <tr>
+                <td><a href="{% url 'teacher_specific_class_view' class.name %}">{{ class.name }}</a></td>
+                <td>{{ class.start_date }}</td>
+                <td>{{ class.end_date }}</td>
+                <td>{{ pending_requests|index:forloop.counter0 }}</td>
+                <td>
+                    <form action="{% url 'teacher_classes_view' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="class_name" value="{{ class.name }}">
+                        <input type="submit" value="Delete Class">
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td>No Classes</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <form action="{% url 'teacher_classes_view' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="action" value='add_class'>
+        <input type="submit" value="Add class">
+    </form>
+{% endblock %}
