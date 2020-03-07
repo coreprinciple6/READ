@@ -21,7 +21,7 @@ class User(AbstractUser):
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, blank=False)
-    photo = models.ImageField(upload_to='read/students/', blank=True, validators=[FileExtensionValidator(allowed_extensions=['png', 'jpeg'])])
+    photo = models.ImageField(upload_to='read/students/', blank=True, validators=[FileExtensionValidator(allowed_extensions=['png', 'jpeg', 'jpg'])])
 
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, blank=False)

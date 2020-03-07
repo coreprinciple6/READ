@@ -12,13 +12,17 @@
         {% endfor %}
         <br>
         <br>
-        <input type="submit" value="Submit">
+        <input type="submit" name="action" value="Submit">
     </form>
     <br>
 
 
-    {% if photo_path %}
-        <img src="{{ photo_path }}" alt="Your Photo" height="420" width="420">
+    {% if photo_url %}
+        <img src="{{ photo_url }}" alt="Your Photo" height="420" width="420">
+        <form action="{% url 'student_profile_view' %}" method="post">
+            {% csrf_token %}
+            <input type="submit" name="action" value="Remove Photo">
+        </form>
     {% else %}
         <p>You have not uploaded a photo</p>
     {% endif %}

@@ -4,13 +4,18 @@ import numpy as np
 import time
 
 # Get a reference to webcam #0 (the default one)
+# return value (0 => match not found, 1 => match found, 3 => face not detected in profile photo)
 def facial_recognition(name, image_path):
-    video_capture = cv2.VideoCapture(0)
 
     # Load a sample picture and learn how to recognize it.
     myimage = face_recognition.load_image_file(image_path)
-    my_encoding = face_recognition.face_encodings(myimage)[0]
+    try:
+        my_encoding = face_recognition.face_encodings(myimage)[0]
+    except:
+        cv2.destroyAllWindows()
+        return 2
 
+    video_capture = cv2.VideoCapture(0)
 
     # Create arrays of known face encodings and their names
     known_face_encodings = [
@@ -28,7 +33,7 @@ def facial_recognition(name, image_path):
 
     max_time = 10
     start_time = time.time()
-    match_found = False
+    match_found = 0
     while time.time() - start_time < max_time:
         # Grab a single frame of video
         ret, frame = video_capture.read()
@@ -55,7 +60,7 @@ def facial_recognition(name, image_path):
                 if True in matches:
                     first_match_index = matches.index(True)
                     name = known_face_names[first_match_index]
-                    match_found = True
+                    match_found = 1
 
                 # Or instead, use the known face with the smallest distance to the new face
                 face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
@@ -65,7 +70,7 @@ def facial_recognition(name, image_path):
 
                 face_names.append(name)
                 if(True in matches):
-                    match_found = True
+                    match_found = 1
 
         process_this_frame = not process_this_frame
 

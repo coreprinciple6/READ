@@ -81,6 +81,9 @@ class AddDocumentForm(forms.ModelForm):
         fields = ['name', 'document_file']
 
 class StudentUploadPhotoForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(StudentUploadPhotoForm, self).__init__(*args, **kwargs)
+        self.fields['photo'].required = True
     class Meta:
         model = Student
         fields = ['photo']

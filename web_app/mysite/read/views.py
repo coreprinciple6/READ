@@ -403,11 +403,17 @@ def student_authenticate_view(request, class_name, file_name):
     authenticated = False
     if(photo_not_uploaded == False):
         name = student.user.first_name + ' ' + student.user.last_name
-        if(face_authenticate.facial_recognition(name, photo_path)):
-            authenticated = True
+        authenticate_result = face_authenticate.facial_recognition(name, photo_path)
+        authenticated = 0
+        if(authenticate_result == 0):
+            authenticated = 0
+        elif(authenticate_result == 1):
+            authenticated = 1
             return HttpResponseRedirect(reverse('student_file_view', args=[class_name, file_name]))
         else:
-            authenticated = False
+            assert authenticate_result == 2
+            authenticated = 2
+
 
     return render(request, 'read/student/student_authentication.html', {'photo_not_uploaded' : photo_not_uploaded, 'authenticated' : authenticated})
 
@@ -417,13 +423,14 @@ def student_authenticate_view(request, class_name, file_name):
 @user_passes_test(user_is_student)
 @user_passes_test(user_not_admin, login_url='/read/admin_redirected')
 def student_file_view(request, class_name, file_name):
+    classroom = Classroom.objects.get(name=class_name)
     if(student_enrolled_in_class(request.user, class_name) == False):
         return HttpResponseRedirect(reverse('student_classes_view'))
     try:
         try:
-            doc = Document.objects.get(name=file_name)
+            doc = Document.objects.get(classroom=classroom, name=file_name)
         except:
-            raise('file with file name not found')
+            raise Exception('Error retrieving file')
         path = settings.MEDIA_ROOT + str(doc.document_file)
         return FileResponse(open(path, 'rb'), content_type='application/pdf')
     except FileNotFoundError:
@@ -436,31 +443,30 @@ def student_file_view(request, class_name, file_name):
 def student_profile_view(request):
     student = Student.objects.get(user=request.user)
     if(request.method == 'POST'):
-        form = StudentUploadPhotoForm(request.POST, request.FILES)
-        if(form.is_valid()):
-            cur_student = form.save(commit=False)
-            student.photo = cur_student.photo
+        action = request.POST.get('action')
+        if(action == 'Submit'):
+            form = StudentUploadPhotoForm(request.POST, request.FILES)
+            if(form.is_valid()):
+                cur_student = form.save(commit=False)
+                student.photo = cur_student.photo
+                student.save()
+        else:
+            assert action == 'Remove Photo'
+            form = StudentUploadPhotoForm()
+            student.photo = None
             student.save()
-            print('here')
     else:
         form = StudentUploadPhotoForm()
 
     try:
-        # print(student.photo.url)
-        # print(student.photo.path)
-        # print(student.photo.name)
-        # print(student.photo)
-        # print(settings.MEDIA_URL)
-        # print(settings.MEDIA_ROOT)
-        # photo_path = settings.MEDIA_URL + str(student.photo.url)
-        photo_path = student.photo.url
-        # if(path.exists(photo_path) == False):
-            # photo_path = None
-            # print("PATH DOESNT EXIST")
+        photo_url = student.photo.url
+        photo_path = student.photo.path
+        if(path.exists(photo_path) == False):
+            photo_url = None
     except:
-        photo_path = None
+        photo_url = None
 
-    print(photo_path)
-    return render(request, 'read/student/student_profile.html', {'form' : form, 'photo_path' : photo_path})
+    print(photo_url)
+    return render(request, 'read/student/student_profile.html', {'form' : form, 'photo_url' : photo_url})
 
 
