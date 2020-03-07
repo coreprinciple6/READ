@@ -1,0 +1,11 @@
+{% extends "./student_base.html" %}
+{% block content %}
+
+    <form action="{% url 'student_joins_classroom_view' %}" method="post">
+        {% csrf_token %}
+
+        <input type="text" name="code" value="">
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}
+

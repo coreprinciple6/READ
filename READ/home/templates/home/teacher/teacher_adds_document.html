@@ -1,0 +1,13 @@
+{% extends "./teacher_base.html" %}
+{% block content %}
+    <h1>Add document</h1>
+    <form enctype="multipart/form-data" action="{% url 'teacher_adds_document_view' class_name %}" method="post">
+        {% csrf_token %}
+        {% for field in form.visible_fields %}
+        <span style="color:red">{{ field.errors }}</span>
+            {{ field.label_tag }} {{ field }}
+            <br><br>
+        {% endfor %}
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}
