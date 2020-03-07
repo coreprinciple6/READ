@@ -4,7 +4,7 @@ import numpy as np
 import time
 
 # Get a reference to webcam #0 (the default one)
-# return value (0 => match not found, 1 => match found, 3 => face not detected in profile photo)
+# return value (0 => match not found, 1 => match found, 2 => face not detected in profile photo)
 def facial_recognition(name, image_path):
 
     # Load a sample picture and learn how to recognize it.
