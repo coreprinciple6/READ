@@ -10,6 +10,8 @@
         {% for class in enrolled_classes %}
         <tr>
             <td><a href="{% url 'student_specific_class_view' class.name %}">{{ class.name }}</a></td>
+
+
             <td>{{ class.start_date }}</td>
             <td>{{ class.end_date }}</td>
             <td>
@@ -21,6 +23,8 @@
                 </form>
             </td>
         </tr>
+
+        <td><a href="{% url 'student_specific_class_view' class.name %}">{{ user.username }}</a></td>
         {% empty %}
         <tr>
             <td>You are not enrolled in any class</td>

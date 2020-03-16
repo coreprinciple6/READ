@@ -4,43 +4,47 @@
     <meta charset="UTF-8">
     <title>READ-Login</title>
 
+    {% load socialaccount %}
+    {% providers_media_js %}
+
      {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'read/login.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'read/login.js' %}">
 
-       <!-- adding google client ID-->
-    <meta name="google-signin-client_id" content="349071812334-ecouin9da5p9e3b81c9qfjqhfc7pgk1t.apps.googleusercontent.com">
-    <!-- Loading Google Platform Library -->
-     <script src="https://apis.google.com/js/platform.js" async defer></script>
+
 </head>
 <body>
 
-<div >
-    <h1 style="color: #006666">R E A D</h1>
-</div>
+    <div ><h1 style="color: #006666">R E A D</h1></div>
 
-<div class="wrapper">
-<div class="container">
- <h1>Login</h1>
-    {% if error_message %}
-    <span style="color:red"><p>{{ error_message }}</p></span>
-    {% endif %}
+    <div class="wrapper">
+        <div class="container">
+             <h1>Login</h1>
+             {% if error_message %}
+                <span style="color:red"><p>{{ error_message }}</p></span>
+             {% endif %}
 
 
-    <form action="{% url 'login_view' %}" method="post" class="form">
-        {% csrf_token %}
-        {% for field in form.visible_fields %}
-        <span style="color:red">{{ field.errors }}</span>
-            {{ field.label_tag }} {{ field }}
-            <br><br>
-        {% endfor %}
-        <input type="submit" value="Submit" class="button">
-    </form>
-    <br>
+             <form action="{% url 'login_view' %}" method="post" class="form">
+                        {% csrf_token %}
+                        {% for field in form.visible_fields %}
+                        <span style="color:red">{{ field.errors }}</span>
+                            {{ field.label_tag }} {{ field }}
+                            <br><br>
+                        {% endfor %}
+                        <input type="submit" value="Submit" class="button">
+             </form>
 
-    <div class="g-signin2" data-onsuccess="onSignIn" ></div>
-    <h4>Don't have an account?<a href="{% url 'register_view' %}">Register</a> here! </h4>
-  </div>
-</div>
+             <br>
+
+
+             <button class="btn btn-primary mb-2">
+                    <a href="{% url 'social:begin' 'facebook' %}"  >Login with Facebook</a>
+             </button>
+
+             <h4>Don't have an account?<a href="{% url 'register_view' %}">Register</a> here! </h4>
+
+          </div>
+    </div>
+
 </body>
 </html>
