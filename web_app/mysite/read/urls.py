@@ -1,6 +1,10 @@
 from django.urls import path
 
 from . import views
+from django.contrib import admin
+from django.urls import path, include
+from django.contrib.auth import views as auth_views
+
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -23,4 +27,17 @@ urlpatterns = [
     path('student/classes/<slug:class_name>/', views.student_specific_class_view, name='student_specific_class_view'),
     path('student/classes/<slug:class_name>/<slug:file_name>/authenticate/', views.student_authenticate_view, name='student_authenticate_view'),
     path('student/classes/<slug:class_name>/<slug:file_name>/view/', views.student_file_view, name='student_file_view'),
+
+
+    #miserable
+
+    path('admin/', admin.site.urls),
+    path("login/", views.login, name="login"),
+    path("logout/", auth_views.LogoutView.as_view(), name="logout"),
+    path('social-auth/', include('social_django.urls', namespace="social")),
+  #  path("", views.home, name='gome'),
+
+    path('test/', views.test_view, name='test_view'),
+    path('sbase/', views.sbase_view, name='sbase_view')
+
 ]

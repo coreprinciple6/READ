@@ -59,9 +59,12 @@ def logged_in_view(request):
         return HttpResponseRedirect(reverse('admin_redirected_view'))
     if(request.user.is_teacher):
         return HttpResponseRedirect(reverse('teacher_classes_view'))
-    else:
-        assert request.user.is_student == True
+    if(request.user.is_student):
         return HttpResponseRedirect(reverse('student_classes_view'))
+    else:
+        #assert request.user.is_student == True
+        #return HttpResponseRedirect(reverse('student_classes_view'))
+        return HttpResponseRedirect(reverse('test_view'))
 
 @login_required
 @user_passes_test(user_not_admin, login_url='/read/admin_redirected')
@@ -470,3 +473,19 @@ def student_profile_view(request):
     return render(request, 'read/student/student_profile.html', {'form' : form, 'photo_url' : photo_url})
 
 
+#--------------------------------------------------
+
+
+def test_view(request):
+
+    return render(request, 'read/base_profile.html')
+
+def sbase_view(request) :
+    fish = request.user.username
+    print(fish)
+    check = User.objects.get(username=fish)
+    check.is_student = True
+    check.save()
+    return render(request, 'read/base_profile.html')
+
+    #return HttpResponseRedirect(reverse('logged_in_view'))
