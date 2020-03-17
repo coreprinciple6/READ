@@ -3,7 +3,8 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect, FileRespons
 from django.urls import reverse
 from .forms import LoginForm, RegistrationForm, AddClassroomForm, AddDocumentForm, StudentUploadPhotoForm
 from .models import User, Student, Teacher, Classroom, Document, Student_Document, Enrolled_in, Student_Notice
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, logout
+from django.contrib.auth import login as auth_login
 from django import forms
 from django.contrib.auth.decorators import login_required, user_passes_test
 from datetime import datetime
@@ -87,7 +88,7 @@ def login_view(request):
             if(user is None):
                 error_message = "Incorrect username or password."
             else:
-                login(request, user)
+                auth_login(request, user)
                 return HttpResponseRedirect(reverse('logged_in_view'))
     else:
         form = LoginForm()
