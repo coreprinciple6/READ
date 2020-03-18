@@ -487,3 +487,11 @@ def sbase_view(request) :
     check.is_student = True
     check.save()
     return render(request, 'logged_in_view')
+
+def tbase_view(request) :
+    fish = request.user.username
+    check = User.objects.get(username=fish)
+    check.is_teacher = True
+    check.save()
+    return render(request, 'logged_in_view')
+

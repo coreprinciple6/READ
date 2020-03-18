@@ -38,6 +38,7 @@ urlpatterns = [
   #  path("", views.home, name='gome'),
 
     path('test/', views.test_view, name='test_view'),
-    path('sbase/', views.sbase_view, name='sbase_view')
+    path('sbase/', views.sbase_view, name='sbase_view'),
+    path('tbase/', views.tbase_view, name='tbase_view')
 
 ]
