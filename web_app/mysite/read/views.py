@@ -474,7 +474,7 @@ def student_profile_view(request):
     return render(request, 'read/student/student_profile.html', {'form' : form, 'photo_url' : photo_url})
 
 
-#--------------------------------------------------
+#--------when user logs in with facbook-----------
 
 
 def test_view(request):
@@ -483,10 +483,7 @@ def test_view(request):
 
 def sbase_view(request) :
     fish = request.user.username
-    print(fish)
     check = User.objects.get(username=fish)
     check.is_student = True
     check.save()
-    return render(request, 'read/base_profile.html')
-
-    #return HttpResponseRedirect(reverse('logged_in_view'))
+    return render(request, 'logged_in_view')
