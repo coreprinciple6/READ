@@ -2,23 +2,115 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>READ</title>
+
+    <!-- some font links-->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
 
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'read/student_base.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'read/css/style.css' %}">
+    <script  type="text/javascript" src="{% static 'read/js/jquery.min.js' %}"></script>
+    <script  type="text/javascript" src="{% static 'read/js/popper.js' %}"></script>
+    <script  type="text/javascript" src="{% static 'read/js/bootstrap.min.js' %}"></script>
+    <script  type="text/javascript" src="{% static 'read/js/main.js' %}"></script>
+
 
 </head>
 <body>
-    <div class="sidenav">
-        <a href="{% url 'student_classes_view' %}">Classes</a>
-        <a href="{% url 'student_join_class_view' %}">Join Class</a>
-        <a href="{% url 'student_notices_view' %}">Notices</a>
-        <a href="{% url 'student_profile_view' %}">Profile</a>
-        <a href="{% url 'logout_view' %}">Logout</a>
-    </div>
-    <div class="main">
-    {% block content %}
-    {% endblock %}
-    </div>
+
+    <div class="wrapper d-flex align-items-stretch">
+			<nav id="sidebar">
+				<div class="p-4 pt-5">
+	        <ul class="list-unstyled components mb-5">
+
+	          <li class="active">
+                  <a href="{% url 'student_classes_view' %}">Classes</a>
+	          </li>
+
+	          <li>
+	               <a href="{% url 'student_join_class_view' %}">Join Class</a>
+	          </li>
+
+	          <li>
+                  <a href="{% url 'student_notices_view' %}">Notices</a>
+	          </li>
+
+	          <li>
+                  <a href="{% url 'student_profile_view' %}">Profile</a>
+	          </li>
+
+	          <li>
+                 <a href="{% url 'logout_view' %}">Logout</a>
+	          </li>
+
+                   <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
+              <ul class="collapse list-unstyled" id="pageSubmenu">
+                <li>
+                    <a href="#">Page 1</a>
+                </li>
+                <li>
+                    <a href="#">Page 2</a>
+                </li>
+                <li>
+                    <a href="#">Page 3</a>
+                </li>
+              </ul>
+	          </li>
+
+	        </ul>
+
+	      </div>
+    	</nav>
+
+        <!-- Page Content  -->
+      <div id="content" class="p-4 p-md-5">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <div class="container-fluid">
+
+            <button type="button" id="sidebarCollapse" class="btn btn-primary">
+              <i class="fa fa-bars"></i>
+              <span class="sr-only">Toggle Menu</span>
+            </button>
+
+              <h3 style="font-weight: bold; padding-left: 20px; padding-top: 5px;"> R E A D</h3>
+
+            <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa fa-bars"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'student_classes_view' %}">Classes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'student_join_class_view' %}">Join Class</a>
+                </li>
+                <li class="nav-item">
+                     <a class="nav-link" href="{% url 'student_notices_view' %}">Notices</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout_view' %}">Logout</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+           <div class="main">
+            {% block content %}
+            {% endblock %}
+           </div>
+
+      </div>
+		</div>
+
+
 </body>
 </html>
