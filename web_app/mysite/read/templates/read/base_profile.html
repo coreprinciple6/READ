@@ -8,19 +8,34 @@
 
     <!-- some font links-->
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
-
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'read/base_profile.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'read/css/stylish-portfolio.min.css' %}">
 
 
 </head>
 <body>
-   <h1> hello world</h1>
+
+
+<div  class= "container">
+
+    <nav>
+    <a class="logout" href="{% url 'logout_view' %}">Logout</a>
+    </nav>
+
+   <h1 class="mb-1"> Welcome to R E A D</h1>
+   <p class="mb-5"> Please choose a user type from below</p>
 
    <br>
 
-    <a href="{% url 'logout_view' %}">Logout</a>
-    <a   href="{% url 'sbase_view' %}">student</a>
+    <a class="button" href="{% url 'sbase_view' %}">Student</a>
+    <a class="button" href="{% url 'sbase_view' %}">Teacher</a>
 
+
+</div>
 
 </body>
 </html>

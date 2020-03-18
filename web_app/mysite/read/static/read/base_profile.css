@@ -1,0 +1,52 @@
+.body {
+    background-color: yellow;
+}
+
+.container {
+     padding: 120px;
+     padding-top : 60px;
+     margin : 20px;
+     text-align: center;
+     font-size: 30px;
+     background-color: #f8b739;
+
+}
+ h1, p {
+    color: #fafafa;
+}
+
+.button {
+        appearance: none;
+		outline: 0;
+		background-color: white;
+		border: 0;
+		padding: 10px 30px;
+		border-radius: 10px;
+		width: 250px;
+		cursor: pointer;
+        box-shadow: 3px 4px 0px 0px #899599;
+        color: black;
+        text-decoration : none;
+
+}
+
+nav {
+
+margin : 0px;
+text-align: right;
+
+}
+
+.logout {
+        appearance: none;
+		outline: 0;
+		border: 1px solid;
+		padding: 6px 20px;
+		border-radius: 10px;
+		width: 100px;
+		cursor: pointer;
+        box-shadow: 3px 4px 0px 0px #899599;
+        color: black;
+        text-decoration : none;
+
+}
