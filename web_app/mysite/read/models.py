@@ -52,8 +52,8 @@ class Document(models.Model):
 class Student_Document(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, blank=False)
     document = models.ForeignKey(Document, on_delete=models.CASCADE, blank=False)
-    time_spent = models.TimeField(blank=False)
-    pages_read = models.IntegerField(default=0, blank=False)
+    #time_spent = models.TimeField(blank=True, null=True)
+    #pages_read = models.IntegerField(default=0, blank=True, null=True)
 
     class Meta:
         unique_together = (('student', 'document'))

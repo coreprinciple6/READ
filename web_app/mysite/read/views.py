@@ -412,6 +412,15 @@ def student_authenticate_view(request, class_name, file_name):
         if(authenticate_result == 0):
             authenticated = 0
         elif(authenticate_result == 1):
+
+            classroom_obj = Classroom.objects.get(name=class_name)
+            doc_obj = Document.objects.get(name=file_name, classroom=classroom_obj)
+            student_obj = Student.objects.get(user=request.user)
+            present = Student_Document.objects.filter(document=doc_obj, student=student_obj).count()
+            if(present==0):
+                check = Student_Document(document=doc_obj, student=student_obj)
+                check.save()
+
             authenticated = 1
             return HttpResponseRedirect(reverse('student_file_view', args=[class_name, file_name]))
         else:
@@ -486,12 +495,12 @@ def sbase_view(request) :
     check = User.objects.get(username=fish)
     check.is_student = True
     check.save()
-    return render(request, 'logged_in_view')
+    return HttpResponseRedirect(reverse('logged_in_view'))
 
 def tbase_view(request) :
     fish = request.user.username
     check = User.objects.get(username=fish)
     check.is_teacher = True
     check.save()
-    return render(request, 'logged_in_view')
+    return HttpResponseRedirect(reverse('logged_in_view'))
 
