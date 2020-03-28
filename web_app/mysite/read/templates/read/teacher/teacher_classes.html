@@ -8,6 +8,7 @@
             <th>Start Date</th>
             <th>End Date</th>
             <th>Pending Requests</th>
+            <th> Statistics</th>
         {% endif %}
         {% for class in classes %}
             <tr>
@@ -15,6 +16,7 @@
                 <td>{{ class.start_date }}</td>
                 <td>{{ class.end_date }}</td>
                 <td>{{ pending_requests|index:forloop.counter0 }}</td>
+                <td><a href="{% url 'teacher_stats_view' class.name %}" >View</a></td>
                 <td>
                     <form action="{% url 'teacher_classes_view' %}" method="post">
                         {% csrf_token %}

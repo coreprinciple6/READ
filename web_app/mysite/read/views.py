@@ -246,7 +246,24 @@ def teacher_specific_class_view(request, class_name):
 
     return render(request, 'read/teacher/teacher_specific_class.html', {'class' : cur_class, 'enrolled_students' : enrolled_students, 'uploaded_documents' : uploaded_documents, 'pending_requests' : pending_requests})
 
+#---------------------------------------------------------------------
+@login_required
+@user_passes_test(user_is_teacher)
+@user_passes_test(user_not_admin, login_url='/read/admin_redirected')
+def teacher_stats_view(request, class_name):
+    cur_class = get_object_or_404(Classroom, name=class_name)
 
+    try:
+        enrolled_students_pks = Enrolled_in.objects.filter(classroom=cur_class, status=True).values_list('student', flat=True)
+        enrolled_students = Student.objects.filter(pk__in=enrolled_students_pks)
+    except:
+        enrolled_students = None
+
+
+    return render(request, 'read/teacher/teacher_stats.html', {'class' : cur_class, 'enrolled_students' : enrolled_students})
+
+
+#----------------------------------------------------------------------
 @login_required
 @user_passes_test(user_is_teacher)
 @user_passes_test(user_not_admin, login_url='/read/admin_redirected')
@@ -417,6 +434,7 @@ def student_authenticate_view(request, class_name, file_name):
             doc_obj = Document.objects.get(name=file_name, classroom=classroom_obj)
             student_obj = Student.objects.get(user=request.user)
             present = Student_Document.objects.filter(document=doc_obj, student=student_obj).count()
+            #checking if obj exists in model then dont save new instance just direct to student file view
             if(present==0):
                 check = Student_Document(document=doc_obj, student=student_obj)
                 check.save()
