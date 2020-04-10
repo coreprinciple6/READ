@@ -409,7 +409,6 @@ def student_authenticate_view(request, class_name, file_name):
     if(student_enrolled_in_class(request.user, class_name) == False):
         return HttpResponseRedirect(reverse('student_classes_view'))
 
-
     student = Student.objects.get(user=request.user)
     photo_not_uploaded = True
     try:
@@ -440,6 +439,7 @@ def student_authenticate_view(request, class_name, file_name):
                 check.save()
 
             authenticated = 1
+            request.session['facial_authentication_done'] = True
             return HttpResponseRedirect(reverse('student_file_view', args=[class_name, file_name]))
         else:
             assert authenticate_result == 2
@@ -454,6 +454,9 @@ def student_authenticate_view(request, class_name, file_name):
 @user_passes_test(user_is_student)
 @user_passes_test(user_not_admin, login_url='/read/admin_redirected')
 def student_file_view(request, class_name, file_name):
+    if(request.session.get('facial_authentication_done', False) == False):
+        return HttpResponseRedirect(reverse('student_specific_class_view', args = [class_name]))
+
     classroom = Classroom.objects.get(name=class_name)
     if(student_enrolled_in_class(request.user, class_name) == False):
         return HttpResponseRedirect(reverse('student_classes_view'))

@@ -31,7 +31,7 @@ def facial_recognition(name, image_path):
     face_names = []
     process_this_frame = True
 
-    max_time = 10
+    max_time = 5
     start_time = time.time()
     match_found = 0
     while time.time() - start_time < max_time:
@@ -92,7 +92,7 @@ def facial_recognition(name, image_path):
             cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
 
         # Display the resulting image
-        cv2.imshow('Video', frame)
+        # cv2.imshow('Video', frame)
 
     # Release handle to the webcam
     video_capture.release()
