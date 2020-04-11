@@ -253,14 +253,16 @@ def teacher_specific_class_view(request, class_name):
 def teacher_stats_view(request, class_name):
     cur_class = get_object_or_404(Classroom, name=class_name)
 
-    try:
-        enrolled_students_pks = Enrolled_in.objects.filter(classroom=cur_class, status=True).values_list('student', flat=True)
-        enrolled_students = Student.objects.filter(pk__in=enrolled_students_pks)
-    except:
-        enrolled_students = None
+    doc_obj = Document.objects.filter(classroom_id=cur_class.id)
 
+    doc_pk = Document.objects.filter(classroom_id=cur_class.id).values_list('id', flat=True)
+    stud_doc_obj = Student_Document.objects.filter(document__id__in=doc_pk)
+    stud_obj = Student.objects.filter(student_document__in=stud_doc_obj).values_list('user_id', flat=True)
+    temp = User.objects.filter(student__user_id__in=stud_obj).values_list('first_name', flat=True)
 
-    return render(request, 'read/teacher/teacher_stats.html', {'class' : cur_class, 'enrolled_students' : enrolled_students})
+    print(temp)
+
+    return render(request, 'read/teacher/teacher_stats.html', {'doc' : doc_obj, 'enrolled_students' : temp, 'classroom': cur_class})
 
 
 #----------------------------------------------------------------------
