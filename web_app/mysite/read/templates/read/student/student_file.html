@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File View</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'read/css/file_view.css' %}">
+</head>
+<body>
+    <div id = "iframe_div" align = "right">
+    </div>
+    <div id="button_div">
+        <button id="button"
+             type="button"
+            onclick="showFile('{{ path }}');"
+            style="position:absolute; left:0px; top:400px; display:none;">
+            Click this button to show file.
+        </button>
+    </div>
+
+    <form name="myForm" action="{% url 'student_file_view' class_name file_name %}" method="post">
+        {% csrf_token %}
+        <input id = "elapsedInput" type="hidden" name="elapsedTime">
+        <input type="submit" name="action" value="Send Data">
+    </form>
+
+
+    {% load static %}
+    <script src="{% static 'read/js/webgazer.js' %}"></script>
+    <script src="{% static 'read/js/file_view.js' %}"></script>
+</body>
+</html>

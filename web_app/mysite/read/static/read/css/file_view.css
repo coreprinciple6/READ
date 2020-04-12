@@ -1,0 +1,8 @@
+#iframe_div{
+    height: 100vh;
+}
+#iframe_id {
+    width: 60%;
+    height: 94%;
+    overflow: auto;
+}
