@@ -1,30 +1,7 @@
 {% extends "./teacher_base.html" %}
 {% block content %}
-    <h1>Class: {{ class.name }}</h1>
-<h3> check mate</h3>
 
 
-    <table>
-        <th>Enrolled Students</th>
-        {% if classes %}
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Pending Requests</th>
-            <th> Statistics</th>
-        {% for student in enrolled_students %}
-        <tr>
-            <td>{{ student.user.username }}</td>
-            <td>
-               wow
-            </td>
-        </tr>
-        {% empty %}
-            <tr>
-                <td>No enrolled students</td>
-            </tr>
-        {% endfor %}
-    </table>
-    <br><br>
 
 {% endblock %}
 

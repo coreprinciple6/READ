@@ -12,6 +12,7 @@ from django.conf import settings
 import os.path
 from os import path
 from . import face_authenticate
+import json
 
 # ===============================================
 # Miscellaneous functions
@@ -247,14 +248,15 @@ def teacher_specific_class_view(request, class_name):
 def teacher_stats_view(request, class_name):
     cur_class = get_object_or_404(Classroom, name=class_name)
 
-    try:
-        enrolled_students_pks = Enrolled_in.objects.filter(classroom=cur_class, status=True).values_list('student', flat=True)
-        enrolled_students = Student.objects.filter(pk__in=enrolled_students_pks)
-    except:
-        enrolled_students = None
+    cur_class_enrolled_in = Enrolled_in.objects.filter(classroom = cur_class, status=True)
+    cur_class_student_doc = Student_Document.objects.filter(enrolled_in__in=cur_class_enrolled_in)
+    data = []
+    for entry in cur_class_student_doc:
+        data.append((entry.enrolled_in.student.user.username, entry.time_spent))
+    json_data = json.dumps(data)
+    print(json_data)
 
-
-    return render(request, 'read/teacher/teacher_stats.html', {'class' : cur_class, 'enrolled_students' : enrolled_students})
+    return render(request, 'read/teacher/teacher_stats.html', {'class' : cur_class})
 
 
 #----------------------------------------------------------------------
