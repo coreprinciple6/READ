@@ -18,7 +18,7 @@
         </button>
     </div>
 
-    <form name="myForm" action="{% url 'student_file_view' class_name file_name %}" method="post">
+    <form name="myForm" action="{% url 'student_file_view' class_name file_name %}" method="post" style="display:none;">
         {% csrf_token %}
         <input id = "elapsedInput" type="hidden" name="elapsedTime">
         <input type="submit" name="action" value="Send Data">

@@ -22,9 +22,13 @@ class User(AbstractUser):
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, blank=False)
     photo = models.ImageField(upload_to='read/students/', blank=True, validators=[FileExtensionValidator(allowed_extensions=['png', 'jpeg', 'jpg'])])
+    def __str__(self):
+        return f'student username: {self.user.username}'
 
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, blank=False)
+    def __str__(self):
+        return f'teacher username: {self.user.username}'
 
 class Classroom(models.Model):
     name = models.SlugField(max_length = 100, blank=False)
@@ -51,12 +55,18 @@ class Document(models.Model):
 
 class Student_Document(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, blank=False)
+    classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, blank=False, null=True)
     document = models.ForeignKey(Document, on_delete=models.CASCADE, blank=False)
-    #time_spent = models.TimeField(blank=True, null=True)
-    #pages_read = models.IntegerField(default=0, blank=True, null=True)
+    time_spent = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return f'''student: {self.student.user.username}
+    class: {self.classroom.name}
+    document: {self.document.name}
+    time: {self.time_spent}'''
 
     class Meta:
-        unique_together = (('student', 'document'))
+        unique_together = (('student', 'classroom', 'document'))
 
 class Enrolled_in(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, blank=False)

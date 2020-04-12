@@ -458,11 +458,23 @@ def student_file_view(request, class_name, file_name):
     # if(request.session.get('facial_authentication_done', False) == False):
         # return HttpResponseRedirect(reverse('student_specific_class_view', args = [class_name]))
 
+    classroom = Classroom.objects.get(name=class_name)
     if(request.method == 'POST'):
-        print(request.POST)
+        time_spent_reading = int(float(request.POST.get('elapsedTime')))
+        assert time_spent_reading is not None
+
+        student = Student.objects.get(user=request.user)
+        doc = Document.objects.get(classroom=classroom, name=file_name)
+        try:
+            student_doc = Student_Document.objects.get(student=student, classroom=classroom, document=doc)
+            student_doc.time_spent += time_spent_reading
+            student_doc.save()
+        except(Student_Document.DoesNotExist):
+            student_doc = Student_Document(student=student, classroom=classroom, document=doc, time_spent=time_spent_reading)
+            student_doc.save()
+
         return HttpResponseRedirect(reverse('student_specific_class_view', args=[class_name]))
 
-    classroom = Classroom.objects.get(name=class_name)
     if(student_enrolled_in_class(request.user, class_name) == False):
         return HttpResponseRedirect(reverse('student_classes_view'))
 
