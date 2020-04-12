@@ -184,7 +184,6 @@ def teacher_adds_classroom_view(request):
 def teacher_specific_class_view(request, class_name):
     cur_class = get_object_or_404(Classroom, name=class_name)
     if(request.method == 'POST'):
-        print(request.POST)
         action = request.POST.get('action')
         if(action == "Add document"):
             return  HttpResponseRedirect(reverse('teacher_adds_document_view', kwargs={'class_name': class_name}))
@@ -197,7 +196,6 @@ def teacher_specific_class_view(request, class_name):
         elif(action == 'Approve'):
             student_to_enroll = request.POST.get('student_name')
             assert student_to_enroll is not None
-            print(f'SSTDNET TO ENROLL {student_to_enroll}')
             student = Student.objects.get(user__username=student_to_enroll)
             enrolled_in_instance = Enrolled_in.objects.get(student=student, classroom=cur_class)
             assert enrolled_in_instance.status == False
@@ -239,10 +237,6 @@ def teacher_specific_class_view(request, class_name):
         uploaded_documents = Document.objects.filter(classroom=cur_class)
     except(Document.DoesNotExist):
         uploaded_documents = None
-
-    print(f'enrolled_students: {enrolled_students}')
-    print(f'pending_requests: {pending_requests}')
-
 
     return render(request, 'read/teacher/teacher_specific_class.html', {'class' : cur_class, 'enrolled_students' : enrolled_students, 'uploaded_documents' : uploaded_documents, 'pending_requests' : pending_requests})
 
@@ -464,14 +458,23 @@ def student_file_view(request, class_name, file_name):
         assert time_spent_reading is not None
 
         student = Student.objects.get(user=request.user)
+        enrolled_in = Enrolled_in.objects.get(student=student, classroom=classroom)
+        assert enrolled_in.status == True
         doc = Document.objects.get(classroom=classroom, name=file_name)
         try:
-            student_doc = Student_Document.objects.get(student=student, classroom=classroom, document=doc)
+            student_doc = Student_Document.objects.get(enrolled_in=enrolled_in, document=doc)
             student_doc.time_spent += time_spent_reading
             student_doc.save()
+            print('exists')
+            print(student_doc)
         except(Student_Document.DoesNotExist):
-            student_doc = Student_Document(student=student, classroom=classroom, document=doc, time_spent=time_spent_reading)
+            student_doc = Student_Document(enrolled_in=enrolled_in, document=doc, time_spent=time_spent_reading)
             student_doc.save()
+            print('doesnt exist')
+            print(student_doc)
+
+        notice = Student_Notice(student=student, notice=f"You have spent {time_spent_reading} seconds on {doc.name}")
+        notice.save()
 
         return HttpResponseRedirect(reverse('student_specific_class_view', args=[class_name]))
 
@@ -489,28 +492,6 @@ def student_file_view(request, class_name, file_name):
         raise Http404('File does not exist')
 
     return render(request, 'read/student/student_file.html', {'path' : path, 'class_name' : class_name, 'file_name' : file_name})
-
-
-# @login_required
-# @user_passes_test(user_is_student)
-# @user_passes_test(user_not_admin, login_url='/read/admin_redirected')
-# def student_file_view(request, class_name, file_name):
-    # if(request.session.get('facial_authentication_done', False) == False):
-        # return HttpResponseRedirect(reverse('student_specific_class_view', args = [class_name]))
-
-    # classroom = Classroom.objects.get(name=class_name)
-    # if(student_enrolled_in_class(request.user, class_name) == False):
-        # return HttpResponseRedirect(reverse('student_classes_view'))
-    # try:
-        # try:
-            # doc = Document.objects.get(classroom=classroom, name=file_name)
-        # except:
-            # raise Exception('Error retrieving file')
-        # path = settings.MEDIA_ROOT + str(doc.document_file)
-        # return FileResponse(open(path, 'rb'), content_type='application/pdf')
-    # except FileNotFoundError:
-        # raise Http404('File does not exist')
-
 
 @login_required
 @user_passes_test(user_is_student)
@@ -541,7 +522,6 @@ def student_profile_view(request):
     except:
         photo_url = None
 
-    print(photo_url)
     return render(request, 'read/student/student_profile.html', {'form' : form, 'photo_url' : photo_url})
 
 

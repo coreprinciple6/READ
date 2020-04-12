@@ -53,20 +53,6 @@ class Document(models.Model):
     class Meta:
         unique_together = (('name', 'classroom'))
 
-class Student_Document(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, blank=False)
-    classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, blank=False, null=True)
-    document = models.ForeignKey(Document, on_delete=models.CASCADE, blank=False)
-    time_spent = models.IntegerField(blank=True, null=True)
-
-    def __str__(self):
-        return f'''student: {self.student.user.username}
-    class: {self.classroom.name}
-    document: {self.document.name}
-    time: {self.time_spent}'''
-
-    class Meta:
-        unique_together = (('student', 'classroom', 'document'))
 
 class Enrolled_in(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, blank=False)
@@ -82,6 +68,20 @@ class Enrolled_in(models.Model):
         classroom : {self.classroom.name}
         status: {self.status}
         '''
+
+class Student_Document(models.Model):
+    enrolled_in = models.ForeignKey(Enrolled_in, on_delete=models.CASCADE, blank=False)
+    document = models.ForeignKey(Document, on_delete=models.CASCADE, blank=False)
+    time_spent = models.IntegerField(blank=False)
+
+    def __str__(self):
+        return f'''student: {self.student.user.username}
+    class: {self.classroom.name}
+    document: {self.document.name}
+    time: {self.time_spent}'''
+
+    class Meta:
+        unique_together = (('enrolled_in', 'document'))
 
 class Student_Notice(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, blank=False)
