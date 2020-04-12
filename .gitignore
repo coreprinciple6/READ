@@ -4,3 +4,4 @@
 **/__pycache__/
 **/*.xml
 **/*.pyc
+web_app/mysite/media/read/students/*
