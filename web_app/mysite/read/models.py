@@ -75,8 +75,8 @@ class Student_Document(models.Model):
     time_spent = models.IntegerField(blank=False)
 
     def __str__(self):
-        return f'''student: {self.student.user.username}
-    class: {self.classroom.name}
+        return f'''student: {self.enrolled_in.student.user.username}
+    class: {self.enrolled_in.classroom.name}
     document: {self.document.name}
     time: {self.time_spent}'''
 

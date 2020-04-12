@@ -465,15 +465,13 @@ def student_file_view(request, class_name, file_name):
             student_doc = Student_Document.objects.get(enrolled_in=enrolled_in, document=doc)
             student_doc.time_spent += time_spent_reading
             student_doc.save()
-            print('exists')
             print(student_doc)
         except(Student_Document.DoesNotExist):
             student_doc = Student_Document(enrolled_in=enrolled_in, document=doc, time_spent=time_spent_reading)
             student_doc.save()
-            print('doesnt exist')
             print(student_doc)
 
-        notice = Student_Notice(student=student, notice=f"You have spent {time_spent_reading} seconds on {doc.name}")
+        notice = Student_Notice(student=student, notice=f"You spent {time_spent_reading} seconds on the document: {doc.name}")
         notice.save()
 
         return HttpResponseRedirect(reverse('student_specific_class_view', args=[class_name]))
