@@ -405,7 +405,9 @@ def student_notices_view(request):
         notices = Student_Notice.objects.filter(student=student)
     except Exception as e:
         notices = None
-    return render(request, 'read/student/student_notices.html', {'notices' : notices})
+    reversed_notices = list(reversed(notices))
+
+    return render(request, 'read/student/student_notices.html', {'notices' : reversed_notices})
 
 
 
@@ -429,7 +431,7 @@ def student_specific_class_view(request, class_name):
 @user_passes_test(user_is_student)
 @user_passes_test(user_not_admin, login_url='/read/admin_redirected')
 def student_authenticate_view(request, class_name, file_name):
-    return HttpResponseRedirect(reverse('student_file_view', args=[class_name, file_name]))
+    # return HttpResponseRedirect(reverse('student_file_view', args=[class_name, file_name]))
 
     if(student_enrolled_in_class(request.user, class_name) == False):
         return HttpResponseRedirect(reverse('student_classes_view'))
@@ -453,23 +455,12 @@ def student_authenticate_view(request, class_name, file_name):
         if(authenticate_result == 0):
             authenticated = 0
         elif(authenticate_result == 1):
-
-            classroom_obj = Classroom.objects.get(name=class_name)
-            doc_obj = Document.objects.get(name=file_name, classroom=classroom_obj)
-            student_obj = Student.objects.get(user=request.user)
-            present = Student_Document.objects.filter(document=doc_obj, student=student_obj).count()
-            #checking if obj exists in model then dont save new instance just direct to student file view
-            if(present==0):
-                check = Student_Document(document=doc_obj, student=student_obj)
-                check.save()
-
             authenticated = 1
             request.session['facial_authentication_done'] = True
             return HttpResponseRedirect(reverse('student_file_view', args=[class_name, file_name]))
         else:
             assert authenticate_result == 2
             authenticated = 2
-
 
     return render(request, 'read/student/student_authentication.html', {'photo_not_uploaded' : photo_not_uploaded, 'authenticated' : authenticated})
 
@@ -478,8 +469,10 @@ def student_authenticate_view(request, class_name, file_name):
 @user_passes_test(user_is_student)
 @user_passes_test(user_not_admin, login_url='/read/admin_redirected')
 def student_file_view(request, class_name, file_name):
-    # if(request.session.get('facial_authentication_done', False) == False):
-        # return HttpResponseRedirect(reverse('student_specific_class_view', args = [class_name]))
+    if(request.session.get('facial_authentication_done', False) == False and request.method != 'POST'):
+        return HttpResponseRedirect(reverse('student_specific_class_view', args = [class_name]))
+
+    request.session['facial_authentication_done'] = False
 
     classroom = Classroom.objects.get(name=class_name)
     if(request.method == 'POST'):
@@ -494,11 +487,9 @@ def student_file_view(request, class_name, file_name):
             student_doc = Student_Document.objects.get(enrolled_in=enrolled_in, document=doc)
             student_doc.time_spent += time_spent_reading
             student_doc.save()
-            print(student_doc)
         except(Student_Document.DoesNotExist):
             student_doc = Student_Document(enrolled_in=enrolled_in, document=doc, time_spent=time_spent_reading)
             student_doc.save()
-            print(student_doc)
 
         notice = Student_Notice(student=student, notice=f"You spent {time_spent_reading} seconds on the document: {doc.name}")
         notice.save()

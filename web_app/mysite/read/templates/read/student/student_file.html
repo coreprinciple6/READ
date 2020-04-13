@@ -9,12 +9,29 @@
 <body>
     <div id = "iframe_div" align = "right">
     </div>
+    <div id="message">
+        <p>Please make sure:</p>
+        <ul>
+            <li>Your face is visible and within the rectangle</li>
+            <li>There is sufficient lighting</li>
+        </ul>
+        <p style="color:red; border: 1px solid red;">After the button has been pressed, if a face is undetectable for more than 10 seconds, you will be redirected.</p>
+    </div>
+            {% comment %}style="position:absolute; left:0px; top:400px; display:none;"{% endcomment %}
     <div id="button_div">
         <button id="button"
              type="button"
             onclick="showFile('{{ path }}');"
-            style="position:absolute; left:0px; top:400px; display:none;">
-            Click this button to show file.
+            >
+            Show file
+        </button>
+    </div>
+    <div id="leave_page_button_div">
+        <button
+             type="button"
+            onclick="leave_page();"
+            >
+           Leave page
         </button>
     </div>
 

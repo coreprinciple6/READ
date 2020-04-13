@@ -1,8 +1,9 @@
 const MIN_TIME = 3000;
 BUTTON_SHOWN = false;
 FILE_SHOWN = false;
-FACE_DETECTED_FOR_FIVE_SECONDS = false;
 STARTED_READING = false;
+BEGIN_TIME = -1;
+LAST_ELAPSED_TIME = 0;
 
 function showFile(path){
     const iframe = document.createElement("iframe");
@@ -16,10 +17,13 @@ function showFile(path){
     const button_div = document.getElementById("button_div");
     button_div.remove();
     STARTED_READING = true;
+
+    const leave_page_button_div = document.getElementById("leave_page_button_div");
+    leave_page_button_div.style.display = "inline";
 }
 
 function showButton(){
-    button = document.getElementById("button");
+    button = document.getElementById("button_div");
     button.style.display = "inline";
 }
 
@@ -40,15 +44,14 @@ function sendData(value){
 function eye(){
     num_nulls = 0;
     prev_null_time = -1;
-    begin_time = -1;
     DATA_SENT = false;
     webgazer.setGazeListener(function(data, elapsedTime) {
         if(BUTTON_SHOWN == false && webgazer.isReady() && elapsedTime > MIN_TIME){
             BUTTON_SHOWN = true;
             showButton();
         }
-        if(STARTED_READING && begin_time == -1){
-            begin_time = elapsedTime;
+        if(STARTED_READING && BEGIN_TIME == -1){
+            BEGIN_TIME = elapsedTime;
             num_nulls = 0;
         }
         if (data == null) {
@@ -66,18 +69,16 @@ function eye(){
             else {
                 num_nulls = 0;
             }
-            console.log(num_nulls);
+            //console.log(num_nulls);
 
-            if(num_nulls >= 5 && STARTED_READING == true){
+            if(num_nulls >= 8 && STARTED_READING == true){
                 console.log("No user");
                 if(FILE_SHOWN){
                     removeFile();
                 }
                 if(STARTED_READING && !DATA_SENT){
-                    DATA_SENT = true;
-                    console.log("BEGIN TIME" + begin_time);
-                    console.log("ElapsedTime" + elapsedTime);
-                    sendData(elapsedTime - begin_time);
+                    LAST_ELAPSED_TIME = elapsedTime;
+                    leave_page();
                 }
                 nums_nulls = 0;
             }
@@ -85,7 +86,12 @@ function eye(){
         else {
             //console.log(elapsedTime);
         }
-    }).begin().showPredictionPoints(true);
+        LAST_ELAPSED_TIME = elapsedTime;
+    }).begin().showPredictionPoints(false);
 }
 
+function leave_page(){
+    DATA_SENT = true;
+    sendData(LAST_ELAPSED_TIME - BEGIN_TIME);
+}
 eye();
