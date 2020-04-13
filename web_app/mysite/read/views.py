@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, logout
 from django.contrib.auth import login as auth_login
 from django import forms
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.db.models import Sum
 from datetime import datetime
 from django.conf import settings
 import os.path
@@ -241,25 +242,51 @@ def teacher_specific_class_view(request, class_name):
 
     return render(request, 'read/teacher/teacher_specific_class.html', {'class' : cur_class, 'enrolled_students' : enrolled_students, 'uploaded_documents' : uploaded_documents, 'pending_requests' : pending_requests})
 
-#---------------------------------------------------------------------
 @login_required
 @user_passes_test(user_is_teacher)
 @user_passes_test(user_not_admin, login_url='/read/admin_redirected')
 def teacher_stats_view(request, class_name):
     cur_class = get_object_or_404(Classroom, name=class_name)
-
     cur_class_enrolled_in = Enrolled_in.objects.filter(classroom = cur_class, status=True)
     cur_class_student_doc = Student_Document.objects.filter(enrolled_in__in=cur_class_enrolled_in)
-    data = []
-    for entry in cur_class_student_doc:
-        data.append((entry.enrolled_in.student.user.username, entry.time_spent))
-    json_data = json.dumps(data)
-    print(json_data)
 
-    return render(request, 'read/teacher/teacher_stats.html', {'class' : cur_class})
+    # for time-student graph
+    student_usernames = []
+    student_time_data = []
+    for entry in cur_class_enrolled_in:
+        username = entry.student.user.username
+        student_usernames.append(username)
+
+        student_doc = Student_Document.objects.filter(enrolled_in=entry).aggregate(Sum('time_spent'))
+        try:
+            time = int(student_doc.get('time_spent__sum'))
+        except:
+            time = 0
+        student_time_data.append(time)
 
 
-#----------------------------------------------------------------------
+    json_student_usernames = json.dumps(student_usernames)
+    json_student_time_data = json.dumps(student_time_data)
+
+    # for time-document graph
+    document_names = []
+    doc_time_data = []
+    cur_class_docs = Document.objects.filter(classroom=cur_class)
+    for doc in cur_class_docs:
+        student_doc = Student_Document.objects.filter(enrolled_in__in=cur_class_enrolled_in, document=doc).aggregate(Sum('time_spent'))
+        try:
+            time = int(student_doc.get('time_spent__sum'))
+        except:
+            time = 0
+        document_names.append(doc.name)
+        doc_time_data.append(time)
+
+    json_doc_names = json.dumps(document_names)
+    json_doc_times = json.dumps(doc_time_data)
+
+    return render(request, 'read/teacher/teacher_stats.html', {'student_time_data' : json_student_time_data, 'student_labels' : json_student_usernames, 'doc_time_data' : json_doc_times, 'doc_labels' : json_doc_names})
+
+
 @login_required
 @user_passes_test(user_is_teacher)
 @user_passes_test(user_not_admin, login_url='/read/admin_redirected')

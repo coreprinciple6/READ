@@ -1,7 +1,25 @@
 {% extends "./teacher_base.html" %}
 {% block content %}
 
+<canvas id="studentChart" width="200" height="100"></canvas>
+<br>
+<br>
+<br>
+<br>
+<canvas id="docChart" width="200" height="100"></canvas>
 
+<script type="text/javascript">
+    var student_time_data = {{ student_time_data|safe }};
+    var student_labels = {{ student_labels|safe }};
+
+    var doc_time_data = {{ doc_time_data|safe }};
+    var doc_labels = {{ doc_labels|safe }};
+</script>
+
+
+{% load static %}
+<script src="{% static 'read/js/node_modules/chart.js/dist/Chart.js' %}"></script>
+<script src="{% static 'read/js/teacher_stats.js' %}"></script>
 
 {% endblock %}
 
