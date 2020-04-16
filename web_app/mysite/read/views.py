@@ -525,7 +525,7 @@ def student_file_view(request, class_name, file_name):
 @login_required
 @user_passes_test(user_is_student)
 @user_passes_test(user_not_admin, login_url='/read/admin_redirected')
-def student_profile_view(request):
+def student_photo_view(request):
     student = Student.objects.get(user=request.user)
     if(request.method == 'POST'):
         action = request.POST.get('action')
@@ -551,7 +551,7 @@ def student_profile_view(request):
     except:
         photo_url = None
 
-    return render(request, 'read/student/student_profile.html', {'form' : form, 'photo_url' : photo_url})
+    return render(request, 'read/student/student_photo.html', {'form' : form, 'photo_url' : photo_url})
 
 
 #--------when user logs in with facbook-----------

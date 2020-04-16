@@ -2,7 +2,7 @@
 {% block content %}
  {% if photo_not_uploaded %}
     <p>You have not uploaded a photo.</p>
-    <p>Please update your photo by going to your <a href="{% url 'student_profile_view' %}">profile.</a></p>
+    <p>Please update your photo by going to the <a href="{% url 'student_photo_view' %}">photo page.</a></p>
 {% elif authenticated == 0 %}
     <p>Facial recognition authentication failed.</p>
     <p>Does not match profile photo</p>
