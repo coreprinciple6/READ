@@ -156,12 +156,6 @@ def teacher_classes_view(request):
     return render(request, 'read/teacher/teacher_classes.html', {'classes' : classes, 'pending_requests' : pending_requests})
 
 
-@login_required
-@user_passes_test(user_is_teacher)
-@user_passes_test(user_not_admin, login_url='/read/admin_redirected')
-def teacher_profile_view(request):
-    return render(request, 'read/teacher/teacher_profile.html')
-
 
 @login_required
 @user_passes_test(user_is_teacher)
@@ -178,6 +172,12 @@ def teacher_adds_classroom_view(request):
         form = AddClassroomForm()
     return render(request, 'read/teacher/teacher_adds_classroom.html', {'form' : form})
 
+
+@login_required
+@user_passes_test(user_is_teacher)
+@user_passes_test(user_not_admin, login_url='/read/admin_redirected')
+def teacher_file_view(request, class_name, file_name):
+    return 'asdfsafd';
 
 
 @login_required

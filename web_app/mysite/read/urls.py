@@ -15,11 +15,12 @@ urlpatterns = [
     path('admin_redirected/', views.admin_redirected_view, name='admin_redirected_view'),
 
     path('teacher/classes/', views.teacher_classes_view, name='teacher_classes_view'),
-    path('teacher/profile/', views.teacher_profile_view, name='teacher_profile_view'),
     path('teacher/classes/add/', views.teacher_adds_classroom_view, name='teacher_adds_classroom_view'),
     path('teacher/classes/<slug:class_name>/', views.teacher_specific_class_view, name='teacher_specific_class_view'),
     path('teacher/classes/<slug:class_name>/add/', views.teacher_adds_document_view, name='teacher_adds_document_view'),
     path('teacher/classes/<slug:class_name>/stats/', views.teacher_stats_view, name='teacher_stats_view'),
+    path('teacher/classes/<slug:class_name>/<slug:file_name>/view/', views.teacher_file_view, name='teacher_file_view'),
+
 
     path('student/classes/', views.student_classes_view, name='student_classes_view'),
     path('student/profile/', views.student_profile_view, name='student_profile_view'),

@@ -64,28 +64,11 @@
               <span class="sr-only">Toggle Menu</span>
             </button>
 
-              <h3 style="font-weight: bold; padding-left: 20px; padding-top: 5px;"> R E A D</h3>
+              <h3 style="font-weight: bold; padding-left: 20px; padding-top: 5px; position: relative; left: -670px"> R E A D</h3>
 
             <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fa fa-bars"></i>
             </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="nav navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'student_classes_view' %}">Classes</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'student_join_class_view' %}">Join Class</a>
-                </li>
-                <li class="nav-item">
-                     <a class="nav-link" href="{% url 'student_notices_view' %}">Notices</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout_view' %}">Logout</a>
-                </li>
-              </ul>
-            </div>
           </div>
         </nav>
 
