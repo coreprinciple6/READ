@@ -469,9 +469,11 @@ def student_authenticate_view(request, class_name, file_name):
             authenticated = 1
             request.session['facial_authentication_done'] = True
             return HttpResponseRedirect(reverse('student_file_view', args=[class_name, file_name]))
-        else:
-            assert authenticate_result == 2
+        elif(authenticate_result == 2):
             authenticated = 2
+        else:
+            assert authenticate_result == 3
+            authenticated = 3
 
     return render(request, 'read/student/student_authentication.html', {'photo_not_uploaded' : photo_not_uploaded, 'authenticated' : authenticated})
 

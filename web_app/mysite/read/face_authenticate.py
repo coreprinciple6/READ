@@ -4,7 +4,7 @@ import numpy as np
 import time
 
 # Get a reference to webcam #0 (the default one)
-# return value (0 => match not found, 1 => match found, 2 => face not detected in profile photo)
+# return value (0 => match not found, 1 => match found, 2 => face not detected in profile photo, 3 => broken image)
 def facial_recognition(name, image_path):
 
     # Load a sample picture and learn how to recognize it.
@@ -39,7 +39,12 @@ def facial_recognition(name, image_path):
         ret, frame = video_capture.read()
 
         # Resize frame of video to 1/4 size for faster face recognition processing
-        small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
+        try:
+            small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
+        except:
+            video_capture.release()
+            cv2.destroyAllWindows()
+            return 3
 
 
         # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)

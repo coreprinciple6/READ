@@ -9,5 +9,7 @@
 {% elif authenticated == 2 %}
     <p>A face could not be detected in your profile photo.</p>
     <p>Please update it to a picture which clearly shows your face.</p>
+{% elif authenticated == 3 %}
+    <p>Broken frames detected. Try to keep the camera still and reduce movement.</p>
  {% endif %}
 {% endblock %}
