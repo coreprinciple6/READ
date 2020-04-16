@@ -54,7 +54,7 @@
         {% endif %}
         {% for document in uploaded_documents %}
         <tr>
-            <td>{{ document.name }}</td>
+            <td><a href="{% url 'teacher_file_view' class.name document.name %}">{{ document.name }}</a></td>
             <td>{{ document.upload_date }}</td>
             <td>
                 <form action="{% url 'teacher_specific_class_view' class.name %}" method="post">

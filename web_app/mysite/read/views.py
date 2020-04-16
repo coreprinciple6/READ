@@ -177,7 +177,17 @@ def teacher_adds_classroom_view(request):
 @user_passes_test(user_is_teacher)
 @user_passes_test(user_not_admin, login_url='/read/admin_redirected')
 def teacher_file_view(request, class_name, file_name):
-    return 'asdfsafd';
+    classroom = Classroom.objects.get(name=class_name)
+    try:
+        try:
+            doc = Document.objects.get(classroom=classroom, name=file_name)
+        except:
+            raise Exception('Error retrieving file')
+        path = settings.MEDIA_ROOT + str(doc.document_file)
+        # path = settings.MEDIA_URL + str(doc.document_file)
+        return FileResponse(open(path, 'rb'), content_type='application/pdf')
+    except FileNotFoundError:
+        raise Http404('File does not exist')
 
 
 @login_required
