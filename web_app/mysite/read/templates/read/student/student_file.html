@@ -16,16 +16,18 @@
             <li>There is sufficient lighting</li>
         </ul>
         <p style="color:red; border: 1px solid red;">After the button has been pressed, if a face is undetectable for more than 10 seconds, you will be redirected.</p>
+        <p id = "x_cord"></p>
+        <p id = "y_cord"></p>
+        <p></p>
     </div>
-            {% comment %}style="position:absolute; left:0px; top:400px; display:none;"{% endcomment %}
     <div id="button_div">
         <button id="button"
              type="button"
-            onclick="showFile('{{ path }}');"
+             onclick="increaseCounter();"
             >
-            Show file
         </button>
     </div>
+
     <div id="leave_page_button_div">
         <button
              type="button"
@@ -41,6 +43,10 @@
         <input type="submit" name="action" value="Send Data">
     </form>
 
+
+    <script type="text/javascript">
+        var PATH = "{{ path }}";
+    </script>
 
     {% load static %}
     <script src="{% static 'read/js/webgazer.js' %}"></script>

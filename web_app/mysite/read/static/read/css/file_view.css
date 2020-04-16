@@ -8,9 +8,9 @@
 }
 
 #button_div {
-    position: absolute;
-    left: 10px;
-    top: 450px;
+    position: relative;
+    left: 0px;
+    top: -100px;
     display: none;
 }
 
