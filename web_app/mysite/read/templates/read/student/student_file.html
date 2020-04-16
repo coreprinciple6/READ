@@ -10,21 +10,32 @@
     <div id = "iframe_div" align = "right">
     </div>
     <div id="message">
-        <p>Please make sure:</p>
+        <p>Please read the instructions:</p>
         <ul>
-            <li>Your face is visible and within the rectangle</li>
-            <li>There is sufficient lighting</li>
+            <li>Make sure your face is visible and within the rectangle</li>
+            <li>Make sure there is sufficient lighting (increase your screen brightness)</li>
+            <li>Move your head around until your facial features are identified</li>
+            <li>Click the buttons to calibrate eye-tracking and see the file</li>
+            <li>When clicking, look at the buttons for the calibrations to work properly</li>
         </ul>
-        <p style="color:red; border: 1px solid red;">After the button has been pressed, if a face is undetectable for more than 10 seconds, you will be redirected.</p>
-        <p id = "x_cord"></p>
-        <p id = "y_cord"></p>
-        <p></p>
+        <p>
+            After the file is shown, you will be redirected if either:
+            <ul>
+                <li>A face is not visible for more than 5 seconds</li>
+                <li>Or you look away from the document for more than 5 seconds</li>
+            </ul>
+        </p>
     </div>
+
+    <p id="redirection_message" style="color:blue; border: 1px solid blue; display:none; font-size:20px" >
+    </p>
+
     <div id="button_div">
         <button id="button"
              type="button"
              onclick="increaseCounter();"
             >
+            Look here and keep clicking
         </button>
     </div>
 

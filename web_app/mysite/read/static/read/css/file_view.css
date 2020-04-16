@@ -6,17 +6,16 @@
     height: 94%;
     overflow: auto;
 }
-
 #button_div {
     position: relative;
-    left: 0px;
+    left: 300px;
     top: -100px;
     display: none;
 }
 
 #leave_page_button_div {
     position: absolute;
-    left: 10px;
+    left: 300px;
     top: 550px;
     display: none;
 }
@@ -27,5 +26,6 @@
 
     position: absolute;
     left: 10px;
-    top: 250px;
+    top: 230px;
+    font-size: 14px;
 }

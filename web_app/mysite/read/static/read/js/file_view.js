@@ -33,8 +33,8 @@ COUNTER = 0;
 NUM_CALIBRATIONS = 0;
 var BUTTON_POSITIONS = [
     ["0px", "-100px"],
-    ["1100px", "-100px"],
-    ["1100px", "-600px"],
+    ["1050px", "-100px"],
+    ["1050px", "-600px"],
     ["400px", "-600px"],
     ["700px", "-400px"]
 ];
@@ -52,13 +52,6 @@ function increaseCounter(){
         }
     }
 }
-function showPosition(x_pos, y_pos){
-    var x = document.getElementById("x_cord");
-    x.innerHTML = x_pos;
-
-    var y = document.getElementById("y_cord");
-    y.innerHTML = y_pos;
-}
 function moveButtonDivToPosition(idx){
     button_div = document.getElementById("button_div");
     button_div.style.left = BUTTON_POSITIONS[idx][0];
@@ -69,7 +62,7 @@ function showButton(){
     button_div.style.display = "inline";
 
     button = document.getElementById("button");
-    button.innerHTML = "Click Me";
+    //button.innerHTML = "Click Me 5 timees";
 }
 
 
@@ -80,15 +73,43 @@ function sendData(value){
 }
 
 
+CURRENT_COLOUR = "white";
+function changeBackgroundColour(colour){
+    if(CURRENT_COLOUR == colour){
+        return;
+    }
+    document.body.style.backgroundColor = colour;
+    CURRENT_COLOUR = colour;
+}
+function showRedirectionMessage(time){
+    message_para = document.getElementById("redirection_message");
+    message_para.innerHTML = "Redirecting in " + (5-(time/1000).toFixed(3));
+    message_para.style.display = "inline";
+    message_para.style.position = "relative";
+    message_para.style.left = "0px";
+    message_para.style.top = "-50px";
+
+}
+function hideRedirectionMessage(){
+    message_para = document.getElementById("redirection_message");
+    message_para.style.display = "none";
+}
+function changeDotColour(){
+    dot = document.getElementById("webgazerGazeDot");
+    dot.style.background = "purple";
+}
 
 function eye(){
     num_nulls = 0;
     prev_null_time = -1;
     DATA_SENT = false;
+
+    last_looked_at_document = -1;
     webgazer.setGazeListener(function(data, elapsedTime) {
         if(FIRST_BUTTON_SHOWN == false && webgazer.isReady() && elapsedTime > MIN_TIME){
             FIRST_BUTTON_SHOWN = true;
             showButton();
+            changeDotColour();
         }
         if(STARTED_READING && BEGIN_TIME == -1){
             BEGIN_TIME = elapsedTime;
@@ -111,7 +132,7 @@ function eye(){
             }
             //console.log(num_nulls);
 
-            if(num_nulls >= 8 && STARTED_READING == true){
+            if(num_nulls >= 6 && STARTED_READING == true){
                 console.log("No user");
                 if(STARTED_READING && !DATA_SENT){
                     LAST_ELAPSED_TIME = elapsedTime;
@@ -122,7 +143,21 @@ function eye(){
         }
         else {
             //console.log(elapsedTime);
-            showPosition(data.x, data.y);
+            if(data.x < 500 && STARTED_READING){
+                changeBackgroundColour("red");
+                time_looking_away = elapsedTime - last_looked_at_document;
+                if(last_looked_at_document != -1){
+                    showRedirectionMessage(time_looking_away);
+                }
+                if(last_looked_at_document != -1 && time_looking_away > 5000 && !DATA_SENT){
+                    leave_page();
+                }
+            }
+            else {
+                changeBackgroundColour("white");
+                last_looked_at_document = elapsedTime;
+                hideRedirectionMessage();
+            }
         }
         LAST_ELAPSED_TIME = elapsedTime;
     }).begin().showPredictionPoints(true);
