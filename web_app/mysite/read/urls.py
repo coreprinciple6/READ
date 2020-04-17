@@ -5,6 +5,13 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
+from rest_framework import routers
+from rest_framework.authtoken.views import obtain_auth_token
+from .views import DocumentViewSet
+
+router = routers.DefaultRouter()
+router.register(r'api', DocumentViewSet,'Docs')
+
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -36,10 +43,12 @@ urlpatterns = [
     path("login/", views.auth_login, name="login"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path('social-auth/', include('social_django.urls', namespace="social")),
-  #  path("", views.home, name='gome'),
 
     path('test/', views.test_view, name='test_view'),
     path('sbase/', views.sbase_view, name='sbase_view'),
-    path('tbase/', views.tbase_view, name='tbase_view')
+    path('tbase/', views.tbase_view, name='tbase_view'),
+
+    path('api/', include(router.urls)),
+    path(r'^api-token-auth/', obtain_auth_token),
 
 ]
