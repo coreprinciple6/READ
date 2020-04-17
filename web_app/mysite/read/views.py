@@ -13,6 +13,25 @@ import os.path
 from os import path
 from . import face_authenticate
 
+from rest_framework import viewsets
+from rest_framework import authentication, permissions
+from rest_framework.permissions import IsAuthenticated
+from .serializers import DocumentSerializer
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+
+
+#---------- for creating token when user is created
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
+
+    for user in User.objects.all():
+        Token.objects.get_or_create(user=user)
 # ===============================================
 # Miscellaneous functions
 # ===============================================
@@ -524,3 +543,13 @@ def tbase_view(request) :
     check.save()
     return HttpResponseRedirect(reverse('logged_in_view'))
 
+#---------------- Rest Api view -------------------------
+
+class DocumentViewSet(viewsets.ReadOnlyModelViewSet):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = (IsAuthenticated,)
+    serializer_class = DocumentSerializer
+
+
+    def get_queryset(self):
+        return Document.objects.filter(classroom_id__in=Classroom.objects.filter(teacher_id=self.request.user.id).values_list('id', flat=True))
