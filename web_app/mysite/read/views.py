@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect, FileResponse
 from django.urls import reverse
 from .forms import LoginForm, RegistrationForm, AddClassroomForm, AddDocumentForm, StudentUploadPhotoForm
-from .models import User, Student, Teacher, Classroom, Document, Student_Document, Enrolled_in, Student_Notice
+from .models import User, Student, Teacher, Classroom, Document, Enrolled_in, Student_Notice, Student_Document
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth import login as auth_login
 from django import forms
