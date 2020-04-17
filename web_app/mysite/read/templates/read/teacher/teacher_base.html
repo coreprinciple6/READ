@@ -35,6 +35,10 @@
                 <a href="{% url 'logout_view' %}">Logout</a>
 	          </li>
 
+                <li>
+                <a href="api/api">Document List</a>
+	          </li>
+
 	        </ul>
 
 	      </div>
@@ -57,8 +61,25 @@
                 <i class="fa fa-bars"></i>
             </button>
 
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'teacher_classes_view' %}">Classes</a>
+                </li>
+                <li class="nav-item">
+                     <a class="nav-link" href="{% url 'teacher_profile_view' %}">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout_view' %}">Logout</a>
+                </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="api/api"> Document List</a>
+                  </li>
+              </ul>
+            </div>
           </div>
         </nav>
+
 
            <div class="main">
             {% block content %}
