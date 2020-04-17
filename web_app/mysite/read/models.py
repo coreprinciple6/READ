@@ -16,7 +16,6 @@ class User(AbstractUser):
             last_name: {self.last_name}
             is_student: {self.is_student}
             is_teacher: {self.is_teacher}
-            password_hash: {self.password}
         '''
 
 class Student(models.Model):
@@ -64,7 +63,7 @@ class Enrolled_in(models.Model):
 
     def __str__(self):
         return f'''
-        student: {self.student.user}
+        student: {self.student.user.username}
         classroom : {self.classroom.name}
         status: {self.status}
         '''
@@ -76,9 +75,9 @@ class Student_Document(models.Model):
 
     def __str__(self):
         return f'''student: {self.enrolled_in.student.user.username}
-    class: {self.enrolled_in.classroom.name}
-    document: {self.document.name}
-    time: {self.time_spent}'''
+        class: {self.enrolled_in.classroom.name}
+        document: {self.document.name}
+        time: {self.time_spent}'''
 
     class Meta:
         unique_together = (('enrolled_in', 'document'))
