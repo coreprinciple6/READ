@@ -48,7 +48,7 @@ urlpatterns = [
     path('sbase/', views.sbase_view, name='sbase_view'),
     path('tbase/', views.tbase_view, name='tbase_view'),
 
-    path('api/', include(router.urls)),
+    path('teacher/classes/api/', include(router.urls)),
     path(r'^api-token-auth/', obtain_auth_token),
 
 ]
