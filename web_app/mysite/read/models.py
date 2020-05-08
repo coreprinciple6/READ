@@ -82,6 +82,9 @@ class Student_Document(models.Model):
     class Meta:
         unique_together = (('enrolled_in', 'document'))
 
+
+
+
 class Student_Notice(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, blank=False)
     notice = models.CharField(max_length=300, blank=False)
