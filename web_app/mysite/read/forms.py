@@ -8,6 +8,21 @@ class LoginForm(forms.Form):
     username = forms.CharField(label='Username', max_length=150)
     password = forms.CharField(widget=forms.PasswordInput())
 
+class GoogleForm(forms.Form):
+    CHOICES = [('student', 'Student'), ('teacher', 'Teacher')]
+    username = forms.CharField(label='Username', max_length=150)
+    type_of_user = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
+    def __init__(self, *args, **kwargs):
+        super(GoogleForm, self).__init__(*args, **kwargs)
+        self.fields['username'].required = True
+        self.fields['type_of_user'].required = True
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if(User.objects.filter(username=username).exists()):
+            self.add_error('username', 'Username already exists.')
+        return username
+
 
 class RegistrationForm(forms.ModelForm):
     CHOICES = [('student', 'Student'), ('teacher', 'Teacher')]

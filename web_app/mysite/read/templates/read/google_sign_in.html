@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>READ - Google Sign In</title>
+
+
+</head>
+<body>
+
+<div >
+    <h1 style="color: #006666">R E A D</h1>
+</div>
+<div class="wrapper">
+ <div class="container">
+    <h1>Additional Info</h1>
+    <form action="{% url 'google_sign_in_view' %}" method="post">
+        {% csrf_token %}
+        {% for field in form.visible_fields %}
+        <span style="color:red">{{ field.errors }}</span>
+            {{ field.label_tag }} {{ field }}
+            <br><br>
+        {% endfor %}
+        <input type="submit" value="Submit">
+    </form>
+ </div>
+</div>
+</body>
+</html>
+
+

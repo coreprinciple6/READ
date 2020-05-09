@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect, FileResponse
 from django.urls import reverse
-from .forms import LoginForm, RegistrationForm, AddClassroomForm, AddDocumentForm, StudentUploadPhotoForm
+from .forms import LoginForm, RegistrationForm, AddClassroomForm, AddDocumentForm, StudentUploadPhotoForm, GoogleForm
 from .models import User, Student, Teacher, Classroom, Document, Enrolled_in, Student_Notice, Student_Document
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth import login
@@ -108,10 +108,11 @@ def google_sign_in_view(request):
             login(request, user)
             return HttpResponseRedirect(reverse('logged_in_view'))
         else:
+            form = GoogleForm(request.POST)
             print('New user')
     else:
-        print('GET request to google_sign_in')
-    return HttpResponse('google-sign-in')
+        form = GoogleForm()
+    return render(request, 'read/google_sign_in.html', {'form' : form})
 
 
 
