@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="google-signin-client_id" content="85958446821-jhr5i6n801965esodnoal3dv4af8tc7g.apps.googleusercontent.com">
+
     <title>READ-Login</title>
 
     {% load socialaccount %}
@@ -37,14 +39,17 @@
              <br>
 
 
-             <button class="btn btn-primary mb-2">
-                    <a href="{% url 'social:begin' 'facebook' %}"  >Login with Facebook</a>
-             </button>
+             <div class="g-signin2" data-onsuccess="onSignIn"></div>
 
              <h4>Don't have an account?<a href="{% url 'register_view' %}">Register</a> here! </h4>
 
           </div>
     </div>
 
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+
+    {% load static %}
+    <script src="{% static 'read/js/login.js' %}"></script>
 </body>
 </html>

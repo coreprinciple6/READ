@@ -136,28 +136,25 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
-
 STATIC_URL = '/static/'
 
 
-AUTHENTICATION_BACKENDS = (
+# AUTHENTICATION_BACKENDS = (
 
-    'social_core.backends.facebook.FacebookOAuth2',
+    # # 'social_core.backends.facebook.FacebookOAuth2',
 
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-)
+    # 'django.contrib.auth.backends.ModelBackend',
+    # # 'allauth.account.auth_backends.AuthenticationBackend',
+# )
 
-SITE_ID = 1
+# SITE_ID = 1
 
 
 
-SOCIAL_AUTH_URL_NAMESPACE = 'social'
+# SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
-SOCIAL_AUTH_FACEBOOK_KEY = 522315945330744        # App ID
-SOCIAL_AUTH_FACEBOOK_SECRET = 'e2f3da5b1e3b7e1e1c72f14da8aa044e'  # App Secret
+# SOCIAL_AUTH_FACEBOOK_KEY = 522315945330744        # App ID
+# SOCIAL_AUTH_FACEBOOK_SECRET = 'e2f3da5b1e3b7e1e1c72f14da8aa044e'  # App Secret
 
 
 LOGIN_URL = 'login'

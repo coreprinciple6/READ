@@ -37,17 +37,9 @@ urlpatterns = [
     path('student/classes/<slug:class_name>/<slug:file_name>/authenticate/', views.student_authenticate_view, name='student_authenticate_view'),
     path('student/classes/<slug:class_name>/<slug:file_name>/view/', views.student_file_view, name='student_file_view'),
 
+    # google-sign-in
+    path('google_sign_in/', views.google_sign_in_view, name='google_sign_in_view'),
 
-    #miserable
-
-    # path('admin/', admin.site.urls),
-    path("login/", views.auth_login, name="login"),
-    path("logout/", auth_views.LogoutView.as_view(), name="logout"),
-    path('social-auth/', include('social_django.urls', namespace="social")),
-
-    path('test/', views.test_view, name='test_view'),
-    path('sbase/', views.sbase_view, name='sbase_view'),
-    path('tbase/', views.tbase_view, name='tbase_view'),
 
     path('teacher/classes/api/', include(router.urls)),
     path(r'^api-token-auth/', obtain_auth_token),

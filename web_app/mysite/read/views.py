@@ -4,7 +4,7 @@ from django.urls import reverse
 from .forms import LoginForm, RegistrationForm, AddClassroomForm, AddDocumentForm, StudentUploadPhotoForm
 from .models import User, Student, Teacher, Classroom, Document, Enrolled_in, Student_Notice, Student_Document
 from django.contrib.auth import authenticate, logout
-from django.contrib.auth import login as auth_login
+from django.contrib.auth import login
 from django import forms
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Sum
@@ -24,6 +24,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from django.views.decorators.csrf import csrf_exempt
 
 
 #---------- for creating token when user is created
@@ -84,9 +85,7 @@ def logged_in_view(request):
     if(request.user.is_student):
         return HttpResponseRedirect(reverse('student_classes_view'))
     else:
-        #assert request.user.is_student == True
-        #return HttpResponseRedirect(reverse('student_classes_view'))
-        return HttpResponseRedirect(reverse('test_view'))
+        raise Exception('user is not teacher or student')
 
 @login_required
 @user_passes_test(user_not_admin, login_url='/read/admin_redirected')
@@ -94,11 +93,32 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse('login_view'))
 
+
+@csrf_exempt
+@user_passes_test(user_not_admin, login_url='/read/admin_redirected')
+def google_sign_in_view(request):
+    if(request.user.is_authenticated):
+        return HttpResponseRedirect(reverse('logged_in_view'))
+    if(request.method == 'POST'):
+        email = request.POST.get('email')
+        assert email is not None
+        if(User.objects.filter(email=email).exists()):
+            print('found user')
+            user = User.objects.get(email=email)
+            login(request, user)
+            return HttpResponseRedirect(reverse('logged_in_view'))
+        else:
+            print('New user')
+    else:
+        print('GET request to google_sign_in')
+    return HttpResponse('google-sign-in')
+
+
+
 @user_passes_test(user_not_admin, login_url='/read/admin_redirected')
 def login_view(request):
     if(request.user.is_authenticated):
         return HttpResponseRedirect(reverse('logged_in_view'))
-
     error_message = None
     if(request.method == 'POST'):
         form = LoginForm(request.POST)
@@ -109,7 +129,7 @@ def login_view(request):
             if(user is None):
                 error_message = "Incorrect username or password."
             else:
-                auth_login(request, user)
+                login(request, user)
                 return HttpResponseRedirect(reverse('logged_in_view'))
     else:
         form = LoginForm()
@@ -574,27 +594,6 @@ def student_photo_view(request):
 
     return render(request, 'read/student/student_photo.html', {'form' : form, 'photo_url' : photo_url})
 
-
-#--------when user logs in with facbook-----------
-
-
-def test_view(request):
-
-    return render(request, 'read/base_profile.html')
-
-def sbase_view(request) :
-    fish = request.user.username
-    check = User.objects.get(username=fish)
-    check.is_student = True
-    check.save()
-    return HttpResponseRedirect(reverse('logged_in_view'))
-
-def tbase_view(request) :
-    fish = request.user.username
-    check = User.objects.get(username=fish)
-    check.is_teacher = True
-    check.save()
-    return HttpResponseRedirect(reverse('logged_in_view'))
 
 #---------------- Rest Api view -------------------------
 

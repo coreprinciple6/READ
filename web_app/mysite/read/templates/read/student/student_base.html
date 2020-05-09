@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-signin-client_id" content="85958446821-jhr5i6n801965esodnoal3dv4af8tc7g.apps.googleusercontent.com">
     <title>READ</title>
 
     <!-- some font links-->
@@ -43,9 +44,9 @@
 	          <li>
                   <a href="{% url 'student_photo_view' %}">Photo</a>
 	          </li>
-
 	          <li>
-                 <a href="{% url 'logout_view' %}">Logout</a>
+                  <a href="{% url 'logout_view' %}" onclick="signOut();"
+ >Logout</a>
 	          </li>
 
 	        </ul>
@@ -81,5 +82,20 @@
 		</div>
 
 
+        <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
+        <script>
+            function onLoad() {
+                gapi.load('auth2', function() {
+                    gapi.auth2.init();
+                });
+            }
+            function signOut() {
+                console.log('clicked');
+                var auth2 = gapi.auth2.getAuthInstance();
+                auth2.signOut().then(function () {
+                    console.log('User signed out.');
+                });
+            }
+        </script>
 </body>
 </html>
