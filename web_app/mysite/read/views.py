@@ -104,20 +104,19 @@ def google_sign_in_view(request):
         #redirection
         if(email is not None):
             if(User.objects.filter(email=email).exists()):
-                print('found user')
+                # user exists
                 user = User.objects.get(email=email)
                 login(request, user)
                 if('email' in request.session):
                     del request.session['email']
                 return HttpResponseRedirect(reverse('logged_in_view'))
             else:
+                # new user
                 form = GoogleForm()
                 request.session['email'] = email
-                print('New user')
         else:
             # form submission
             form = GoogleForm(request.POST)
-            print('form submission')
             if(form.is_valid()):
                 username = form.cleaned_data['username']
                 type_of_user = form.cleaned_data['type_of_user']
@@ -128,9 +127,6 @@ def google_sign_in_view(request):
                     user = User(username=username, email=email, is_student=True)
                     user.set_unusable_password()
                     student = Student(user=user)
-                    print('student user created')
-                    print(user)
-                    print(student)
                     user.save()
                     student.save()
                 else:
@@ -138,9 +134,6 @@ def google_sign_in_view(request):
                     user = User(username=username, email=email, is_teacher=True)
                     user.set_unusable_password()
                     teacher = Teacher(user=user)
-                    print('teacher user created')
-                    print(user)
-                    print(teacher)
                     user.save()
                     teacher.save()
                 login(request, user)
@@ -152,10 +145,9 @@ def google_sign_in_view(request):
                 pass
 
     else:
-        # if request.session does not have email then redirect
+        # if directly accessed, then redirect
         if('email' not in request.session):
             return HttpResponseRedirect(reverse('login_view'))
-        print("get request")
         form = GoogleForm()
     return render(request, 'read/google_sign_in.html', {'form' : form})
 
