@@ -31,9 +31,8 @@
 	          <li class="active">
                   <a href="{% url 'teacher_classes_view' %}">Classes</a>
 	          </li>
-<!--{% url 'logout_view' %}-->
 	          <li>
-                <a  onclick="signOut();">Logout</a>
+                <a href="{% url 'logout_view' %}"  onclick="signOut();">Logout</a>
 	          </li>
 
                 <li>
@@ -84,18 +83,18 @@
       </div>
 		</div>
 
-        <script src="https://apis.google.com/js/platform.js?onload=onload" async defer></script>
-        <script type="text/javascript">
-            function onload() {
+        <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
+        <script>
+            function onLoad() {
                 gapi.load('auth2', function() {
                     gapi.auth2.init();
                 });
             }
             function signOut() {
                 console.log('clicked');
-                var auth2 = gapi.auth2.getauthinstance();
+                var auth2 = gapi.auth2.getAuthInstance();
                 auth2.signOut().then(function () {
-                    console.log('user signed out.');
+                    console.log('User signed out.');
                 });
             }
         </script>
