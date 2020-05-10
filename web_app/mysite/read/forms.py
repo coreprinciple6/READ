@@ -12,6 +12,7 @@ class GoogleForm(forms.Form):
     CHOICES = [('student', 'Student'), ('teacher', 'Teacher')]
     username = forms.CharField(label='Username', max_length=150)
     type_of_user = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
+
     def __init__(self, *args, **kwargs):
         super(GoogleForm, self).__init__(*args, **kwargs)
         self.fields['username'].required = True

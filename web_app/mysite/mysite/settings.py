@@ -86,8 +86,8 @@ TEMPLATES = [
 ]
 
 
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+# LOGIN_REDIRECT_URL = '/'
+# LOGOUT_REDIRECT_URL = '/'
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
@@ -147,20 +147,14 @@ STATIC_URL = '/static/'
     # # 'allauth.account.auth_backends.AuthenticationBackend',
 # )
 
-# SITE_ID = 1
+SITE_ID = 1
 
 
 
-# SOCIAL_AUTH_URL_NAMESPACE = 'social'
-
-# SOCIAL_AUTH_FACEBOOK_KEY = 522315945330744        # App ID
-# SOCIAL_AUTH_FACEBOOK_SECRET = 'e2f3da5b1e3b7e1e1c72f14da8aa044e'  # App Secret
-
-
-LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = '/read/'
-LOGOUT_URL = 'logout'
-LOGOUT_REDIRECT_URL = 'login'
+# LOGIN_URL = 'login'
+# LOGIN_REDIRECT_URL = '/read/'
+# LOGOUT_URL = 'logout'
+# LOGOUT_REDIRECT_URL = 'login'
 
 
 REST_FRAMEWORK = {
