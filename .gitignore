@@ -6,3 +6,4 @@
 **/*.pyc
 web_app/mysite/media/read/students/*
 **/htmlcov/
+**/.idea/
