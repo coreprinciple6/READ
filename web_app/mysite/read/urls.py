@@ -1,17 +1,11 @@
 from django.urls import path
 
-from . import views
+from . import views, api_views
 from django.contrib import admin
 from django.urls import path, include
 # from django.contrib.auth import views as auth_views
 # from django.contrib.auth import views
 
-from rest_framework import routers
-from rest_framework.authtoken.views import obtain_auth_token
-from .views import DocumentViewSet
-
-router = routers.DefaultRouter()
-router.register(r'api', DocumentViewSet,'Docs')
 
 
 urlpatterns = [
@@ -42,7 +36,8 @@ urlpatterns = [
     path('google_sign_in/', views.google_sign_in_view, name='google_sign_in_view'),
 
 
-    path('teacher/classes/api/', include(router.urls)),
-    path(r'^api-token-auth/', obtain_auth_token),
+    # API paths
+    path('api/users/', api_views.user_list, name='user_list'),
+    path('api/users/<slug:username>', api_views.user_detail, name='user_detail'),
 
 ]

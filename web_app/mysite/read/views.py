@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
-from django.http import HttpResponse, Http404, HttpResponseRedirect, FileResponse
+from django.http import HttpResponse, Http404, HttpResponseRedirect, FileResponse, JsonResponse
 from django.urls import reverse
 from .forms import LoginForm, RegistrationForm, AddClassroomForm, AddDocumentForm, StudentUploadPhotoForm, GoogleForm
 from .models import User, Student, Teacher, Classroom, Document, Enrolled_in, Student_Notice, Student_Document
@@ -15,26 +15,29 @@ from os import path
 from . import face_authenticate
 import json
 
-from rest_framework import viewsets
-from rest_framework import authentication, permissions
-from rest_framework.permissions import IsAuthenticated
-from .serializers import DocumentSerializer
+# from rest_framework import viewsets
+# from rest_framework import authentication, permissions
+# from rest_framework.permissions import IsAuthenticated
 from django.conf import settings
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from rest_framework.authtoken.models import Token
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+# from django.db.models.signals import post_save
+# from django.dispatch import receiver
+# from rest_framework.authtoken.models import Token
+# from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from django.views.decorators.csrf import csrf_exempt
 
+from .serializers import DocumentSerializer, UserSerializer
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 #---------- for creating token when user is created
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def create_auth_token(sender, instance=None, created=False, **kwargs):
-    if created:
-        Token.objects.create(user=instance)
+# @receiver(post_save, sender=settings.AUTH_USER_MODEL)
+# def create_auth_token(sender, instance=None, created=False, **kwargs):
+    # if created:
+        # Token.objects.create(user=instance)
 
-    for user in User.objects.all():
-        Token.objects.get_or_create(user=user)
+    # for user in User.objects.all():
+        # Token.objects.get_or_create(user=user)
 # ===============================================
 # Miscellaneous functions
 # ===============================================
@@ -633,13 +636,38 @@ def student_photo_view(request):
     return render(request, 'read/student/student_photo.html', {'form' : form, 'photo_url' : photo_url})
 
 
-#---------------- Rest Api view -------------------------
+#---------------- Rest API views -------------------------
 
-class DocumentViewSet(viewsets.ReadOnlyModelViewSet):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = (IsAuthenticated,)
-    serializer_class = DocumentSerializer
+@api_view(['GET', 'POST'])
+def user_list(request):
+    if(request.method == 'GET'):
+        users = User.objects.all()
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data)
+    elif(request.method == 'POST'):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-    def get_queryset(self):
-        return Document.objects.filter(classroom_id__in=Classroom.objects.filter(teacher_id=self.request.user.id).values_list('id', flat=True))
+@api_view(['GET', 'PUT', 'DELETE'])
+def user_detail(request, username):
+    try:
+        user = User.objects.get(username=username)
+    except(User.DoesNotExist):
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if(request.method == 'GET'):
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
+    elif(request.method == 'PUT'):
+        serializer = UserSerializer(user, data=request.data)
+        if(serializer.is_valid()):
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif(request.method == 'DELETE'):
+        user.delete();
+        return Response(status=status.HTTP_204_NO_CONTENT)
