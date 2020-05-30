@@ -6,7 +6,7 @@ from .models import User, Student, Teacher, Classroom, Document, Enrolled_in, St
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name', 'last_name', 'is_student', 'is_teacher']
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'is_student', 'is_teacher']
 
 
 class StudentSerializer(serializers.ModelSerializer):
@@ -23,27 +23,27 @@ class TeacherSerializer(serializers.ModelSerializer):
 class ClassroomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Classroom
-        fields = ['name', 'start_date', 'end_date', 'teacher']
+        fields = ['id', 'name', 'start_date', 'end_date', 'teacher']
 
 class DocumentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Document
-        fields = ['name', 'upload_date', 'classroom', 'document_file',]
+        fields = ['id', 'name', 'upload_date', 'classroom', 'document_file',]
 
 class EnrolledInSerializer(serializers.ModelSerializer):
     class Meta:
         model = Enrolled_in
-        fields = ['student', 'classroom', 'status']
+        fields = ['id', 'student', 'classroom', 'status']
 
 class StudentDocumentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student_Document
-        fields = ['enrolled_in', 'document', 'time_spent']
+        fields = ['id', 'enrolled_in', 'document', 'time_spent']
 
 class StudentNoticeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student_Notice
-        fields = ['student', 'notice']
+        fields = ['id', 'student', 'notice']
 
 
 

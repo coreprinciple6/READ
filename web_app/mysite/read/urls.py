@@ -40,4 +40,25 @@ urlpatterns = [
     path('api/users/', api_views.user_list, name='user_list'),
     path('api/users/<slug:username>', api_views.user_detail, name='user_detail'),
 
+    path('api/students/', api_views.student_list, name='student_list'),
+    path('api/students/<int:pk>', api_views.student_detail, name='student_detail'),
+
+    path('api/teachers/', api_views.teacher_list, name='teacher_list'),
+    path('api/teachers/<int:pk>', api_views.teacher_detail, name='teacher_detail'),
+
+    path('api/classrooms/', api_views.classroom_list, name='classroom_list'),
+    path('api/classrooms/<int:pk>', api_views.classroom_detail, name='classroom_detail'),
+
+    path('api/documents/', api_views.document_list, name='document_list'),
+    path('api/documents/<int:pk>', api_views.document_detail, name='document_detail'),
+
+    path('api/enrolled_ins/', api_views.enrolled_in_list, name='enrolled_in_list'),
+    path('api/enrolled_ins/<int:pk>', api_views.enrolled_in_detail, name='enrolled_in_detail'),
+
+    path('api/student_documents/', api_views.student_document_list, name='student_document_list'),
+    path('api/student_documents/<int:pk>', api_views.student_document_detail, name='student_document_detail'),
+
+    path('api/student_notices/', api_views.student_notice_list, name='student_notice_list'),
+    path('api/student_notices/<int:pk>', api_views.student_notice_detail, name='student_notice_detail'),
+
 ]
