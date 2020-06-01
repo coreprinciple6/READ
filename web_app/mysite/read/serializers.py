@@ -44,13 +44,3 @@ class StudentNoticeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student_Notice
         fields = ['id', 'student', 'notice']
-
-
-
-
-
-
-# class DocumentSerializer(serializers.ModelSerializer):
-    # class Meta:
-        # model =  Document
-        # fields = ('id','name','upload_date','classroom')
