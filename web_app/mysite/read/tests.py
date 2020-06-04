@@ -2,6 +2,26 @@ from django.test import TestCase
 from django.db.utils import IntegrityError
 from .models import User, Student, Teacher, Classroom, Document, Enrolled_in, Student_Document, Student_Notice
 from datetime import date
+from . import views
+from django.test import Client
+from django.urls import reverse
+
+class LoginViewTest(TestCase):
+    def setUp(self):
+        user = User.objects.create_user(username="username1", password='football', is_student=True)
+        user.save()
+
+
+    def test_redirect(self):
+        login = self.client.login(username='username1', password='football')
+        response = self.client.get(reverse('login_view'))
+        self.assertEqual(response.url, reverse('logged_in_view'))
+
+
+    def test_get(self):
+        response = self.client.get(reverse('login_view'))
+        self.assertEqual(response.status_code, 200)
+
 
 
 
