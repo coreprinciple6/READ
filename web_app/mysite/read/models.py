@@ -2,8 +2,9 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import FileExtensionValidator
 
-# Create your models here.
 
+# by extending this class, we bypass having to implement a lot of basic functionality
+# such as password hashing, defining the criteria for correct emails and usernames etc.
 class User(AbstractUser):
     is_student = models.BooleanField(null=True)
     is_teacher = models.BooleanField(null=True)

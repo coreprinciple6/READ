@@ -5,13 +5,31 @@ from rest_framework.response import Response
 from .models import User, Student, Teacher, Classroom, Document, Enrolled_in, Student_Notice, Student_Document
 
 
+# the table_name_list views are the same for all classes with just a few changes depending on the model
+# allowed methods are GET - for seeing a list of all table entries
+# and POST - for posting a new entry
+
+# the table_name_detail views are also very similar with minor changes for each model
+# for these, GET, PUT and DELETE are the allowed methods
+
+# the is_valid() method ensures the data entered is consistent with model requirements
+# decorators at the beginning indicate allowed methods
+# the Response() function renders nicely formatted html pages - the explorable REST API interface of the REST framework
+# status codes are returned with the correct message using values from rest_framework.status
+
+
 @api_view(['GET', 'POST'])
 def user_list(request):
     if(request.method == 'GET'):
+        # get a list of entries of this table, serialize it as json and return the response
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)
         return Response(serializer.data)
     elif(request.method == 'POST'):
+        # a new entry has been posted
+        # deserialize the data
+        # check if it's valid
+        # and save
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -22,20 +40,26 @@ def user_list(request):
 @api_view(['GET', 'PUT', 'DELETE'])
 def user_detail(request, username):
     try:
+        # get the entry in this table for which the user has the entered the primary key
         user = User.objects.get(username=username)
     except(User.DoesNotExist):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if(request.method == 'GET'):
+        # serialize the data for this entry and return it
         serializer = UserSerializer(user)
         return Response(serializer.data)
     elif(request.method == 'PUT'):
+        # deserialize the data
+        # perform validation
+        # save the changes
         serializer = UserSerializer(user, data=request.data)
         if(serializer.is_valid()):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif(request.method == 'DELETE'):
+        # delete this user
         user.delete();
         return Response(status=status.HTTP_204_NO_CONTENT)
 

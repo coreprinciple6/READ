@@ -3,6 +3,9 @@ from django.db.utils import IntegrityError
 from .models import User, Student, Teacher, Classroom, Document, Enrolled_in, Student_Document, Student_Notice
 from datetime import date
 
+
+
+# model tests
 class __str__Tests(TestCase):
     def setUp(self):
         self.userObj = User.objects.create(username="something", email="something@gmail.com", first_name="fname", last_name="lname", is_student=True, is_teacher=False)
@@ -52,27 +55,4 @@ class __str__Tests(TestCase):
         document: doc
         time: 2200'''
         self.assertEqual(toString, self.student_doc_obj.__str__())
-
-# class UserTests(TestCase):
-    # def setUp(self):
-        # self.userObj = User.objects.create(username="something", email="something@gmail.com", first_name="fname", last_name="lname", is_student=True, is_teacher=False)
-
-    # def test_user_toString(self):
-        # toString = '''
-            # username: something
-            # email: something@gmail.com
-            # first_name: fname
-            # last_name: lname
-            # is_student: True
-            # is_teacher: False
-        # '''
-        # self.assertEqual(self.userObj.__str__(), toString)
-
-    # def test_duplicate_username(self):
-        # with self.assertRaises(IntegrityError):
-            # User.objects.create(username="something")
-
-    # def test_student_teacher_not_same(self):
-        # studentObj = Student.objects.create(user=self.userObj)
-        # self.assertTrue(studentObj.user.is_student ^ studentObj.user.is_teacher)
 

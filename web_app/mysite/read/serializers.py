@@ -2,6 +2,12 @@ from rest_framework import serializers
 from .models import User, Student, Teacher, Classroom, Document, Enrolled_in, Student_Document, Student_Notice
 
 
+# all serializers follow the same pattern.
+# each serializer corresponds to a model
+# this is defined by the value of the model variable within the meta data of the serializers
+# all fields were chosen to be serialized except the auto generated id field for student and teacher because we use the user value as the primary key for these models
+# these serializers perform serialization as well as deserialization when PUT or POST requests are made
+# calling serializer.save() ensures the model constraints are maintained and then saves the new entry or updates an existing one
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
