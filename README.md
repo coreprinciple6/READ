@@ -13,3 +13,8 @@ Read is a web application for teachers and students primarily focused on documen
 * Run `python manage.py runserver --noreload --nothreading`
     * NOTE: running with the `--noreload` and `--nothreading` options means changes are not automatically displayed in the django app, but this is necessary for the facial recognition to work.
 * Go to `http://127.0.0.1:8000/read/` (port may be different)
+
+
+```  
+NB: To use the Facial Recognition API, Dlib must be installed. The installation procedure is detailed [here](https://github.com/ageitgey/face_recognition/issues/175)
+```
